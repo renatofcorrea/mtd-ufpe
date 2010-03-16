@@ -27,7 +27,7 @@ public class Principal {
 		Fachada fachada;
 		try {
 			
-			fachada = new Fachada("http://www.bdtd.ufpe.br/tedeSimplificado/tde_oai/oai2.php", true, "bdtdstopwords.txt");
+			fachada = new Fachada("http://www.bdtd.ufpe.br/tedeSimplificado/tde_oai/oai3.php", true, "bdtdstopwords.txt");
 			fachada.setMetadataprefix("mtd2-br");
 			String a = fachada.colherIdentificadores();
 			System.out.println(a);
