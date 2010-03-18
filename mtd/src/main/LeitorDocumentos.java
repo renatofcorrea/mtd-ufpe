@@ -46,6 +46,13 @@ public class LeitorDocumentos {
 		
 	}
 	
+	@InsideElement(tag="mtd2-br:InstituicaoDefesa")
+	@EndElement(tag="mtd2-br:Area")
+	public void pegarAreaPrograma(ContextVariables contextVariables){
+			this.doc.setAreaPrograma(contextVariables.getBody());
+		
+	}
+	
 	@InsideElement(tag="mtd2-br:Programa")
 	@EndElement(tag="mtd2-br:Nome")
 	public void pegarPrograma(ContextVariables contextVariables){
@@ -63,9 +70,9 @@ public class LeitorDocumentos {
 	@EndElement(tag="mtd2-br:DataDefesa")
 	public void pegarDataDefesa(ContextVariables contextVariables){
 		String data = contextVariables.getBody();
-		int dia = Integer.parseInt(data.substring(0, 4));
+		int ano = Integer.parseInt(data.substring(0, 4));
 		int mes = Integer.parseInt(data.substring(5, 7));
-		int ano = Integer.parseInt(data.substring(8, 10));
+		int dia = Integer.parseInt(data.substring(8, 10));
 		GregorianCalendar date = new GregorianCalendar(ano, mes, dia);
 		this.doc.setDataDeDefesa(date.getGregorianChange());
 	}

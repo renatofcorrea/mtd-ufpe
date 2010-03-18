@@ -14,6 +14,7 @@ public class Documento {
 	private String orientador;
 	private String areaCNPQ;
 	private Long id;
+	private String areaPrograma;
 
 	public Documento() {
 		this.titulo = null;
@@ -25,6 +26,7 @@ public class Documento {
 		this.areaCNPQ = null;
 		this.dataDeDefesa = null;
 		this.id = null;
+		this.areaPrograma=null;
 	}
 	
 	public void adicionarPalavraChave(String key){
@@ -102,5 +104,14 @@ public class Documento {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getAreaPrograma() {
+		return areaPrograma;
+	}
+
+	public void setAreaPrograma(String areaPrograma) {
+		this.areaPrograma = areaPrograma;
+	}
+
 
 }

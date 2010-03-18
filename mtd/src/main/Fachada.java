@@ -67,10 +67,10 @@ public class Fachada {
 		String fsIndexDir = System.getProperty("java.io.tmpdir", "tmp")
 				+ System.getProperty("file.separator") + "fs-index";
 
-//		this.indexDirectory = new RAMDirectory();
-		 this.indexDirectory =
-		 FSDirectory.getDirectory("C:\\Documents and Settings\\Bruno\\Desktop\\indice MTD atual",
-		 false);
+		// this.indexDirectory = new RAMDirectory();
+		this.indexDirectory = FSDirectory.getDirectory(
+				"C:\\Documents and Settings\\Bruno\\Desktop\\indice MTD atual",
+				false);
 	}
 
 	private void carregarStopWords(String caminho) {
@@ -213,10 +213,21 @@ public class Fachada {
 				d.setDescricao("");
 			if (d.getTitulo() == null)
 				d.setTitulo("");
+			if (d.getAreaCNPQ() == null)
+				d.setAreaCNPQ("");
+			if (d.getAreaPrograma() == null)
+				d.setAreaPrograma("");
+			if (d.getAutor() == null)
+				d.setAutor("");
+			if (d.getOrientador() == null)
+				d.setOrientador("");
+			if (d.getPrograma() == null)
+				d.setPrograma("");
 
 			this.addDoc(w, d.getTitulo(), d.getDescricao(), d.getKeywords(), d
 					.getDataDeDefesa(), d.getAutor(), d.getPrograma(), d
-					.getOrientador(), d.getAreaCNPQ(), d.getId());
+					.getOrientador(), d.getAreaCNPQ(), d.getId(), d
+					.getAreaPrograma());
 
 			System.out.println(i);
 			i++;
@@ -231,7 +242,8 @@ public class Fachada {
 	public void consultar(String termo, int maxResultado)
 			throws ParseException, CorruptIndexException, IOException {
 
-		String[] campos = { "title", "resumo", "keyword", "autor", "programa", "orientador", "areaCNPQ" };
+		String[] campos = { "title", "resumo", "keyword", "autor", "programa",
+				"orientador", "areaCNPQ" };
 		Query q = new MultiFieldQueryParser(campos, analyzer).parse(termo);
 
 		// Cria o acesso ao índice
@@ -259,17 +271,24 @@ public class Fachada {
 
 	private void addDoc(IndexWriter w, String text, String resumo,
 			Vector<String> keywords, Date dataDefesa, String autor,
-			String programa, String orientador, String areaCNPQ, long id)
-			throws CorruptIndexException, IOException {
+			String programa, String orientador, String areaCNPQ, long id,
+			String areaPrograma) throws CorruptIndexException, IOException {
 		Document doc = new Document();
+
 		doc
 				.add(new Field("title", text, Field.Store.YES,
 						Field.Index.ANALYZED));
 		doc.add(new Field("resumo", resumo, Field.Store.YES,
 				Field.Index.ANALYZED));
-		doc.add(new Field("dataDefesa", DateTools.dateToString(dataDefesa,
-				DateTools.Resolution.DAY), Field.Store.YES,
-				Field.Index.ANALYZED));
+
+		if (dataDefesa != null) {
+			doc.add(new Field("dataDefesa", DateTools.dateToString(dataDefesa,
+					DateTools.Resolution.YEAR), Field.Store.YES,
+					Field.Index.ANALYZED));
+		} else {
+			System.out.println("data nula");
+		}
+
 		doc
 				.add(new Field("autor", autor, Field.Store.YES,
 						Field.Index.ANALYZED));
@@ -280,7 +299,8 @@ public class Fachada {
 		doc.add(new Field("areaCNPQ", areaCNPQ, Field.Store.YES,
 				Field.Index.ANALYZED));
 		String longToString = NumberTools.longToString(id);
-		doc.add(new Field("id", longToString, Field.Store.YES,
+		doc.add(new Field("id", longToString, Field.Store.YES, Field.Index.NO));
+		doc.add(new Field("areaPrograma", areaPrograma, Field.Store.YES,
 				Field.Index.ANALYZED));
 
 		for (int i = 0; i < keywords.size() && keywords.elementAt(i) != null; i++) {
