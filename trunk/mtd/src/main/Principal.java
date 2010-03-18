@@ -52,7 +52,7 @@ public class Principal {
 			PrintWriter writer = new PrintWriter(docTable, true);  
 		      
 		    for (int i = 0; i < iR.numDocs(); i++) { 
-		    	writer.println(i+";" + iR.document(i).get("title"));  
+		    	writer.println(i+";" + iR.document(i).get("areaCNPQ")+";" + iR.document(i).get("programa")+";" + iR.document(i).get("title"));  
 		    }  		      
 		    
 		    writer.close();  
