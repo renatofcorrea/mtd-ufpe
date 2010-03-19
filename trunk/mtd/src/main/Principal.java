@@ -26,8 +26,8 @@ public class Principal {
 		
 		Fachada fachada;
 		try {
-			
-			fachada = new Fachada("http://www.bdtd.ufpe.br/tedeSimplificado/tde_oai/oai3.php", true, "bdtdstopwords.txt");
+			String caminhoIndice = "C:\\Documents and Settings\\Bruno\\Desktop\\indice MTD";
+			fachada = new Fachada("http://www.bdtd.ufpe.br/tedeSimplificado/tde_oai/oai3.php", true, "bdtdstopwords.txt", caminhoIndice);
 			fachada.setMetadataprefix("mtd2-br");
 			String a = fachada.colherIdentificadores();
 			System.out.println(a);
@@ -35,14 +35,11 @@ public class Principal {
 			System.out.println(a);
 			a = fachada.indexar();
 			System.out.println(a);
-			System.out.println(a);
-			a = fachada.indexar();
-			System.out.println(a);
 			
 //			String a = fachada.colherMetadadosCache("C:\\Users\\Bruno\\Desktop\\bdtd.xml");
 //			fachada.colherMetadadosPorId(1);
 			
-			IndexReader iR = IndexReader.open("C:\\Documents and Settings\\Bruno\\Desktop\\indice MTD");
+			IndexReader iR = IndexReader.open(caminhoIndice);
 			
 			FileWriter docTable = new FileWriter("C:\\Documents and Settings\\Bruno\\Desktop\\MatrizesMTD\\docTable.txt", true);
 			FileWriter wordTable = new FileWriter("C:\\Documents and Settings\\Bruno\\Desktop\\MatrizesMTD\\wordTable.txt", true);
