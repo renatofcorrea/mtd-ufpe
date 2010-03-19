@@ -49,7 +49,7 @@ public class Fachada {
 	private LeitorDocumentos analisadorMetadados;
 	private String metadataprefix;
 
-	public Fachada(String url, boolean stemming, String arquivoStopwords)
+	public Fachada(String url, boolean stemming, String arquivoStopwords, String caminhoIndice)
 			throws ParserConfigurationException, SAXException, IOException {
 		this.dp = new DataProvider();
 		this.dp.setURLBase(url);
@@ -68,9 +68,7 @@ public class Fachada {
 				+ System.getProperty("file.separator") + "fs-index";
 
 		// this.indexDirectory = new RAMDirectory();
-		this.indexDirectory = FSDirectory.getDirectory(
-				"C:\\Documents and Settings\\Bruno\\Desktop\\indice MTD atual",
-				false);
+		this.indexDirectory = FSDirectory.getDirectory(caminhoIndice,false);
 	}
 
 	private void carregarStopWords(String caminho) {
