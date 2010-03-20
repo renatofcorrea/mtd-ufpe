@@ -112,19 +112,24 @@ public class Fachada {
 						.getListIdentifiersResumptionToken(analisador.resumption);
 			}
 
-			if (!str.startsWith("<?xml")) {
-				String[] split = str.split("<?xml");
-				str = "<?xml" + split[1] + "xml" + split[2] + "xml" + split[3]
-						+ "xml" + split[4];
+			if(str!=null){
+				if (!str.startsWith("<?xml")) {
+					String[] split = str.split("<?xml");
+					str = "<?xml" + split[1] + "xml" + split[2] + "xml" + split[3]
+							+ "xml" + split[4];
+				}
+
+				this.sb = new StringBufferInputStream(str);
+
+				if (parser != null) {
+					parser.parse(sb, new JColtraneXMLHandler(analisador));
+				}
+
+				this.sb.reset();
+			}else{
+				return "Erro na Colheita dos Identificadores";
 			}
-
-			this.sb = new StringBufferInputStream(str);
-
-			if (parser != null) {
-				parser.parse(sb, new JColtraneXMLHandler(analisador));
-			}
-
-			this.sb.reset();
+			
 		} while (!analisador.resumption.equals(""));
 
 		return "Fim Colheita Identificadores";
