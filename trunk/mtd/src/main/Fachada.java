@@ -246,7 +246,8 @@ public class Fachada {
 			throws ParseException, CorruptIndexException, IOException {
 
 		String[] campos = { "title", "resumo", "keyword", "autor", "programa",
-				"orientador", "areaCNPQ" };
+				"orientador", "areaCNPQ", "areaPrograma", "dataDefesa" };
+				
 		Query q = new MultiFieldQueryParser(campos, analyzer).parse(termo);
 
 		// Cria o acesso ao índice
@@ -278,6 +279,8 @@ public class Fachada {
 			String areaPrograma) throws CorruptIndexException, IOException {
 		Document doc = new Document();
 
+		
+		
 		doc
 				.add(new Field("title", text, Field.Store.YES,
 						Field.Index.ANALYZED));
