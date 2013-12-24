@@ -3,10 +3,10 @@ package br.ufpe.mtd.consulta;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufpe.mtd.entidade.Identificador;
 import net.sf.jColtrane.annotations.methods.ContainAttribute;
 import net.sf.jColtrane.annotations.methods.EndElement;
 import net.sf.jColtrane.handler.ContextVariables;
+import br.ufpe.mtd.entidade.Identificador;
 
 /**
  * Realiza a decodificacao de dados de identificadores que foram 

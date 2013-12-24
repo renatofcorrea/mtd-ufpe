@@ -22,7 +22,7 @@ public class MTDParametros {
 	 * @return
 	 */
 	public static File getExternalStorageDirectory(){
-		File diretorio = new File("D:"+File.separator+"MTD_Workspace");
+		File diretorio = new File("C:"+File.separator+"Users"+File.separator+"djalma"+File.separator+"MTD_Workspace");
 		return diretorio;
 	}
 }

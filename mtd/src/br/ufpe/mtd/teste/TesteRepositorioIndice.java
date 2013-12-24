@@ -5,17 +5,11 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.queryParser.ParseException;
-import org.xml.sax.SAXException;
 
 import br.ufpe.mtd.dados.RepositorioIndice;
 import br.ufpe.mtd.entidade.DocumentWrapper;
-import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.negocio.ControleIndice;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
@@ -74,27 +68,60 @@ public class TesteRepositorioIndice {
 	}
 
 	static void indexar(){
+		long inicio = System.currentTimeMillis();
+		final ExecutorService pool = MTDFactory.getInstancia().getPoolThread();
+		final ExecutorService logPool = MTDFactory.getInstancia().getLogPoolThread();
+		RepositorioIndice rep = null;
 		try {
-			long inicio = System.currentTimeMillis();
-			RepositorioIndice rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
+			rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
 			ControleIndice controle = new ControleIndice(rep);
-			
 			controle.indexar("http://tede.pucrs.br/tde_oai/oai3.php", "mtd2-br");
 			
-			ExecutorService pool = MTDFactory.getInstancia().getPoolThread();
+			//fechar os pools
+			pool.execute(new Runnable() {
+				@Override
+				public void run() {
+					pool.shutdown();
+				}
+			});
 			
 			while(!pool.isTerminated()){
-				Thread.sleep(1000);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
-			rep.fecharRepositorio();
+			logPool.execute(new Runnable() {
+				@Override
+				public void run() {
+					logPool.shutdown();
+				}
+			});
 			
-			MTDUtil.imprimirConsole("Tempo total : "+ (System.currentTimeMillis() - inicio));
+			while(!logPool.isTerminated()){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			
-			//enviar meail de alert para equipe tecnica se servico der excecao
+			if(rep != null){
+				rep.fecharRepositorio();
+			}
+			
 		} catch (Exception e) {
+			//enviar meail de alert para equipe tecnica se servico der excecao
 			MTDFactory.getInstancia().getLog().salvarDadosLog(e);
-		} 
+			
+		} finally{
+			MTDUtil.imprimirConsole("Tempo total : "+ (System.currentTimeMillis() - inicio));
+			System.exit(0);
+		}
 	}
 	
 	
