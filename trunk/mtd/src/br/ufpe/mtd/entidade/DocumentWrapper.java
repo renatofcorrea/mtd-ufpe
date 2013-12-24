@@ -18,7 +18,7 @@ import br.ufpe.mtd.util.MTDUtil;
  * @author djalma
  *
  */
-public class DocumentWrapper implements Comparable{
+public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	/**
 	 * 
@@ -41,7 +41,9 @@ public class DocumentWrapper implements Comparable{
 	private String urlNodo;
 	private String stringNodo;
 	private String repositorio;
-		
+	private String identifier;	
+	
+	
 	public DocumentWrapper() {
 		this.keywords = new ArrayList<String>();
 		document = new Document();
@@ -60,6 +62,7 @@ public class DocumentWrapper implements Comparable{
 				document.get("areaPrograma"));
 				setRepositorio(document.get("repositorio"));
 				setUrl(document.get("url"));
+				setGrau(document.get("Grau"));
 	}
 
 
@@ -114,6 +117,7 @@ public class DocumentWrapper implements Comparable{
 
 	public void adicionarPalavraChave(String key) {
 		this.keywords.add(key);
+		getDocument().add(new Field("keyword", key,Field.Store.YES, Field.Index.ANALYZED));
 	}
 
 	public String getGrau() {
@@ -122,6 +126,7 @@ public class DocumentWrapper implements Comparable{
 
 	public void setGrau(String grau) {
 		this.grau = grau;
+		getDocument().add(new Field("grau", this.grau!= null ?  this.grau : "", Field.Store.YES, Field.Index.ANALYZED));
 	}
 
 	public String getUrl() {
@@ -139,7 +144,7 @@ public class DocumentWrapper implements Comparable{
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
-		getDocument().add(new Field("title", titulo != null ? titulo : "", Field.Store.YES,
+		getDocument().add(new Field("title", this.titulo != null ? this.titulo : "", Field.Store.YES,
 				Field.Index.ANALYZED));
 	}
 
@@ -258,6 +263,14 @@ public class DocumentWrapper implements Comparable{
 		getDocument().add(new Field("repositorio", this.repositorio != null ? this.repositorio : "", Field.Store.YES,Field.Index.ANALYZED));
 	}
 	
+	public String getIdentifier() {
+		return identifier;
+	}
+	
+	
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -277,8 +290,7 @@ public class DocumentWrapper implements Comparable{
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		DocumentWrapper outro = (DocumentWrapper)o;
+	public int compareTo(DocumentWrapper outro) {
 		
 		int comparacao = id.compareTo(outro.id);
 		

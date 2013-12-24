@@ -197,11 +197,10 @@ public class RepositorioIndice {
 	 */
 	public synchronized void inserirDocumento(List<Document> dosc) throws CorruptIndexException, IOException {
 		IndexWriter indexWriter = getWriterPadrao(false);
-		
 		for (Document document : dosc) {
 			indexWriter.addDocument(document);
+			
 		}
-		
 		indexWriter.close();
 	}
 	

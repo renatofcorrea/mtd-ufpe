@@ -1,5 +1,13 @@
 package br.ufpe.mtd.entidade;
 
+/**
+ * Classe que representa um identificador.
+ * Sera usada em classes como set que validam duplicacao de dados
+ * por isso esta implementado os metodos equals e hash code.
+ * 
+ * @author djalma
+ *
+ */
 public class Identificador {
 
 	private String id;

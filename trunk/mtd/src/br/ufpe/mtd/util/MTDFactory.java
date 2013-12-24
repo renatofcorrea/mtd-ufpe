@@ -10,6 +10,14 @@ import java.util.concurrent.Executors;
 import br.ufpe.mtd.dados.RepositorioIndice;
 import br.ufpe.mtd.negocio.ControleIndice;
 
+/**
+ * Fabrica de objetos da aplicacao cria os objetos necessarios
+ * a serem usados pelas outras partes do sistema
+ * configurando estes objetos de forma adequada.
+ * 
+ * @author djalma
+ *
+ */
 public class MTDFactory implements ContentHandlerFactory{
 	
 	private static Log log;
@@ -37,6 +45,14 @@ public class MTDFactory implements ContentHandlerFactory{
 		return instancia;
 	}
 	
+	/**
+	 * Retorna instancia unica do repositorio de indice.
+	 * 
+	 * @see newControleIndice()
+	 *  
+	 * @return
+	 * @throws IOException
+	 */
 	public RepositorioIndice getSingleRepositorioIndice() throws IOException{
 		return repositorioIndice;
 	}
@@ -53,6 +69,13 @@ public class MTDFactory implements ContentHandlerFactory{
 		} // retornar gerenciador para outros tipos de conteudo.
 	}
 	
+	/**
+	 * Metodo que devolve um controle do indice e ja 
+	 * utiliza o respostorio adequado para manipular o indice 
+	 * e aplicar as regras de negocio adequadas. 
+	 * @return
+	 * @throws IOException
+	 */
 	public ControleIndice newControleIndice() throws IOException{
 		ControleIndice controle = new ControleIndice(getSingleRepositorioIndice());
 		return controle;
@@ -66,6 +89,11 @@ public class MTDFactory implements ContentHandlerFactory{
 		return logPoolThread;
 	}
 	
+	/**
+	 * Faça o log dos seus dados e exceptions atraves deste objeto.
+	 * 
+	 * @return
+	 */
 	public Log getLog(){
 		return log;
 	}
