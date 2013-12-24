@@ -113,12 +113,19 @@ public class DecodificadorDocumento {
 		String data = contextVariables.getBody();
 		this.doc.setDataDeDefesa(MTDUtil.recuperarDataFormatosSuportados(data.trim()));
 	}
+	
+	@EndElement(tag = "mtd2-br:Grau")
+	public void pegarGrau(ContextVariables contextVariables) {
+		String data = contextVariables.getBody();
+		this.doc.setGrau(data);
+	}
 
 	@EndElement(tag = "identifier")
 	public void pegarId(ContextVariables contextVariables) {
 		String identificador = contextVariables.getBody();
 		String[] split = identificador.split(":");
 		Long id = new Long(split[split.length - 1]);
+		this.doc.setIdentifier(identificador);
 		this.doc.setId(id);
 	}
 
