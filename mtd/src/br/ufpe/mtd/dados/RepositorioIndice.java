@@ -205,6 +205,23 @@ public class RepositorioIndice {
 	}
 	
 	/**
+	 * Depois de fazer todas as inclusoes chame 
+	 * o metodo de otimizacao.
+	 * 
+	 * Segundo pesquisa a onclusao em um indice ainda nao otimizado fica
+	 * mais rapida. Assim primeiro inserimos tudo depois otimizamos. 
+	 * 
+	 * @throws CorruptIndexException
+	 * @throws IOException
+	 */
+	public synchronized void otimizarIndice() throws CorruptIndexException, IOException {
+		IndexWriter indexWriter = getWriterPadrao(false);
+		indexWriter.optimize();
+		indexWriter.close();
+	}
+	
+	
+	/**
 	 * Fecha o repositorio liberando os recursos 
 	 * de arquivo e memoria que ficaram abertos 
 	 * assim como os streams que estejam associados

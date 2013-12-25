@@ -1,11 +1,16 @@
 package br.ufpe.mtd.negocio;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.lucene.index.CorruptIndexException;
+import org.tartarus.snowball.ext.FinnishStemmer;
 
 import br.ufpe.mtd.consulta.OAIPMHDriver;
 import br.ufpe.mtd.dados.RepositorioIndice;
 import br.ufpe.mtd.entidade.Identificador;
+import br.ufpe.mtd.thread.BaseThread;
 import br.ufpe.mtd.thread.ThreadBuscaMetadados;
 import br.ufpe.mtd.util.MTDFactory;
 
@@ -62,8 +67,9 @@ public class ControleIndice {
 				}else{
 					throw e;
 				}
+			}finally{
+				otimizarIndice(repositorio);
 			}
-			
 		}
 	}
 	
@@ -79,5 +85,23 @@ public class ControleIndice {
 	private void baixarDocsEsalvar(RepositorioIndice repositorio, List<Identificador> identificadores,String urlBase,String metaDataPrefix){
 		ThreadBuscaMetadados t = new ThreadBuscaMetadados(repositorio , identificadores,urlBase,metaDataPrefix);
 		t.executarNoPool();
+	}
+	
+	/*
+	 * Netodo auxiliar que 
+	 * Agenda a otimizacao do indice.
+	 * Deve ser chamado apos todos os documentos
+	 * estarem inseridos no indice.   
+	 */
+	private void otimizarIndice(final RepositorioIndice repositorio){
+		new BaseThread(){
+			public void run() {
+				try {
+					repositorio.otimizarIndice();
+				} catch (Exception e) {
+					MTDFactory.getInstancia().getLog().salvarDadosLog(e);
+				}
+			};
+		}.executarNoPool();
 	}
 }
