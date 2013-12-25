@@ -56,6 +56,7 @@ public class RepositorioIndice {
 	/*
 	  Cria o analyzador
 	  TODO: deve pegar o analizador de acordo com a lingua
+	  considerar o uso do BrazilianAnalizer
 	 */
 	private StandardAnalyzer getAnalizerPadrao(){
 		return new StandardAnalyzer(Version.LUCENE_CURRENT);
