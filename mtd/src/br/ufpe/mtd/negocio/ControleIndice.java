@@ -1,12 +1,7 @@
 package br.ufpe.mtd.negocio;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.lucene.index.CorruptIndexException;
-import org.tartarus.snowball.ext.FinnishStemmer;
-
 import br.ufpe.mtd.consulta.OAIPMHDriver;
 import br.ufpe.mtd.dados.RepositorioIndice;
 import br.ufpe.mtd.entidade.Identificador;
@@ -67,6 +62,7 @@ public class ControleIndice {
 				}else{
 					throw e;
 				}
+				
 			}finally{
 				otimizarIndice(repositorio);
 			}
@@ -84,6 +80,7 @@ public class ControleIndice {
 	 */
 	private void baixarDocsEsalvar(RepositorioIndice repositorio, List<Identificador> identificadores,String urlBase,String metaDataPrefix){
 		ThreadBuscaMetadados t = new ThreadBuscaMetadados(repositorio , identificadores,urlBase,metaDataPrefix);
+		t.setPriority(Thread.MAX_PRIORITY);
 		t.executarNoPool();
 	}
 	
@@ -91,17 +88,24 @@ public class ControleIndice {
 	 * Netodo auxiliar que 
 	 * Agenda a otimizacao do indice.
 	 * Deve ser chamado apos todos os documentos
-	 * estarem inseridos no indice.   
+	 * estarem agendados para serem inseridos no indice.
+	 * Nao e prioritario que seja a ultima thread  a ser executada na fila
+	 * por isso nao foi preciso um controle rigido nesse sentido.
+	 * Apenas baixou-se a prioridade desta execucao em relacao as demais.
 	 */
 	private void otimizarIndice(final RepositorioIndice repositorio){
-		new BaseThread(){
+		BaseThread t = new BaseThread(){
 			public void run() {
 				try {
 					repositorio.otimizarIndice();
+					
 				} catch (Exception e) {
 					MTDFactory.getInstancia().getLog().salvarDadosLog(e);
 				}
 			};
-		}.executarNoPool();
+		};
+		
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.executarNoPool();
 	}
 }
