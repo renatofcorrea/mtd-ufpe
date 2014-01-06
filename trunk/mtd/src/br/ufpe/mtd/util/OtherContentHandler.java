@@ -11,7 +11,7 @@ import java.net.URLConnection;
  * @author cmtr@di.ufpe.br
  * @author aml@di.ufpe.br
  */
-class OtherContentHandler extends ContentHandler {
+public class OtherContentHandler extends ContentHandler {
 	public Object getContent(URLConnection urlc) throws IOException {
 		return null;
 	}

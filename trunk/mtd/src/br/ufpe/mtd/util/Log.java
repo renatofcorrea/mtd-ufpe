@@ -1,6 +1,7 @@
 package br.ufpe.mtd.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -32,8 +33,10 @@ public class Log {
 	 * log_dados para dados e log_excecao para as exceptions ocorridas na aplicacao.
 	 * 
 	 * Recupere objetos de log a partir da classe MTDFActory.
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public Log() {
+	public Log() throws FileNotFoundException, IOException {
 		logAplicDir = new File(MTDParametros.getExternalStorageDirectory(),
 				"log");
 		logAplicDados = new File(logAplicDir, "log_dados.txt");
