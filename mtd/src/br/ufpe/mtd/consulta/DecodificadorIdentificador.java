@@ -32,8 +32,7 @@ public class DecodificadorIdentificador {
 	
 	@EndElement(tag="resumptionToken")
 	public void pegarResuption(ContextVariables contextVariables){
-		this.resumption = contextVariables.getBody().trim();
-		
+		this.resumption = contextVariables.getBody().trim();			
 	}
 	
 	@EndElement(tag="identifier", priority = 2)
@@ -47,7 +46,9 @@ public class DecodificadorIdentificador {
 	}
 	
 	
-	//TODO: Guardar a lista dos deletados para validar futuramente  
+	/*
+	 * Guarda a lista dos deletados para validar futuramente  
+	 */
 	@EndElement(tag="header", attributes = @ContainAttribute(value = "deleted"), priority = 1)
 	public void pegarHeader(ContextVariables contextVariables){
 		int ultimo = identificadores.size() - 1;

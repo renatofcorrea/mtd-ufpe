@@ -11,6 +11,7 @@ import org.apache.lucene.document.Field;
 import br.ufpe.mtd.dados.RepositorioIndice;
 import br.ufpe.mtd.entidade.DocumentWrapper;
 import br.ufpe.mtd.negocio.ControleIndice;
+import br.ufpe.mtd.thread.MTDThreadPool;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
 
@@ -69,46 +70,17 @@ public class TesteRepositorioIndice {
 
 	static void indexar(){
 		long inicio = System.currentTimeMillis();
-		final ExecutorService pool = MTDFactory.getInstancia().getPoolThread();
-		final ExecutorService logPool = MTDFactory.getInstancia().getLogPoolThread();
 		RepositorioIndice rep = null;
+		MTDThreadPool logPool = MTDFactory.getInstancia().getLogPoolThread();
+		MTDThreadPool pool = MTDFactory.getInstancia().getPoolThread();
+		
 		try {
+			
 			rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
 			ControleIndice controle = new ControleIndice(rep);
 			controle.indexar("http://tede.pucrs.br/tde_oai/oai3.php", "mtd2-br");
 			
-			//fechar os pools
-			pool.execute(new Runnable() {
-				@Override
-				public void run() {
-					pool.shutdown();
-				}
-			});
-			
-			while(!pool.isTerminated()){
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			logPool.execute(new Runnable() {
-				@Override
-				public void run() {
-					logPool.shutdown();
-				}
-			});
-			
-			while(!logPool.isTerminated()){
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			logPool.aguardarFimDoPool();
 			
 			if(rep != null){
 				rep.fecharRepositorio();
@@ -116,11 +88,14 @@ public class TesteRepositorioIndice {
 			
 		} catch (Exception e) {
 			//enviar meail de alert para equipe tecnica se servico der excecao
-			MTDFactory.getInstancia().getLog().salvarDadosLog(e);
+			e.printStackTrace();
 			
 		} finally{
+			
+			logPool.fecharPool();
+			pool.fecharPool();
+			
 			MTDUtil.imprimirConsole("Tempo total : "+ (System.currentTimeMillis() - inicio));
-			System.exit(0);
 		}
 	}
 	

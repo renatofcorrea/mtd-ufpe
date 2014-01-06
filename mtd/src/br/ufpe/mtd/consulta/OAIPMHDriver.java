@@ -156,6 +156,7 @@ public class OAIPMHDriver {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
         
 		if (str != null) {
+			//TODO: avaliar o que este codigo faz e se pode gerar bugs,
             if (!str.startsWith("<?xml")) {
                 String[] split = str.split("<?xml");
                 str = "<?xml" + split[1] + "xml" + split[2] + "xml" + split[3]
@@ -163,13 +164,19 @@ public class OAIPMHDriver {
             }
             
             //TODO: Recuperar o charset para criar o array de bytes
-            ByteArrayInputStream bais = new ByteArrayInputStream(str.getBytes());
+            ByteArrayInputStream bais = new ByteArrayInputStream(str.getBytes("ISO-8859-1"));
            
-            if (parser != null) {
-                parser.parse(bais, new JColtraneXMLHandler(decodificador));
+            try{
+            	
+            	parser.parse(bais, new JColtraneXMLHandler(decodificador));
+            	
+            }catch(Exception e){
+            	MTDException excecao = new MTDException(e,str);
+            	MTDFactory.getInstancia().getLog().salvarDadosLog(excecao);
             }
 
-            bais.reset();
+            bais.close();
+            
         } else {
             throw new MTDException("Erro na Colheita dos Identificadores");
         }

@@ -8,7 +8,7 @@ public class MTDException extends Exception{
 	private static final long serialVersionUID = 1L;
 	
 	public MTDException(Exception e , String mensagem) {
-		super(mensagem);
+		super(mensagem+ " - Causa: "+e.getCause());
 		setStackTrace(e.getStackTrace());
 	}
 	

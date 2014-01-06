@@ -4,11 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import br.ufpe.mtd.dados.RepositorioIndice;
 import br.ufpe.mtd.negocio.ControleIndice;
+import br.ufpe.mtd.thread.MTDThreadPool;
 
 /**
  * Fabrica de objetos da aplicacao cria os objetos necessarios
@@ -23,15 +22,15 @@ public class MTDFactory implements ContentHandlerFactory{
 	private static Log log;
 	private static MTDFactory instancia;
 	private RepositorioIndice repositorioIndice;
-	private ExecutorService poolThread;
-	private ExecutorService logPoolThread;
+	private MTDThreadPool poolThread;
+	private MTDThreadPool logPoolThread;
 	private int qtdMaxThread = 10;
 	
 	private MTDFactory(){
 		try {
 			repositorioIndice = new RepositorioIndice(new File(MTDParametros.getExternalStorageDirectory(),"indice_MTD"));
-			poolThread = Executors.newFixedThreadPool(qtdMaxThread);
-			logPoolThread = Executors.newSingleThreadExecutor();
+			poolThread = new MTDThreadPool(qtdMaxThread);
+			logPoolThread = new MTDThreadPool(1);
 			log = new Log();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,11 +80,11 @@ public class MTDFactory implements ContentHandlerFactory{
 		return controle;
 	}
 	
-	public ExecutorService getPoolThread(){
+	public synchronized MTDThreadPool getPoolThread(){
 		return poolThread;
 	}
 	
-	public ExecutorService getLogPoolThread() {
+	public synchronized MTDThreadPool getLogPoolThread() {
 		return logPoolThread;
 	}
 	
