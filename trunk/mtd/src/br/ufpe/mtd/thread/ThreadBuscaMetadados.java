@@ -1,19 +1,16 @@
 package br.ufpe.mtd.thread;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.jColtrane.handler.JColtraneXMLHandler;
 
 import org.apache.lucene.document.Document;
-import org.xml.sax.SAXException;
 
 import br.ufpe.mtd.consulta.OAIPMHDriver;
 import br.ufpe.mtd.dados.RepositorioIndice;
@@ -93,46 +90,25 @@ public class ThreadBuscaMetadados extends BaseThread{
 	 * @param urlBase
 	 * @param metaDataPrefix
 	 * @return
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
+	 * @throws Exception 
 	 */
 	public List<Document> colherMetadadosOnline(List<Identificador> identificadores,String urlBase,String metaDataPrefix)
-			throws IOException, ParserConfigurationException, SAXException {
+			throws Exception {
 		OAIPMHDriver driver = new  OAIPMHDriver(urlBase);
-		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		DecodificadorDocumento decodificador = new DecodificadorDocumento();
-		String str = null;
+		String xml = null;
 		Log log = MTDFactory.getInstancia().getLog();
 
 		long qtd = 0; 
 		long tamanho = identificadores.size();
 		
 		for (Identificador identificador : identificadores) {
-			
 			log.salvarDadosLog(Thread.currentThread().getName()+" Buscando documento para identificador: ("+identificador.getId()+"),  registro "+(++qtd) + " De "+tamanho);
-			
-			str = driver.getRecord(metaDataPrefix, identificador.getId());
-			
-			ByteArrayInputStream bais = new ByteArrayInputStream(str.getBytes("ISO-8859-1"));
-			
-			
-			if (parser != null) {
-				try {
-					parser.parse(bais, new JColtraneXMLHandler(decodificador));
-					
-				} catch (Exception e) {
-					MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro de parse : "+str); 
-					log.salvarDadosLog(Thread.currentThread().getName()+"- Erro de parse - procurar no log de Excecao por: "+identificador.getId());
-					log.salvarDadosLog(excecao);
-				}
-			}
-			
-			bais.reset();
+			xml = driver.getRecord(metaDataPrefix, identificador.getId());
+			parse(xml, decodificador, identificador);
 		}
 		
 		ArrayList<Document> docs = new ArrayList<Document>();
-		
 		//tirar os repetidos caso existam
 		TreeSet<DocumentWrapper> treeSetDocs = new TreeSet<DocumentWrapper>(decodificador.getDocumentos());
 		
@@ -142,4 +118,22 @@ public class ThreadBuscaMetadados extends BaseThread{
 		
 		return docs;
 	}
+	
+	
+	public void parse(String xml, DecodificadorDocumento decodificador, Identificador identificador) throws Exception {
+		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+		Log log = MTDFactory.getInstancia().getLog();
+		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes("ISO-8859-1"));
+		
+		try {
+			parser.parse(bais, new JColtraneXMLHandler(decodificador));
+			
+		} catch (Exception e) {
+			MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro de parse : "+xml); 
+			log.salvarDadosLog(Thread.currentThread().getName()+"- Erro de parse - procurar no log de Excecao por: "+identificador.getId());
+			log.salvarDadosLog(excecao);
+		}
+		
+		bais.close();
+	} 
 }

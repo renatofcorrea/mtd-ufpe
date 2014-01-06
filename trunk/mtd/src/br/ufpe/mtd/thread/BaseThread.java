@@ -53,7 +53,7 @@ public class BaseThread extends Thread{
 	 * de Threads da aplicacao.
 	 */
 	public void executarNoPool(){
-		MTDFactory.getInstancia().getPoolThread().execute(this);
+		MTDFactory.getInstancia().getPoolThread().executar(this);
 	}
 	
 }

@@ -67,4 +67,10 @@ public class MTDUtil {
 			System.out.println(str);
 		}
 	}
+	
+	public synchronized static void imprimirConsole(Exception e){
+		if (MTDParametros.getTipoAmbiente().isDesenvovimento()) {
+			e.printStackTrace();
+		}
+	}
 }
