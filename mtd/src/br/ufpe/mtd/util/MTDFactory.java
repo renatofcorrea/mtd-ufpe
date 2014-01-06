@@ -1,9 +1,12 @@
 package br.ufpe.mtd.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
+import java.util.Properties;
 
 import br.ufpe.mtd.dados.RepositorioIndice;
 import br.ufpe.mtd.negocio.ControleIndice;
@@ -96,4 +99,6 @@ public class MTDFactory implements ContentHandlerFactory{
 	public Log getLog(){
 		return log;
 	}
+	
+	
 }

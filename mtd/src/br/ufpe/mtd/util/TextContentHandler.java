@@ -17,7 +17,7 @@ import java.net.URLConnection;
  * @author cmtr@di.ufpe.br
  * @author aml@di.ufpe.br
  */
-class TextContentHandler extends ContentHandler {
+public class TextContentHandler extends ContentHandler {
 	public Object getContent(URLConnection urlConn) throws IOException {
 		String conteudo = ""; // String para o conteudo
 		InputStream entrada = urlConn.getInputStream(); // Criamos o arquivo de
