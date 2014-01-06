@@ -49,10 +49,7 @@ public class Log {
 	 * @param excecao
 	 */
 	public synchronized void salvarDadosLog(final Exception excecao) {
-		if (MTDParametros.getTipoAmbiente().isDesenvovimento()) {
-			excecao.printStackTrace();
-		}
-
+		
 		try {
 
 			logAplicDir.mkdirs();
@@ -80,10 +77,6 @@ public class Log {
 	 * @param excecao
 	 */
 	public void salvarDadosLog(final String dado) {
-		if (MTDParametros.getTipoAmbiente().isDesenvovimento()) {
-			MTDUtil.imprimirConsole(dado);
-		}
-
 		try {
 			logAplicDir.mkdirs();
 			if (logAplicDir.exists()) {
@@ -123,6 +116,10 @@ public class Log {
 				fos.write(cabecalho.getBytes());
 				fos.write('\n');
 				excecao.printStackTrace(printStream);
+				
+				MTDUtil.imprimirConsole(cabecalho);
+				MTDUtil.imprimirConsole(excecao);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {// trata a excecao fora mas fecha a stream sempre
@@ -167,6 +164,9 @@ public class Log {
 				fos.write(dado.getBytes());
 				fos.write('\n');
 
+				MTDUtil.imprimirConsole(cabecalho);
+				MTDUtil.imprimirConsole(dado);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {// trata a excecao fora mas fecha a stream sempre

@@ -60,6 +60,6 @@ public abstract class LogRunnable implements Runnable{
 	 * Executa a Runnable atual no pool da aplicacao.
 	 */
 	public void executarNoPool(){
-		MTDFactory.getInstancia().getLogPoolThread().execute(this);
+		MTDFactory.getInstancia().getLogPoolThread().executar(this);
 	}
 }
