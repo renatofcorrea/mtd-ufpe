@@ -124,10 +124,7 @@ public class DecodificadorDocumento {
 	@EndElement(tag = "identifier")
 	public void pegarId(ContextVariables contextVariables) {
 		String identificador = contextVariables.getBody();
-		String[] split = identificador.split(":");
-		Long id = new Long(split[split.length - 1]);
-		this.doc.setIdentifier(identificador);
-		this.doc.setId(id);
+		this.doc.setId(identificador);
 	}
 
 	@StartElement(tag = "record")

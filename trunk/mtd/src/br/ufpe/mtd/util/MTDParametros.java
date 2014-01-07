@@ -22,6 +22,8 @@ public class MTDParametros {
 	 * Diretorio onde serao colocados os dados
 	 * externos da aplicacao.
 	 * 
+	 * Cria o diretorio ou diretorios caso nao exista.
+	 * 
 	 * esta sendo consultado de arquivo de propriedades 
 	 * 
 	 * @return
@@ -30,6 +32,11 @@ public class MTDParametros {
 	 */
 	public static File getExternalStorageDirectory() {
 		File diretorio = new File(getMTDProperties().getProperty("indice_dir"));
+		
+		if(!diretorio.exists()){
+			diretorio.mkdirs();
+		}
+		
 		return diretorio;
 	}
 	
