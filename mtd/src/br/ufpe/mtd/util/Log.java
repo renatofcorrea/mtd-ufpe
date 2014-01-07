@@ -38,9 +38,9 @@ public class Log {
 	 */
 	public Log() throws FileNotFoundException, IOException {
 		logAplicDir = new File(MTDParametros.getExternalStorageDirectory(),
-				"log");
-		logAplicDados = new File(logAplicDir, "log_dados.txt");
-		logAplicExcecao = new File(logAplicDir, "log_excecao.txt");
+				MTDParametros.getMTDProperties().getProperty("log_dir"));
+		logAplicDados = new File(logAplicDir, MTDParametros.getMTDProperties().getProperty("log_dados"));
+		logAplicExcecao = new File(logAplicDir, MTDParametros.getMTDProperties().getProperty("log_excecao"));
 	}
 
 	/**

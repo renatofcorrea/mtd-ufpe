@@ -31,7 +31,7 @@ public class MTDParametros {
 	 * @throws FileNotFoundException 
 	 */
 	public static File getExternalStorageDirectory() {
-		File diretorio = new File(getMTDProperties().getProperty("indice_dir"));
+		File diretorio = new File(getMTDProperties().getProperty("dir_raiz"));
 		
 		if(!diretorio.exists()){
 			diretorio.mkdirs();

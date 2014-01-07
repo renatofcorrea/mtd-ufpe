@@ -31,7 +31,7 @@ public class MTDFactory implements ContentHandlerFactory{
 	
 	private MTDFactory(){
 		try {
-			repositorioIndice = new RepositorioIndice(new File(MTDParametros.getExternalStorageDirectory(),"indice_MTD"));
+			repositorioIndice = new RepositorioIndice(new File(MTDParametros.getExternalStorageDirectory(),MTDParametros.getMTDProperties().getProperty("indice_dir")));
 			poolThread = new MTDThreadPool(qtdMaxThread);
 			logPoolThread = new MTDThreadPool(1);
 			log = new Log();
