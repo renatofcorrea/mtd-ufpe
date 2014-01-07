@@ -32,7 +32,7 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 	private String programa;
 	private String orientador;
 	private String areaCNPQ;
-	private Long id;
+	private String id;
 	private String areaPrograma;
 	private String anoDefesa;
 	private String grau;
@@ -41,7 +41,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 	private String urlNodo;
 	private String stringNodo;
 	private String repositorio;
-	private String identifier;	
 	
 	
 	public DocumentWrapper() {
@@ -80,7 +79,7 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 		setPrograma(programa);
 		setOrientador(orientador);
 		setAreaCNPQ(areaCNPQ);
-		setId(Long.parseLong(id));
+		setId(id);
 		setAreaPrograma(areaPrograma);
 	}
 	
@@ -236,13 +235,13 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 		setAnoDefesa(DateTools.dateToString(this.dataDeDefesa,DateTools.Resolution.YEAR));
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
-		getDocument().add(new Field("id", this.id!= null ? Long.toString(this.id) : "", Field.Store.YES, Field.Index.NO));
+		getDocument().add(new Field("id", this.id!= null ? this.id : "", Field.Store.YES, Field.Index.NO));
 	}
 
 	public String getAreaPrograma() {
@@ -261,15 +260,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 	public void setRepositorio(String repositorio) {
 		this.repositorio = repositorio;
 		getDocument().add(new Field("repositorio", this.repositorio != null ? this.repositorio : "", Field.Store.YES,Field.Index.ANALYZED));
-	}
-	
-	public String getIdentifier() {
-		return identifier;
-	}
-	
-	
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
 	}
 	
 	@Override
