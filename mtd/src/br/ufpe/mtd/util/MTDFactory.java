@@ -1,14 +1,14 @@
 package br.ufpe.mtd.util;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
 import java.util.Properties;
 
-import br.ufpe.mtd.dados.RepositorioIndice;
+import br.ufpe.mtd.dados.IRepositorioIndice;
+import br.ufpe.mtd.dados.RepositorioIndiceLucene;
+import br.ufpe.mtd.dados.RepositorioIndiceSolr;
 import br.ufpe.mtd.negocio.ControleIndice;
 import br.ufpe.mtd.thread.MTDThreadPool;
 
@@ -24,14 +24,25 @@ public class MTDFactory implements ContentHandlerFactory{
 	
 	private static Log log;
 	private static MTDFactory instancia;
-	private RepositorioIndice repositorioIndice;
+	private IRepositorioIndice repositorioIndice;
 	private MTDThreadPool poolThread;
 	private MTDThreadPool logPoolThread;
 	private int qtdMaxThread = 10;
 	
 	private MTDFactory(){
 		try {
-			repositorioIndice = new RepositorioIndice(new File(MTDParametros.getExternalStorageDirectory(),MTDParametros.getMTDProperties().getProperty("indice_dir")));
+			Properties propriedades = MTDParametros.getMTDProperties();
+			String strUsarSoler = propriedades.getProperty("solr_usar");
+			
+			if(strUsarSoler != null && Boolean.parseBoolean(strUsarSoler) == true){
+				String strSolrUrl = propriedades.getProperty("solr_url");
+				repositorioIndice = new RepositorioIndiceSolr(strSolrUrl);
+				
+			}else{
+				repositorioIndice = new RepositorioIndiceLucene(new File(MTDParametros.getExternalStorageDirectory(),MTDParametros.getMTDProperties().getProperty("indice_dir")));
+			}
+			
+			
 			poolThread = new MTDThreadPool(qtdMaxThread);
 			logPoolThread = new MTDThreadPool(1);
 			log = new Log();
@@ -55,7 +66,7 @@ public class MTDFactory implements ContentHandlerFactory{
 	 * @return
 	 * @throws IOException
 	 */
-	public RepositorioIndice getSingleRepositorioIndice() throws IOException{
+	public IRepositorioIndice getSingleRepositorioIndice() throws IOException{
 		return repositorioIndice;
 	}
 	
