@@ -43,7 +43,9 @@ public class MTDParametros {
 	public static Properties getMTDProperties(){
 		if(properties == null){
 			try {
+				
 				File arquivoProperties = new File(System.getProperty("user.dir")+File.separator+"mtd_properties.properties");
+				
 				properties = new Properties();
 				properties.load(new FileInputStream(arquivoProperties));
 			} catch (FileNotFoundException e) {
