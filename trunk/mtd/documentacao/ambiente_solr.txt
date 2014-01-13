@@ -9,12 +9,21 @@ The next step is to install Solar:
 
 1    download Solr at: http://lucene.apache.org/solr/
 2    extract the solar package into, for example, solr-4.3.0
-3    copy the sample “Solr Home” directory solr-4.3.0\example\solr\ (Note that it’s the folder ‘example\solr\’ itself, not the content under it!!!) into the home directory of tomcat: TOMCAT_HOME if you start tomcat with Tomcat Monitor or into TOMCAT_HOME\bin if you start tomcat with TOMCAT_HOME\bin\startup.bat. Note that the solr hoe directory must be put in the right directory. This is very important!!! Otherwise you will get such an exception: “HTTP Status 500 – {msg=SolrCore ‘collection1′ is not available due to init failure: Could not load config for solrconfig.xml …… ”
-    In a word, the solr home directory should be put in the Java current working directory. You can also “Configure the servlet container such that a JNDI lookup of “java:comp/env/solr/home” by the Solr webapp will point to the Solr home”.
+3    copy the sample “Solr Home” directory solr-4.3.0\example\solr\ (Note that it’s the folder ‘example\solr\’ itself, not the content under it!!!) 
+into the home directory of tomcat: TOMCAT_HOME if you start tomcat with Tomcat Monitor or into TOMCAT_HOME\bin if you start tomcat with 
+TOMCAT_HOME\bin\startup.bat. Note that the solr hoe directory must be put in the right directory. 
+This is very important!!! Otherwise you will get such an exception: “HTTP Status 500 – {msg=SolrCore ‘collection1′ is not available due to init failure: Could not load config 
+for solrconfig.xml …… ”
+    In a word, the solr home directory should be put in the Java current working directory. You can also 
+    “Configure the servlet container such that a JNDI lookup of “java:comp/env/solr/home” by the Solr webapp will point to the Solr home”.
 4    copy the solr war file (solr-N.N.N.war) under solr-4.3.0\dist\ as solr.war into the tomcat webapps directory TOMCAT_HOME/webapps. Tomcat will automatically deploy it.
-5    After solr.war is extracted, copy the SLF4j logging jars from solr-4.3.0/example/lib/ext into TOMCAT_HOME/lib or TOMCAT_HOME/webapps/solr/WEB-INF/lib. If this step is ignored, this exception will be thrown out: org.apache.catalina.core.StandardContext filterStart
+5    After solr.war is extracted, copy the SLF4j logging jars from solr-4.3.0/example/lib/ext into TOMCAT_HOME/lib or TOMCAT_HOME/webapps/solr/WEB-INF/lib. 
+If this step is ignored, this exception will be thrown out: org.apache.catalina.core.StandardContext filterStart
     SEVERE: Exception starting filter SolrRequestFilter
     org.apache.solr.common.SolrException: Could not find necessary SLF4j logging jars. If using Jetty, the SLF4j logging jars need to go in the jetty lib/ext directory. For other containers, the corresponding directory should be used. For more information, see: http://wiki.apache.org/solr/SolrLogging
+
+6 Colocar o arquivo de configuração do esquema de dados (schema.xml) na pasta documentos deste projeto dentro da pasta TOMCAT_HOME/solr/collection1/conf 
+
 
 OK. That’s it! Now locate your web browser to http://localhost:8080/solr (Change the port if necessary) and you will see the admin page of solr.
 
@@ -26,4 +35,7 @@ More details can be found on the Solr Wiki: http://wiki.apache.org/solr/SolrInst
 
     Previous Entry: Java with UTF-8 encoding (especially with Chinese)
     Next Entry: Simple Example of Java JSON Encoding in Servlet
+
+
+
 

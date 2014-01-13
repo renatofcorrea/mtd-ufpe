@@ -1,0 +1,145 @@
+Semana: 01/11/2013 a 01/11/2013
+
+- Entregar documentação na sede da FACEPE.
+
+Semana: 04/11/2013 a 08/11/2013
+
+- Reunião inicial para definição dos objetivos do projeto, apresentação do sistema,
+necessidades, dificuldades.
+- Acesso inicial do projeto e busca da versão estável do mesmo
+- Verificado a necessidade do gerenciamento do projeto através de uma ferramenta de gestão
+	Controle de versão, controle de bugs, controle de tarefas.
+
+- Feito cópia do projeto mesmo não tendo encontrado ainda versão estável do mesmo.
+
+- Leitura dos relatórios das fases anteriores do projeto MTDWeb da UFPE
+
+ 
+Semana: 11/11/2013 a 15/11/2013
+
+- Estudo do projeto.
+- Reunião com Ubiraci, participante de etapa do projeto que está em conclusão neste mês.
+- Busca de orçamento com fabricante Dell.
+
+- Assinatura de termo relativo ao projeto na sede da FACEPE.
+
+Semana: 18/11/2013 a 22/11/2013
+
+- Estudo do projeto para verificar como foi a implementação do protocolo OAI-PMH para realizar a busca de dados
+dos repositórios de dados externos.
+
+- Refatoração do projeto criando classe de RepositórioIndice que cuidará da
+criação de indice e administração dos dados do indice, substituição de classes que cairam em desuso pelo java, 
+busca de abstrações que facilitem o entendimento do processo de busca de dados e geração do índice.
+
+- Estudo do Lucene para verificar o tratamento de concorrência
+
+- Criação de classe TesteRepositórioIndice para realizar teste no RepositorioIndice simulando carga no sistema, 
+disparando multiplas consultas em paralelo, criação e carregamento e atualização do índice.
+
+- Criação de indice do lucene a partir da Classe RepositorioIndice.
+ 
+Semana: 25/11/2013 a 29/11/2013
+
+- Análise dos dados resultantes do indice gerado auxiliado pela ferramenta LUKE (Lucene Index Toolbox V1.0.0).
+- Tratamento de codificação de caracteres antes de inserir no índice.
+- Tratamento de datas que estavam trazendo ano incorreto.
+- Tratamento de campos do padrão de metadados não suportados pelo repositório externo.
+	
+	Apontamos para o repositório "http://bdtd.bczm.ufrn.br/tde_oai/oai2.php" com o padrão "mtd2-br"
+	e recebemos registros sem a presença dos campos resumo e titulo.
+	- Foi realizado tratamento para campos não suportado.
+	- Será avaliado quais campos são indispensáveis para inclusão da informação no índice do MDT-ufpe
+	
+- Busca orçamento com outros fornecedores de Servidor.
+
+- Ajustes das classes renomeação de classes. Documentar as mudanças (fazer).
+- Documentar a refatoração.
+- Precisa criar log para registrar dados deletados do indice
+- Criar funcionalidade de deleção de registros do indice , baseado nos dados que foram identificados como deletados nos repositorios externos.
+
+
+Semana: 02/12/2013 a 07/12/2013
+
+- Precisa colocar no documento os seguintes campos
+	Sigla da biblioteca digital para identificação do repositorio origem do doc
+		mtd2-br:BibiotecaDigital
+		mtd2-br:Sigla
+		1ª Ocorrência
+		Este campo deve ser indexado como o campo titulo
+	Url do arquivo no repositório
+		mtd2-br:Arquivo
+		mtd2-br:URL
+		Nao indexado como id
+- Melhorar performance de coleta de dados externos
+
+
+Semana: 10/12/2013 a 14/12/2013
+
+- Sincronização do projeto com a versão existente no repositorio web do google code (http://code.google.com/p/mtd-ufpe/) usando como controle de versão o SVN(Subeclipse 1.10.3).
+- Foi adotada como linha de trabalho de densenvolvimento o trunk do repositorio (https://mtd-ufpe.googlecode.com/svn/trunk).
+- Adoção do uso de issues para atualizações de código e gerenciamento do projeto, estabelecendo uma relação entre as mudanças de código e tarefas desenvolvidas durante o projeto.
+ Obs: Issues são tarefas a serem realizadas e descritas dentro de um sistema de controle de tarefas, no caso o google code. Quando as issues são realizadas e como resultado ocoorem mudanças no código 
+ do sistema MTD, podemos associar essas mudanças a uma tarefa.
+ - Iniciamos melhorias dentro do sistema MTD de acordo com issues que foram criadas.
+ 	Issue 1 Incluir dados no indice
+ 	Issue 2 Melhorar o Log do sistema
+ 	Issue 3 Otimizar o indice
+ 	
+ 	
+Semana: 17/12/2013 a 21/12/2013
+
+- Conclusão das issues solicitadas e estudo da ferramenta Lucene.
+
+Semana: 24/12/2013 a 28/12/2013
+
+- Seguido solicitação do orientador inciei os estudo da ferarmenta SOLR desenvolvida pela Apache Software Foundation
+dentro do projeto LUCENE e será adicionada ao projeto MTD inicialmente para fins de permitir buscas de dados otimizadas em especial
+o recurso chamado de busca facetada que permite a inclusão de parametros variáveis e solicitar frações dos resultados das buscas na hora de exibição dos dados pesquisados.
+
+- Inicialmente os estudos ficaram concentrados a baixar a versão mais atualizada do Solr até o momento(4.6.0).
+- Ler livros relativos ao Solr em destaque:
+	1 - Apache Solr 4 Cookbook 2ª Edição Jan-2013 ISBN 978-1-78216-132-5
+	2 - Apache Solr Reference Guide 4.1 Jan-2013
+
+- Pesquisei em foruns e listas de discussão destacando
+
+http://www.global-webnet.com/blog/post/2011/10/15/Installing-Solr-under-Windows-8.aspx
+
+http://solrapache.blogspot.com.br/
+
+http://lucene.apache.org/solr/4_6_0/tutorial.html
+
+http://apache-solr.blogspot.com.br/2011/11/apache-solr-parte-1-entendendo-o.html
+
+- Iniciei a criação do ambiente de execução do Solr. Baixei a versão do Solr , mas a configuração do ambiente para que o Solr iniciasse a funcionar 
+precisou de pesquisa extra sendo que na pagina abaixo foi encontrado uma configuração que funcionou adequadamente no windows 8 e servidor tomcat 8 que é a 
+configuração na maquina que estou usando para desenvolvimento.
+
+http://liuweipingblog.cn/java/install-lucene-solar-with-tomcat-on-windows/
+
+Obs: Será preciso avaliar a replicação dessa configuração em outros ambientes.
+
+- Entrei em contato com o fornecedor de equipamentos IBM para solicitar uma cotação de preços para o servidor a ser adquirido no projeto MTD.   
+
+Semana: 30/12/2013 a 03/01/2014
+
+- Recebi o contato do Fornecedor Dell com nova cotação de preços para o servidor a ser adquirido no projeto MTD.
+- Iniciei a criação de uma aplicação de exemplo com a ferramenta Solr seguindo orientações encontradas no site do Solr, em livros e paginas web pesquisadas.
+- Consegui fazer uma aplicação cliente dentro do projeto MTD para testar o uso do Solr. Trata-se da Classe ClienteSolr.Java que realiza a inclusão de documentos, consulta de exclusão de dados no Solr.
+
+Semana: 06/01/2014 a 10/01/2014 
+
+- Iniciei a inclusão do Solr como funcionalidade dentro do projeto MTD. Verifiquei que o Solr tem sua própria base dade dados
+e é o responsável pelo gerenciamento da mesma. Provendo varias funcionalidades muitas das quais já estão implementadas dentro do projeto MTD no 
+no modulo de dados. Como o modulo de dados dentro do projeto MTD tem como objetivo armazenamento das informações para recuperação posterior, não 
+há conflitos em delegar ao Solr essa ação, sendo que os ganhos com as buscas avançadas disponiveis dentro do Solr e suas estratégias internas de 
+performance agregam valor ao projeto.
+
+- Para a integração do projeto MTD com o Solr foi criado a funcionalidade em java a classe RepositorioIndiceSolr.java. A função desta classe é substituir
+a classe  RepositorioIndice.java que com a mudança passou a se chamar RepositorioIndiceLucene.java.
+
+- Foi criado funcionalidade para permitir através de arquivo de configuração ligar e desligar o uso do Solr, assim o sistema poderá voltar a funcionar sem o Solr caso deseje-se.
+     
+
+
