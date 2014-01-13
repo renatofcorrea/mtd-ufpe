@@ -22,7 +22,7 @@ import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 
-import br.ufpe.mtd.entidade.DocumentWrapper;
+import br.ufpe.mtd.entidade.DocumentMTD;
 
 /**
  * Classe que fara o controle de acesso ao indice do 
@@ -36,17 +36,14 @@ import br.ufpe.mtd.entidade.DocumentWrapper;
  * @author djalma
  *
  */
-public class RepositorioIndice {
+public class RepositorioIndiceLucene implements IRepositorioIndice{
 
 	private RAMDirectory diretorioEmMemoria;
 	private Directory diretorioEmDisco;
 	
-	private String[] campos = { "title", "resumo", "keyword", "autor", "programa",
-			"orientador", "areaCNPQ", "areaPrograma", "dataDefesa" };
-	
 	private File pastaDoIndice;
 	
-	public RepositorioIndice(File diretorioIndice) throws IOException {
+	public RepositorioIndiceLucene(File diretorioIndice) throws IOException {
 		this.pastaDoIndice = diretorioIndice;
 		if(!existeIndice()){
 			criarIndice();
@@ -115,7 +112,7 @@ public class RepositorioIndice {
 	 * Sistema Operacional 32 Bits
 	 * 
 	 */
-	public synchronized ArrayList<DocumentWrapper> consultar(String termo, int maxResultado)
+	public synchronized ArrayList<DocumentMTD> consultar(String termo, int maxResultado)
 			throws ParseException, CorruptIndexException, IOException {
 
 		Directory indexDirectory = getCopiaDiretorioMemoria();		
@@ -124,7 +121,7 @@ public class RepositorioIndice {
 		// Cria o acesso ao indice
 		IndexSearcher searcher = new IndexSearcher(reader);
 		
-		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(campos, analisador);
+		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(DocumentMTD.campos, analisador);
 		mfqp.setPhraseSlop(2);
 		Query q = mfqp.parse(termo);
 
@@ -136,7 +133,7 @@ public class RepositorioIndice {
 		// Separa os itens mais relevantes para a consulta.
 		
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-		ArrayList<DocumentWrapper> retorno = new ArrayList<DocumentWrapper>();
+		ArrayList<DocumentMTD> retorno = new ArrayList<DocumentMTD>();
 		
 		// TODO
 		// HashMap<String, Integer> documentoNodo = LeitorMapa.getMapa().getDocumentoNodo();
@@ -145,7 +142,7 @@ public class RepositorioIndice {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 
-			DocumentWrapper docAtual = new DocumentWrapper(d);//TODO: colocar os dados que nao estao no construtor atraves dos sets
+			DocumentMTD docAtual = new DocumentMTD(d);//TODO: colocar os dados que nao estao no construtor atraves dos sets
 //			// docAtual.setNodo(documentoNodo.get(docAtual.getId()+""));
 			retorno.add(docAtual);
 		}
@@ -164,7 +161,7 @@ public class RepositorioIndice {
 	 * abertos.
 	 * @throws IOException
 	 */
-	public synchronized void criarIndice() throws IOException {
+	private synchronized void criarIndice() throws IOException {
 		IndexWriter indexWriter = getWriterPadrao(true);
 		try {
 			indexWriter.getAnalyzer().close();
@@ -180,7 +177,7 @@ public class RepositorioIndice {
 	 * 
 	 * @return
 	 */
-	public synchronized boolean existeIndice() {
+	private synchronized boolean existeIndice() {
 		boolean indiceExiste = new File(pastaDoIndice, "segments.gen")
 				.exists();
 

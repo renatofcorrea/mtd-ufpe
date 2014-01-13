@@ -13,8 +13,8 @@ import net.sf.jColtrane.handler.JColtraneXMLHandler;
 import org.apache.lucene.document.Document;
 
 import br.ufpe.mtd.consulta.OAIPMHDriver;
-import br.ufpe.mtd.dados.RepositorioIndice;
-import br.ufpe.mtd.entidade.DocumentWrapper;
+import br.ufpe.mtd.dados.IRepositorioIndice;
+import br.ufpe.mtd.entidade.DocumentMTD;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.util.Log;
@@ -32,12 +32,12 @@ import br.ufpe.mtd.xml.DecodificadorDocumento;
  *
  */
 public class ThreadBuscaMetadados extends BaseThread{
-	private RepositorioIndice repositorio;
+	private IRepositorioIndice repositorio;
 	private List<Identificador> identificadores;
 	private String urlBase;
 	private String metaDataPrefix;
 	
-	public ThreadBuscaMetadados(RepositorioIndice repositorio, List<Identificador> identificadores, String urlBase, String metaDataPrefix) {
+	public ThreadBuscaMetadados(IRepositorioIndice repositorio, List<Identificador> identificadores, String urlBase, String metaDataPrefix) {
 		this.identificadores = identificadores;
 		this.repositorio = repositorio;
 		this.urlBase = urlBase;
@@ -102,6 +102,7 @@ public class ThreadBuscaMetadados extends BaseThread{
 		long qtd = 0; 
 		long tamanho = identificadores.size();
 		
+		
 		for (Identificador identificador : identificadores) {
 			log.salvarDadosLog(Thread.currentThread().getName()+" Buscando documento para identificador: ("+identificador.getId()+"),  registro "+(++qtd) + " De "+tamanho);
 			xml = driver.getRecord(metaDataPrefix, identificador.getId());
@@ -110,10 +111,10 @@ public class ThreadBuscaMetadados extends BaseThread{
 		
 		ArrayList<Document> docs = new ArrayList<Document>();
 		//tirar os repetidos caso existam
-		TreeSet<DocumentWrapper> treeSetDocs = new TreeSet<DocumentWrapper>(decodificador.getDocumentos());
+		TreeSet<DocumentMTD> treeSetDocs = new TreeSet<DocumentMTD>(decodificador.getDocumentos());
 		
-		for (DocumentWrapper documento : treeSetDocs) {
-			docs.add(documento.getDocument());
+		for (DocumentMTD documento : treeSetDocs) {
+			docs.add(documento.toDocument());
 		}
 		
 		return docs;
