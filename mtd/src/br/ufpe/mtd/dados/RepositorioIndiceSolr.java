@@ -98,9 +98,6 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 		
 		for (Document document : dosc) {
 			List campos = document.getFields();
-			
-			
-			
 			SolrInputDocument iDocument = new SolrInputDocument();
 			
 			for (Object campo : campos) {
@@ -116,7 +113,7 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 			solrServer.add(listaInserir);
 			solrServer.commit();
 			
-		} catch (SolrServerException e) {
+		} catch (Exception e) {
 			Log log = MTDFactory.getInstancia().getLog();
 			
 			String strIds = "";
