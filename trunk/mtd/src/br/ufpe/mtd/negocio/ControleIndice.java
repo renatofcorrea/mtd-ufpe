@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufpe.mtd.consulta.OAIPMHDriver;
-import br.ufpe.mtd.dados.RepositorioIndice;
+import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.thread.BaseThread;
@@ -14,9 +14,9 @@ import br.ufpe.mtd.util.MTDUtil;
 
 public class ControleIndice {
 	private final  int QTD_MAX_TENTATIVAS = 2;
-	private RepositorioIndice repositorio;
+	private IRepositorioIndice repositorio;
 
-	public ControleIndice(RepositorioIndice repositorio) {
+	public ControleIndice(IRepositorioIndice repositorio) {
 		this.repositorio = repositorio;
 	}
 	
@@ -28,6 +28,7 @@ public class ControleIndice {
 		OAIPMHDriver driver = new  OAIPMHDriver(urlBase, metaDataPrefix);
 		try {
 			while(driver.hasNext()){
+				
 				try{
 					tentativas++;
 					identificadores = driver.getNextIdentifiers();
@@ -81,7 +82,7 @@ public class ControleIndice {
 	 * @param metaDataPrefix
 	 * @throws InterruptedException 
 	 */
-	private void baixarDocsEsalvar(RepositorioIndice repositorio, List<Identificador> identificadores,String urlBase,String metaDataPrefix) throws InterruptedException{
+	private void baixarDocsEsalvar(IRepositorioIndice repositorio, List<Identificador> identificadores,String urlBase,String metaDataPrefix) throws InterruptedException{
 		ThreadBuscaMetadados t = new ThreadBuscaMetadados(repositorio , identificadores,urlBase,metaDataPrefix);
 		t.executarNoPool();
 	}
@@ -92,7 +93,7 @@ public class ControleIndice {
 	 * Deve ser chamado apos todos os documentos
 	 * estarem agendados para serem inseridos no indice.
 	 */
-	private void otimizarIndice(final RepositorioIndice repositorio){
+	private void otimizarIndice(final IRepositorioIndice repositorio){
 		BaseThread t = new BaseThread(){
 			public void run() {
 				try {

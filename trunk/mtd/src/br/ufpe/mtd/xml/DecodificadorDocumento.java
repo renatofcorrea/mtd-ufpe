@@ -9,7 +9,7 @@ import net.sf.jColtrane.annotations.methods.EndElement;
 import net.sf.jColtrane.annotations.methods.InsideElement;
 import net.sf.jColtrane.annotations.methods.StartElement;
 import net.sf.jColtrane.handler.ContextVariables;
-import br.ufpe.mtd.entidade.DocumentWrapper;
+import br.ufpe.mtd.entidade.DocumentMTD;
 import br.ufpe.mtd.util.MTDUtil;
 
 /**
@@ -25,11 +25,11 @@ import br.ufpe.mtd.util.MTDUtil;
  */
 public class DecodificadorDocumento {
 
-	private DocumentWrapper doc;
-	private List<DocumentWrapper> documentos;
+	private DocumentMTD doc;
+	private List<DocumentMTD> documentos;
 
 	public DecodificadorDocumento() {
-		documentos = new ArrayList<DocumentWrapper>();
+		documentos = new ArrayList<DocumentMTD>();
 	}
 
 	@EndElement(tag = "mtd2-br:Titulo", attributes = @ContainAttribute(value = "pt"))
@@ -129,7 +129,7 @@ public class DecodificadorDocumento {
 
 	@StartElement(tag = "record")
 	public void criarDocumento() {
-		this.doc = new DocumentWrapper();
+		this.doc = new DocumentMTD();
 	}
 
 	/**
@@ -141,11 +141,11 @@ public class DecodificadorDocumento {
 		this.documentos.add(this.doc);
 	}
 
-	public Iterator<DocumentWrapper> getDocIterator() {
+	public Iterator<DocumentMTD> getDocIterator() {
 		return this.documentos.iterator();
 	}
 	
-	public List<DocumentWrapper> getDocumentos() {
+	public List<DocumentMTD> getDocumentos() {
 		return documentos;
 	}
 }

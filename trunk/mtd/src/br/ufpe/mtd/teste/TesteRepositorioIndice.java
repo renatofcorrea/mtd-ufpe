@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-import br.ufpe.mtd.dados.RepositorioIndice;
-import br.ufpe.mtd.entidade.DocumentWrapper;
+import br.ufpe.mtd.dados.IRepositorioIndice;
+import br.ufpe.mtd.entidade.DocumentMTD;
 import br.ufpe.mtd.negocio.ControleIndice;
 import br.ufpe.mtd.thread.MTDThreadPool;
 import br.ufpe.mtd.util.MTDFactory;
@@ -27,7 +27,6 @@ import br.ufpe.mtd.util.MTDUtil;
  */
 public class TesteRepositorioIndice {
 
-	
 	public static void main(String [] args){
 		
 		//testeCarga();
@@ -41,7 +40,7 @@ public class TesteRepositorioIndice {
 	static void testeCarga(){
 		try {
 			long inicio = System.currentTimeMillis();
-			RepositorioIndice rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
+			IRepositorioIndice rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
 			ExecutorService poll = Executors.newFixedThreadPool(50);
 			
 			for(int i = 0; i < 1000; i ++){
@@ -70,7 +69,7 @@ public class TesteRepositorioIndice {
 
 	static void indexar(){
 		long inicio = System.currentTimeMillis();
-		RepositorioIndice rep = null;
+		IRepositorioIndice rep = null;
 		MTDThreadPool logPool = MTDFactory.getInstancia().getLogPoolThread();
 		MTDThreadPool pool = MTDFactory.getInstancia().getPoolThread();
 		
@@ -102,8 +101,8 @@ public class TesteRepositorioIndice {
 	
 	static class ThreadTestaRepositorioIndice extends Thread{
 		
-		RepositorioIndice rep;
-		public ThreadTestaRepositorioIndice(RepositorioIndice rep) {
+		IRepositorioIndice rep;
+		public ThreadTestaRepositorioIndice(IRepositorioIndice rep) {
 			this.rep = rep;
 		}
 		
@@ -120,7 +119,7 @@ public class TesteRepositorioIndice {
 			try {
 				long leitura ;
 				long inicio = System.currentTimeMillis();
-				ArrayList<DocumentWrapper> docs;
+				ArrayList<DocumentMTD> docs;
 				docs = rep.consultar("futebol", 10000);
 				
 				//================consulta===================

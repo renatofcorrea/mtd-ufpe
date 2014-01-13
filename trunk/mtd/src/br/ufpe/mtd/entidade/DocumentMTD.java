@@ -12,18 +12,31 @@ import br.ufpe.mtd.util.MTDUtil;
 
 
 /**
- * Ao criar um documentWrapper o mesmo ja carrega dentro de si
- * um document vazio pronto para colocar os dados
+ * Classe que representa um documento
+ * do projeto MTD.
  * 
  * @author djalma
  *
  */
-public class DocumentWrapper implements Comparable<DocumentWrapper>{
+public class DocumentMTD implements Comparable<DocumentMTD>{
 
-	/**
-	 * 
-	 */
-	private Document document;
+	public static final String[] campos = {"titulo", "resumo","data_defesa","autor","programa", "orientador", "area_cnpq","id", "area_programa","repositorio","url","grau", "keyword"};
+	public static final String VAZIO = "";
+	public static final String TITULO = campos[0];
+	public static final String RESUMO = campos[1];
+	public static final String DATA_DEFESA = campos[2];
+	public static final String AUTOR = campos[3];
+	public static final String PROGRAMA = campos[4];
+	public static final String ORIENTADOR = campos[5];
+	public static final String AREA_CNPQ = campos[6];
+	public static final String ID = campos[7];
+	public static final String AREA_PROGRAMA = campos[8];
+	public static final String REPOSITORIO = campos[9];
+	public static final String URL = campos[10];
+	public static final String GRAU = campos[11];
+	public static final String KEY_WORD = campos[12];
+	
+	
 	private String titulo;
 	private String resumo;
 	private List<String> keywords;
@@ -43,30 +56,29 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 	private String repositorio;
 	
 	
-	public DocumentWrapper() {
+	public DocumentMTD() {
 		this.keywords = new ArrayList<String>();
-		document = new Document();
 	}
 	
-	public DocumentWrapper(Document document) {
-		this(document.get("titulo"), 
-				document.get("resumo"), 
+	public DocumentMTD(Document document) {
+		this(document.get(TITULO), 
+				document.get(RESUMO), 
 				null,
-				MTDUtil.recuperarDataFormatosSuportados(document.get("dataDefesa").trim()), 
-				document.get("autor"), 
-				document.get("programa"), 
-				document.get("orientador"), 
-				document.get("areaCNPQ"), 
-				document.get("id"), 
-				document.get("areaPrograma"));
-				setRepositorio(document.get("repositorio"));
-				setUrl(document.get("url"));
-				setGrau(document.get("Grau"));
+				MTDUtil.recuperarDataFormatosSuportados(document.get(DATA_DEFESA).trim()), 
+				document.get(AUTOR), 
+				document.get(PROGRAMA), 
+				document.get(ORIENTADOR), 
+				document.get(AREA_CNPQ), 
+				document.get(ID), 
+				document.get(AREA_PROGRAMA));
+				setRepositorio(document.get(REPOSITORIO));
+				setUrl(document.get(URL));
+				setGrau(document.get(GRAU));
 	}
 
 
 
-	public DocumentWrapper(String titulo, String resumo,
+	public DocumentMTD(String titulo, String resumo,
 			List<String> keywords, Date dataDefesa, String autor,
 			String programa, String orientador, String areaCNPQ, String id,
 			String areaPrograma) {
@@ -83,7 +95,39 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 		setAreaPrograma(areaPrograma);
 	}
 	
-	public Document getDocument(){
+	/**
+	 * Devolve uma representacao do objeto corrente como um 
+	 * 
+	 * LuceneDocument (org.apache.lucene.document.Document)
+	 *  
+	 * @return
+	 */
+	public Document toDocument(){
+		
+		Document document = new Document();
+		
+		for(String key: keywords){
+			document.add(new Field(KEY_WORD, key,Field.Store.YES, Field.Index.ANALYZED));
+		}
+		
+		document.add(new Field(GRAU, this.grau!= null ?  this.grau : VAZIO, Field.Store.YES, Field.Index.ANALYZED));
+		document.add(new Field(URL, this.url!= null ?  this.url : VAZIO, Field.Store.YES, Field.Index.NO));
+		document.add(new Field(TITULO, this.titulo != null ? this.titulo : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		if (this.anoDefesa != null) {
+			document.add(new Field(DATA_DEFESA, this.anoDefesa , Field.Store.YES,Field.Index.ANALYZED));
+		}// data nula
+		document.add(new Field(RESUMO, this.resumo != null ? this.resumo: VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		
+		document.add(new Field(AUTOR, this.autor!= null ? this.autor : VAZIO, Field.Store.YES, Field.Index.ANALYZED));
+
+		document.add(new Field(PROGRAMA, this.programa!= null ? this.programa : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		document.add(new Field(AREA_CNPQ, this.areaCNPQ != null ? this.areaCNPQ : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		document.add(new Field(ORIENTADOR, this.orientador!= null ? this.orientador : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		document.add(new Field(ID, this.id!= null ? this.id : VAZIO, Field.Store.YES, Field.Index.NO));
+		document.add(new Field(AREA_PROGRAMA, this.areaPrograma != null ? this.areaPrograma : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		document.add(new Field(REPOSITORIO, this.repositorio != null ? this.repositorio : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		
+		
 		return document;	
 	}
 	
@@ -116,7 +160,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void adicionarPalavraChave(String key) {
 		this.keywords.add(key);
-		getDocument().add(new Field("keyword", key,Field.Store.YES, Field.Index.ANALYZED));
 	}
 
 	public String getGrau() {
@@ -125,7 +168,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setGrau(String grau) {
 		this.grau = grau;
-		getDocument().add(new Field("grau", this.grau!= null ?  this.grau : "", Field.Store.YES, Field.Index.ANALYZED));
 	}
 
 	public String getUrl() {
@@ -134,7 +176,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setUrl(String url) {
 		this.url = url;
-		getDocument().add(new Field("url", this.url!= null ?  this.url : "", Field.Store.YES, Field.Index.NO));
 	}
 
 	public String getTitulo() {
@@ -143,8 +184,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
-		getDocument().add(new Field("title", this.titulo != null ? this.titulo : "", Field.Store.YES,
-				Field.Index.ANALYZED));
 	}
 
 	public String getAnoDefesa() {
@@ -153,10 +192,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setAnoDefesa(String anoDefesa) {
 		this.anoDefesa = anoDefesa;
-		if (this.anoDefesa != null) {
-			getDocument().add(new Field("dataDefesa", this.anoDefesa , Field.Store.YES,
-					Field.Index.ANALYZED));
-		}// data nula
 	}
 
 	public String getResumo() {
@@ -165,8 +200,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setResumo(String resumo) {
 		this.resumo = resumo;
-		getDocument().add(new Field("resumo", this.resumo != null ? this.resumo: "", Field.Store.YES,
-				Field.Index.ANALYZED));
 	}
 
 	public List<String> getKeywords() {
@@ -175,27 +208,14 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setKeywords(List<String> keywords) {
 		this.keywords = keywords;
-		for (int i = 0; i < this.keywords.size() && this.keywords.get(i) != null; i++) {
-			getDocument().add(new Field("keyword", this.keywords.get(i), Field.Store.YES,
-					Field.Index.ANALYZED));
-		}
 	}
 
 	public String getAutor() {
 		return autor;
 	}
-
-	public boolean contemAutor(){
-		return getDocument().get("autor") != null;
-	}
-	
-	public boolean contemRepositorio(){
-		return getDocument().get("repositorio") != null;
-	}
 	
 	public void setAutor(String autor) {
 		this.autor = autor;
-		getDocument().add(new Field("autor", this.autor!= null ? this.autor : "", Field.Store.YES, Field.Index.ANALYZED));
 	}
 
 	public String getPrograma() {
@@ -204,7 +224,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setPrograma(String programa) {
 		this.programa = programa;
-		getDocument().add(new Field("programa", this.programa!= null ? this.programa : "", Field.Store.YES,Field.Index.ANALYZED));
 
 	}
 
@@ -214,7 +233,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setAreaCNPQ(String areaCNPQ) {
 		this.areaCNPQ = areaCNPQ;
-		getDocument().add(new Field("areaCNPQ", this.areaCNPQ != null ? this.areaCNPQ : "", Field.Store.YES,Field.Index.ANALYZED));
 	}
 
 	public String getOrientador() {
@@ -223,7 +241,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setOrientador(String orientador) {
 		this.orientador = orientador;
-		getDocument().add(new Field("orientador", this.orientador!= null ? this.orientador : "", Field.Store.YES,Field.Index.ANALYZED));
 	}
 
 	public Date getDataDeDefesa() {
@@ -241,7 +258,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setId(String id) {
 		this.id = id;
-		getDocument().add(new Field("id", this.id!= null ? this.id : "", Field.Store.YES, Field.Index.NO));
 	}
 
 	public String getAreaPrograma() {
@@ -250,7 +266,6 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 
 	public void setAreaPrograma(String areaPrograma) {
 		this.areaPrograma = areaPrograma;
-		getDocument().add(new Field("areaPrograma", this.areaPrograma != null ? this.areaPrograma : "", Field.Store.YES,Field.Index.ANALYZED));
 	}
 	
 	public String getRepositorio() {
@@ -259,13 +274,12 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 	
 	public void setRepositorio(String repositorio) {
 		this.repositorio = repositorio;
-		getDocument().add(new Field("repositorio", this.repositorio != null ? this.repositorio : "", Field.Store.YES,Field.Index.ANALYZED));
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		boolean igual = false;
-		DocumentWrapper outro = (DocumentWrapper)obj;
+		DocumentMTD outro = (DocumentMTD)obj;
 		igual = id.equals(outro.id);
 		
 		if(igual){
@@ -280,7 +294,7 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 	}
 
 	@Override
-	public int compareTo(DocumentWrapper outro) {
+	public int compareTo(DocumentMTD outro) {
 		
 		int comparacao = id.compareTo(outro.id);
 		
@@ -295,5 +309,12 @@ public class DocumentWrapper implements Comparable<DocumentWrapper>{
 		return comparacao;
 	}
 	
+	public boolean contemAutor(){
+		return autor != null;
+	}
+	
+	public boolean contemRepositorio(){
+		return repositorio != null;
+	}
 	
 }
