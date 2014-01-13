@@ -5,5 +5,19 @@
 	<classpathentry kind="lib" path="lib/JColtrane 1.1.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-2.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/lukeall-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/fluent-hc-4.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-cache-4.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.3.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-ab-4.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-nio-4.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpmime-4.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/solr-solrj-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/noggit-0.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
