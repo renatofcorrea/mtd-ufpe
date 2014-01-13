@@ -40,6 +40,7 @@ public class TesteClienteSolr {
 				dados += " preço "+solrDocument.get("price");
 				System.out.println("-------- Dados -----------");
 				System.out.println(dados);
+			
 			}
 			
 			if(list.isEmpty()){
@@ -77,19 +78,28 @@ public class TesteClienteSolr {
 	private static void limparIndice(SolrServer solr) throws SolrServerException, IOException{
 		SolrQuery parameters = new SolrQuery();
 		parameters.set("q", "id:*");
+		
+		
 		QueryResponse resposta = solr.query(parameters);
 		SolrDocumentList list = resposta.getResults();
 		
-		
-		List<String> ids = new ArrayList<String>();
-		for (SolrDocument solrDocument : list) {
-			ids.add(solrDocument.getFieldValue("id").toString());
-		}
-		
-		solr.deleteById(ids);
-		
-		solr.commit();
-		
+		while(list.size() > 0){
+			
+			String strIds = "";
+			List<String> ids = new ArrayList<String>();
+			for (SolrDocument solrDocument : list) {
+				String id = solrDocument.getFieldValue("id").toString();
+				ids.add(id);
+				strIds += id+ " , ";
+			}
+			
+			System.out.println("Deletando ids : "+ strIds);
+			
+			solr.deleteById(ids);
+			solr.commit();
+			
+			resposta = solr.query(parameters);
+			list = resposta.getResults();
+		}	
 	}
-
 }
