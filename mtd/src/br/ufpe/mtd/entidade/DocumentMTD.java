@@ -107,7 +107,7 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 		Document document = new Document();
 		
 		for(String key: keywords){
-			document.add(new Field(KEY_WORD, key,Field.Store.YES, Field.Index.ANALYZED));
+			document.add(new Field(KEY_WORD, key ,Field.Store.YES, Field.Index.ANALYZED));
 		}
 		
 		document.add(new Field(GRAU, this.grau!= null ?  this.grau : VAZIO, Field.Store.YES, Field.Index.ANALYZED));

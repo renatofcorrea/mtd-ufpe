@@ -13,12 +13,14 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
 import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.excecao.MTDException;
+import br.ufpe.mtd.util.Log;
+import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
 
 /**
@@ -91,6 +93,7 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 	 * @throws SolrServerException 
 	 */
 	public synchronized void inserirDocumento(List<Document> dosc) throws SolrServerException, IOException {
+		
 		List<SolrInputDocument> listaInserir = new ArrayList<SolrInputDocument>();
 		
 		for (Document document : dosc) {
@@ -108,9 +111,48 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 			listaInserir.add(iDocument);
 		}
 		
-		UpdateResponse response = solrServer.add(listaInserir);
+		//tentar inserir todos de uma vez
+		try {
+			solrServer.add(listaInserir);
+			solrServer.commit();
+			
+		} catch (SolrServerException e) {
+			Log log = MTDFactory.getInstancia().getLog();
+			
+			String strIds = "";
+			for (SolrInputDocument solrInputDocument : listaInserir) {
+				strIds+= solrInputDocument.getFieldValue(DocumentMTD.ID)+",";
+			}
+			
+			log.salvarDadosLog(new MTDException(e, "Falha ao tentar inserir lista : {"+strIds+"}\nIniciando inserção de documentos individualmente..."));
+			
+			inserirDocumentoIndividualmente(listaInserir);
+		}
 		
-		solrServer.commit();
+	}
+	
+	/*
+	 * Metodo auxiliar para tratar casos onde ocorra excecao na insercao em massa de 
+	 * documentos no Solr.
+	 * 
+	 * Para não dar erro em toda a lista tentaremos inserir indivialmente cada doc
+	 * ficando apenas para aqueles documentos com problema de fora do indice.
+	 * 
+	 * @param listaInserir
+	 */
+	private void inserirDocumentoIndividualmente(List<SolrInputDocument> listaInserir){
+		Log log = MTDFactory.getInstancia().getLog();
+		
+		for (SolrInputDocument iDocument : listaInserir) {
+			try {
+				log.salvarDadosLog("Tentando inserir documento individualmente: "+iDocument.getFieldValue(DocumentMTD.ID));
+				solrServer.add(iDocument);
+				solrServer.commit();
+				
+			} catch (Exception e) {
+				log.salvarDadosLog(new MTDException(e, "Falha ao tentar inserir : "+iDocument.getFieldValue(DocumentMTD.ID)));
+			}
+		}
 	}
 	
 	/**
