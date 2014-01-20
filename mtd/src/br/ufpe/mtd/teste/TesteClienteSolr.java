@@ -19,43 +19,15 @@ public class TesteClienteSolr {
 	public static void main(String[] args) {
 
 		try {
-			String urlString = "http://localhost:8080/solr/collection1";
+			String urlString = "http://localhost:8080/solr/mtd";
 			SolrServer solr = new HttpSolrServer(urlString);
 			
 			limparIndice(solr);
 			
+			//insercaoEBusca(solr);
+			
 			System.out.println("Fim");
 			System.exit(0);//sair.
-			
-			SolrQuery parameters = new SolrQuery();
-			parameters.set("q", "id:552199");
-			QueryResponse resposta = solr.query(parameters);
-			SolrDocumentList list = resposta.getResults();
-			
-			for (SolrDocument solrDocument : list) {
-				String dados = "";
-				
-				dados += " id "+solrDocument.get("id");
-				dados += " nome "+solrDocument.get("name");
-				dados += " preço "+solrDocument.get("price");
-				System.out.println("-------- Dados -----------");
-				System.out.println(dados);
-			
-			}
-			
-			if(list.isEmpty()){
-				SolrInputDocument document = new SolrInputDocument();
-				document.addField("id", "552199");
-				document.addField("repositorio", "Gouda cheese wheel");
-				document.addField("price", "49.99");
-				UpdateResponse response = solr.add(document);
-				
-				// Remember to commit your changes!
-				solr.commit();
-			}else{
-				solr.deleteById("552199");
-				solr.commit();
-			}
 			
 			
 		} catch (SolrServerException e) {
@@ -66,6 +38,46 @@ public class TesteClienteSolr {
 			e.printStackTrace();
 		}
 
+	}
+	
+	/**
+	 * Teste basico inserir , buscar e remover
+	 * 
+	 * @param solr
+	 * @throws SolrServerException
+	 * @throws IOException
+	 */
+	private static void insercaoEBusca(SolrServer solr) throws SolrServerException, IOException{
+		
+		SolrQuery parameters = new SolrQuery();
+		parameters.set("q", "id:552199");
+		QueryResponse resposta = solr.query(parameters);
+		SolrDocumentList list = resposta.getResults();
+		
+		for (SolrDocument solrDocument : list) {
+			String dados = "";
+			
+			dados += " id "+solrDocument.get("id");
+			dados += " nome "+solrDocument.get("name");
+			dados += " preço "+solrDocument.get("price");
+			System.out.println("-------- Dados -----------");
+			System.out.println(dados);
+		
+		}
+		
+		if(list.isEmpty()){
+			SolrInputDocument document = new SolrInputDocument();
+			document.addField("id", "552199");
+			document.addField("repositorio", "Gouda cheese wheel");
+			document.addField("price", "49.99");
+			UpdateResponse response = solr.add(document);
+			
+			// Remember to commit your changes!
+			solr.commit();
+		}else{
+			solr.deleteById("552199");
+			solr.commit();
+		}
 	}
 	
 	/**
