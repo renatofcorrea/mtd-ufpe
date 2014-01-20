@@ -126,7 +126,7 @@
    -->	
 
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-   <field name="keyword" type="string" indexed="true" stored="true" required="true" multiValued="true" /> 
+   <field name="keyword" type="string" indexed="true" stored="true" required="false" multiValued="true" /> 
    <field name="titulo" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    <field name="data_defesa" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    <field name="resumo" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
