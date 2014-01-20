@@ -59,10 +59,9 @@ public class OAIPMHDriver {
 		InputStream dados = null;
 		int tentativas = 0;
 		String urlstr = strUrlBase + metaInf;
-		String str = null;
 		URL urlbase = new URL(urlstr);
 		
-		while(str == null && tentativas < QTD_MAX_TENTATIVAS){
+		while(dados == null && tentativas < QTD_MAX_TENTATIVAS){
 			try {
 				tentativas++;
 				
@@ -77,6 +76,7 @@ public class OAIPMHDriver {
 					throw e;
 				}else{
 					Thread.sleep(1000);
+				
 				}
 			}
 		}
