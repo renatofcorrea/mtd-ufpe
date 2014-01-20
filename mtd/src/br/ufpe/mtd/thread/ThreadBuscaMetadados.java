@@ -1,6 +1,7 @@
 package br.ufpe.mtd.thread;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -11,6 +12,7 @@ import javax.xml.parsers.SAXParserFactory;
 import net.sf.jColtrane.handler.JColtraneXMLHandler;
 
 import org.apache.lucene.document.Document;
+import org.apache.solr.common.util.XML;
 
 import br.ufpe.mtd.consulta.OAIPMHDriver;
 import br.ufpe.mtd.dados.IRepositorioIndice;
@@ -52,6 +54,8 @@ public class ThreadBuscaMetadados extends BaseThread{
 			
 			List<Document> docs = colherMetadadosOnline(identificadores, urlBase, metaDataPrefix);
 			repositorio.inserirDocumento(docs);
+			
+			//TODO: Ajustar para saber quem realmente foi inserido. esta dando falso positivo.
 			MTDFactory.getInstancia().getLog().salvarDadosLog("Inseridos - "+idsToString);
 		
 		} catch (Exception e) {
@@ -96,7 +100,7 @@ public class ThreadBuscaMetadados extends BaseThread{
 			throws Exception {
 		OAIPMHDriver driver = new  OAIPMHDriver(urlBase);
 		DecodificadorDocumento decodificador = new DecodificadorDocumento();
-		String xml = null;
+		String url = null;
 		Log log = MTDFactory.getInstancia().getLog();
 
 		long qtd = 0; 
@@ -105,8 +109,12 @@ public class ThreadBuscaMetadados extends BaseThread{
 		
 		for (Identificador identificador : identificadores) {
 			log.salvarDadosLog(Thread.currentThread().getName()+" Buscando documento para identificador: ("+identificador.getId()+"),  registro "+(++qtd) + " De "+tamanho);
-			xml = driver.getRecord(metaDataPrefix, identificador.getId());
-			parse(xml, decodificador, identificador);
+			
+			url = driver.getRecord(metaDataPrefix, identificador.getId());//busca os dados online
+			
+			InputStream is = driver.getResponse(url);
+			
+			parse(is, decodificador, identificador);
 		}
 		
 		ArrayList<Document> docs = new ArrayList<Document>();
@@ -120,21 +128,29 @@ public class ThreadBuscaMetadados extends BaseThread{
 		return docs;
 	}
 	
-	
-	public void parse(String xml, DecodificadorDocumento decodificador, Identificador identificador) throws Exception {
+	/**
+	 * Tenta fazer o parse usando a codificação padrão e retenta codificação alternativa em caso de exceção.
+	 * 
+	 * @param xml
+	 * @param decodificador
+	 * @param identificador
+	 * @throws Exception
+	 */
+	public void parse(InputStream is, DecodificadorDocumento decodificador, Identificador identificador) throws Exception {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		Log log = MTDFactory.getInstancia().getLog();
-		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes("ISO-8859-1"));
 		
 		try {
-			parser.parse(bais, new JColtraneXMLHandler(decodificador));
-			
-		} catch (Exception e) {
-			MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro de parse : "+xml); 
+			parser.parse(is, new JColtraneXMLHandler(decodificador));
+		
+		}catch (Exception e){
+			MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro durante parse : "+identificador.getId()); 
 			log.salvarDadosLog(Thread.currentThread().getName()+"- Erro de parse - procurar no log de Excecao por: "+identificador.getId());
 			log.salvarDadosLog(excecao);
-		}
+		} 
 		
-		bais.close();
-	} 
+		if(is != null){
+			is.close();
+		}
+	}
 }
