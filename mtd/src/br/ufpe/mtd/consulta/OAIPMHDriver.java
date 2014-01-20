@@ -26,7 +26,7 @@ import br.ufpe.mtd.util.MTDFactory;
  */
 public class OAIPMHDriver {
 
-
+	private final  int QTD_MAX_TENTATIVAS = 5;
 	private DecodificadorIdentificador decodificador;
 	private String strUrlBase;
 	private String metaDataPrefix;
@@ -51,15 +51,35 @@ public class OAIPMHDriver {
 	}
 	
 
+	/*
+	 * Tenta realizar a solicitacao por uma quantidade maxima 
+	 * de vezes ate conseguir a resposta ou devolve excecao.
+	 */
 	public InputStream getResponse(String metaInf) throws Exception {
 		InputStream dados = null;
+		int tentativas = 0;
 		String urlstr = strUrlBase + metaInf;
+		String str = null;
 		URL urlbase = new URL(urlstr);
 		
-		HttpURLConnection urlConn = (HttpURLConnection) urlbase
-				.openConnection();
-		
-		dados = urlConn.getInputStream();
+		while(str == null && tentativas < QTD_MAX_TENTATIVAS){
+			try {
+				tentativas++;
+				
+				HttpURLConnection urlConn = (HttpURLConnection) urlbase
+						.openConnection();
+				
+				dados = urlConn.getInputStream();
+				
+			} catch (Exception e) {
+				
+				if(tentativas == QTD_MAX_TENTATIVAS){
+					throw e;
+				}else{
+					Thread.sleep(1000);
+				}
+			}
+		}
 		return dados;
 	}
 
