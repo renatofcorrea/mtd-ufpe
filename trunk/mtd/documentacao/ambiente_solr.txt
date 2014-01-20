@@ -1,6 +1,24 @@
 Referência:
+
 http://liuweipingblog.cn/java/install-lucene-solar-with-tomcat-on-windows/
 
+-------------------- Adaptação dos passos baseados na pagina acima: --------------------------
+
+entrendendo que mtd-ufpe é a pasta raiz deste projeto.
+
+1 - copiar a pasta que esta dentro do projeto mtd (mtd-ufpe\documentacao\recursos_solr\solr) para a pasta inicial do TomCat
+2 - colocar na pasta \lib do Tomcat os arquivos contidos em :mtd-ufpe\documentacao\recursos_solr\lib 
+3 - colocar em webapss do TomCat o arquivo mtd-ufpe\documentacao\recursos_solr\solr.war
+
+Isso já é suficiente para rodar o Solr. Acesse no navegador : http://localhost:8080/solr que deverá aparecer a pagina de admin do solr.
+
+Obs1: A derfinição do nome do contexto é feita no arquivo mtd-ufpe\documentacao\recursos_solr\solr\mtd\core.properties
+Obs2: A definição dos tipos de dados que são usados no projeto e campos dos documentos a serem salvos no indice estão em mtd-ufpe\documentacao\recursos_solr\solr\mtd\conf\schema.xml
+
+-------------------- Adaptação dos passos baseados na pagina acima: --------------------------
+
+
+//Original orientation copiado apenas para o caso da pagina original estar fora do ar.
 
 Installing the example solar web application is actually super easy. Here we suppose you already installed the Tomcat sevlet container on your computer TOMCAT_HOME (for example: D:\prog\apache-tomcat-7.0.35). 
 If not, you can download it here http://tomcat.apache.org and install it (at TOMCAT_HOME).
@@ -22,6 +40,7 @@ If this step is ignored, this exception will be thrown out: org.apache.catalina.
     SEVERE: Exception starting filter SolrRequestFilter
     org.apache.solr.common.SolrException: Could not find necessary SLF4j logging jars. If using Jetty, the SLF4j logging jars need to go in the jetty lib/ext directory. For other containers, the corresponding directory should be used. For more information, see: http://wiki.apache.org/solr/SolrLogging
 
+//djalma
 6 Colocar o arquivo de configuração do esquema de dados (schema.xml) na pasta documentos deste projeto dentro da pasta TOMCAT_HOME/solr/collection1/conf 
 
 
@@ -35,7 +54,3 @@ More details can be found on the Solr Wiki: http://wiki.apache.org/solr/SolrInst
 
     Previous Entry: Java with UTF-8 encoding (especially with Chinese)
     Next Entry: Simple Example of Java JSON Encoding in Servlet
-
-
-
-

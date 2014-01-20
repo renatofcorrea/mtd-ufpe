@@ -128,7 +128,7 @@ Semana: 30/12/2013 a 03/01/2014
 - Iniciei a criação de uma aplicação de exemplo com a ferramenta Solr seguindo orientações encontradas no site do Solr, em livros e paginas web pesquisadas.
 - Consegui fazer uma aplicação cliente dentro do projeto MTD para testar o uso do Solr. Trata-se da Classe ClienteSolr.Java que realiza a inclusão de documentos, consulta de exclusão de dados no Solr.
 
-Semana: 06/01/2014 a 10/01/2014 
+Semana: 06/01/2014 a 10/01/2014.
 
 - Iniciei a inclusão do Solr como funcionalidade dentro do projeto MTD. Verifiquei que o Solr tem sua própria base dade dados
 e é o responsável pelo gerenciamento da mesma. Provendo varias funcionalidades muitas das quais já estão implementadas dentro do projeto MTD no 
@@ -141,5 +141,7 @@ a classe  RepositorioIndice.java que com a mudança passou a se chamar Repositori
 
 - Foi criado funcionalidade para permitir através de arquivo de configuração ligar e desligar o uso do Solr, assim o sistema poderá voltar a funcionar sem o Solr caso deseje-se.
      
+
+Semana: 13/01/2014 a 17/01/2014
 
 
