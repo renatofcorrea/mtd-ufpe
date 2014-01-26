@@ -1,15 +1,25 @@
 package br.ufpe.mtd.xml;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.jColtrane.annotations.methods.ContainAttribute;
 import net.sf.jColtrane.annotations.methods.EndElement;
 import net.sf.jColtrane.annotations.methods.InsideElement;
 import net.sf.jColtrane.annotations.methods.StartElement;
 import net.sf.jColtrane.handler.ContextVariables;
+import net.sf.jColtrane.handler.JColtraneXMLHandler;
+import br.ufpe.mtd.entidade.BuilderDocumentMTD;
 import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.Identificador;
+import br.ufpe.mtd.excecao.MTDException;
+import br.ufpe.mtd.util.Log;
+import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
 
 /**
@@ -129,7 +139,7 @@ public class DecodificadorDocumento {
 
 	@StartElement(tag = "record")
 	public void criarDocumento() {
-		this.doc = new DocumentMTD();
+		this.doc = new BuilderDocumentMTD().buildDocument();
 	}
 
 	/**
@@ -147,5 +157,33 @@ public class DecodificadorDocumento {
 	
 	public List<DocumentMTD> getDocumentos() {
 		return documentos;
+	}
+	
+	
+	/**
+	 * Tenta fazer o parse usando a codificação padrão e retenta codificação alternativa em caso de exceção.
+	 * 
+	 * @param xml
+	 * @param decodificador
+	 * @param identificador
+	 * @throws Exception
+	 */
+	public static void parse(InputStream is, DecodificadorDocumento decodificador, Identificador identificador) throws Exception {
+		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+		Log log = MTDFactory.getInstancia().getLog();
+		
+		try {
+			parser.parse(is, new JColtraneXMLHandler(decodificador));
+		
+		}catch (Exception e){
+			e.printStackTrace();
+			MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro durante parse : "+identificador.getId()); 
+			log.salvarDadosLog(Thread.currentThread().getName()+"- Erro de parse - procurar no log de Excecao por: "+identificador.getId());
+			log.salvarDadosLog(excecao);
+		} 
+		
+		if(is != null){
+			is.close();
+		}
 	}
 }

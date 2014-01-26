@@ -2,6 +2,7 @@ package br.ufpe.mtd.excecao;
 
 
 public class MTDException extends Exception{
+	
 	/**
 	 * 
 	 */
@@ -9,7 +10,12 @@ public class MTDException extends Exception{
 	
 	public MTDException(Exception e , String mensagem) {
 		super(mensagem+ " - Causa: "+e.getCause()+" Mensagem "+ e.getLocalizedMessage());
+		
 		setStackTrace(e.getStackTrace());
+		
+		for(Throwable supressed:e.getSuppressed()){
+			addSuppressed(supressed);
+		}
 	}
 	
 	public MTDException(String mensagem) {
