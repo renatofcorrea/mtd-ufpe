@@ -27,7 +27,7 @@ public class MTDFactory implements ContentHandlerFactory{
 	private IRepositorioIndice repositorioIndice;
 	private MTDThreadPool poolThread;
 	private MTDThreadPool logPoolThread;
-	private int qtdMaxThread = 10;
+	private int qtdMaxThread = 1;
 	
 	private MTDFactory(){
 		try {

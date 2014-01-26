@@ -3,8 +3,8 @@ package br.ufpe.mtd.negocio;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufpe.mtd.consulta.OAIPMHDriver;
 import br.ufpe.mtd.dados.IRepositorioIndice;
+import br.ufpe.mtd.dados.OAIPMHDriver;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.thread.BaseThread;
 import br.ufpe.mtd.thread.ThreadBuscaMetadados;

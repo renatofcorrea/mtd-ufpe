@@ -1,21 +1,14 @@
 package br.ufpe.mtd.thread;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import net.sf.jColtrane.handler.JColtraneXMLHandler;
-
 import org.apache.lucene.document.Document;
-import org.apache.solr.common.util.XML;
 
-import br.ufpe.mtd.consulta.OAIPMHDriver;
 import br.ufpe.mtd.dados.IRepositorioIndice;
+import br.ufpe.mtd.dados.OAIPMHDriver;
 import br.ufpe.mtd.entidade.DocumentMTD;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.excecao.MTDException;
@@ -89,6 +82,8 @@ public class ThreadBuscaMetadados extends BaseThread{
 	}
 	
 	/**
+	 * Realiza a busca de metadados dos documentos no repositorio mtd2-br
+	 * corrente a partir da lista de identificadores passada como parametro.
 	 * 
 	 * @param identificadores
 	 * @param urlBase
@@ -114,7 +109,7 @@ public class ThreadBuscaMetadados extends BaseThread{
 			
 			InputStream is = driver.getResponse(url);
 			
-			parse(is, decodificador, identificador);
+			DecodificadorDocumento.parse(is, decodificador, identificador);
 		}
 		
 		ArrayList<Document> docs = new ArrayList<Document>();
@@ -126,31 +121,5 @@ public class ThreadBuscaMetadados extends BaseThread{
 		}
 		
 		return docs;
-	}
-	
-	/**
-	 * Tenta fazer o parse usando a codificação padrão e retenta codificação alternativa em caso de exceção.
-	 * 
-	 * @param xml
-	 * @param decodificador
-	 * @param identificador
-	 * @throws Exception
-	 */
-	public void parse(InputStream is, DecodificadorDocumento decodificador, Identificador identificador) throws Exception {
-		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-		Log log = MTDFactory.getInstancia().getLog();
-		
-		try {
-			parser.parse(is, new JColtraneXMLHandler(decodificador));
-		
-		}catch (Exception e){
-			MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro durante parse : "+identificador.getId()); 
-			log.salvarDadosLog(Thread.currentThread().getName()+"- Erro de parse - procurar no log de Excecao por: "+identificador.getId());
-			log.salvarDadosLog(excecao);
-		} 
-		
-		if(is != null){
-			is.close();
-		}
 	}
 }

@@ -31,7 +31,7 @@ public class TesteRepositorioIndiceSolr {
 		MTDThreadPool pool = MTDFactory.getInstancia().getPoolThread();
 		
 		try {
-			// precisa setar a propriedade do arquivo de properties slr_usar = true
+			// precisa setar a propriedade do arquivo de properties da aplicacao para slr_usar = true
 			rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
 			ControleIndice controle = new ControleIndice(rep);
 			controle.indexar("http://tede.pucrs.br/tde_oai/oai3.php", "mtd2-br");

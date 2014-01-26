@@ -42,10 +42,9 @@ public static void main(String[] args) {
 			tabelaDocumento.createNewFile();
 			tabelaPalavraDocumento.createNewFile();
 			
-			FileWriter wordTable = new FileWriter(tabelaPalavra, true);
-			FileWriter wordDocTable = new FileWriter(tabelaPalavraDocumento, true);
-			
-			FileWriter docTable = new FileWriter(tabelaDocumento, true);
+			FileWriter wordTable = new FileWriter(tabelaPalavra, false);
+			FileWriter wordDocTable = new FileWriter(tabelaPalavraDocumento, false);
+			FileWriter docTable = new FileWriter(tabelaDocumento, false);
 			
 			PrintWriter writer = new PrintWriter(docTable, true);
 			
@@ -53,7 +52,7 @@ public static void main(String[] args) {
 			//escreverTabelaDocumentos(solr, writer);
 			
 			//usando o repositorio solr
-			//escreverTabelaDocumentos(writer);
+			escreverTabelaDocumentos(writer);
 			
 			
 			
