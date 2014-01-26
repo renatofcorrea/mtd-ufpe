@@ -2,6 +2,7 @@ package br.ufpe.mtd.dados;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
@@ -17,11 +18,11 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
+import br.ufpe.mtd.entidade.BuilderDocumentMTD;
 import br.ufpe.mtd.entidade.DocumentMTD;
 import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.util.Log;
 import br.ufpe.mtd.util.MTDFactory;
-import br.ufpe.mtd.util.MTDUtil;
 
 /**
  * Classe que fara o controle de acesso ao indice do 
@@ -58,21 +59,7 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 		for (SolrDocument document : list) {
 			
 			
-			DocumentMTD docAtual = new DocumentMTD(document.get(DocumentMTD.TITULO).toString(), 
-					document.get(DocumentMTD.RESUMO).toString(), 
-					null,
-					MTDUtil.recuperarDataFormatosSuportados(document.get(DocumentMTD.DATA_DEFESA).toString().trim()), 
-					document.get(DocumentMTD.AUTOR).toString(), 
-					document.get(DocumentMTD.PROGRAMA).toString(), 
-					document.get(DocumentMTD.ORIENTADOR).toString(), 
-					document.get(DocumentMTD.AREA_CNPQ).toString(), 
-					document.get(DocumentMTD.ID).toString(), 
-					document.get(DocumentMTD.AREA_PROGRAMA).toString());
-			
-			docAtual.setRepositorio(document.get(DocumentMTD.REPOSITORIO).toString());
-			docAtual.setUrl(document.get(DocumentMTD.URL).toString());
-			docAtual.setGrau(document.get(DocumentMTD.GRAU).toString());
-			
+			DocumentMTD docAtual = new BuilderDocumentMTD().buildDocument(document);
 			// docAtual.setNodo(documentoNodo.get(docAtual.getId()+""));
 			retorno.add(docAtual);
 		}
@@ -164,10 +151,9 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 	 * @throws SolrServerException 
 	 */
 	public synchronized void otimizarIndice() throws SolrServerException, IOException {
-
 		solrServer.optimize();
-		
 	}
+	
 	
 	
 	/**
@@ -179,5 +165,73 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 	 */
 	public synchronized void fecharRepositorio(){
 		solrServer.shutdown();
+	}
+	
+	/**
+	 * Retorna um mtdIterator que traz todos os documentos 
+	 * existentes no indice do solr. os dados sao trazidos sob demanda
+	 * durante a navegacao do iterator.
+	 */
+	public MTDIterator<DocumentMTD> iterator() throws Exception{
+		
+		return new MTDIterator<DocumentMTD>() {
+			long contador;
+			long encontrados;
+			String id = "";
+			SolrDocumentList list;
+			SolrQuery parameters;
+			
+			@Override
+			public void init() throws Exception {
+				
+				parameters = new SolrQuery();
+				parameters.set("q", DocumentMTD.ID+" :[0 TO *]");
+				QueryResponse resposta = solrServer.query(parameters);
+				parameters.addSort( DocumentMTD.ID, SolrQuery.ORDER.asc );
+				
+				list = resposta.getResults();
+				encontrados = list.getNumFound();
+			}
+			
+			@Override
+			public DocumentMTD next() throws Exception {
+				if(contador >= encontrados){
+					throw new IndexOutOfBoundsException("Valor="+contador);
+				}
+				
+				SolrDocument retorno = null;
+				
+				Iterator<SolrDocument> it = list.iterator();
+				
+				if(it.hasNext()){
+					contador++;
+					retorno = it.next();
+					it.remove();
+				}else{
+					
+					parameters.set("q", DocumentMTD.ID+" :["+id+" TO *]");
+					QueryResponse resposta = solrServer.query(parameters);
+					list = resposta.getResults();
+					list.remove(0);
+					
+					it = list.iterator();
+					if(it.hasNext()){
+						contador++;
+						retorno = it.next();
+						it.remove();
+					}
+				}
+				
+				DocumentMTD documento = new BuilderDocumentMTD().buildDocument(retorno);
+				id = documento.getId();
+				
+				return documento;	
+			}
+			
+			@Override
+			public boolean hasNext() {
+				return contador < encontrados;
+			}
+		};
 	}
 }

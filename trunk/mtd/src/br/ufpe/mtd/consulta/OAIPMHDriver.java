@@ -143,7 +143,7 @@ public class OAIPMHDriver {
 		return decodificador;
 	}
 	
-	public List<Identificador> decodificarIdentificadores(String str)
+	public List<Identificador> parse(String str)
 			throws ParserConfigurationException, SAXException, IOException, MTDException{
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
         
@@ -177,9 +177,9 @@ public class OAIPMHDriver {
 	public List<Identificador> getNextIdentifiers() throws Exception{
 		if(!decodificador.isIniciado()){
 			//Retorna os identificadores iniciais do repositorio externo
-			return decodificarIdentificadores(getListIdentifiers(metaDataPrefix));
+			return parse(getListIdentifiers(metaDataPrefix));
 		}else{
-			return decodificarIdentificadores(getListIdentifiersResumptionToken(decodificador.getResumption()));
+			return parse(getListIdentifiersResumptionToken(decodificador.getResumption()));
 		}
 	}
 }

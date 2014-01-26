@@ -1,6 +1,5 @@
 package br.ufpe.mtd.entidade;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,12 +7,14 @@ import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-import br.ufpe.mtd.util.MTDUtil;
-
 
 /**
  * Classe que representa um documento
  * do projeto MTD.
+ * A construcao de Objetos desta clase foi delegada a classe
+ * BuilderDocumentoMTD.
+ * 
+ * @see BuilderDocumentMTD
  * 
  * @author djalma
  *
@@ -54,46 +55,6 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 	private String urlNodo;
 	private String stringNodo;
 	private String repositorio;
-	
-	
-	public DocumentMTD() {
-		this.keywords = new ArrayList<String>();
-	}
-	
-	public DocumentMTD(Document document) {
-		this(document.get(TITULO), 
-				document.get(RESUMO), 
-				null,
-				MTDUtil.recuperarDataFormatosSuportados(document.get(DATA_DEFESA).trim()), 
-				document.get(AUTOR), 
-				document.get(PROGRAMA), 
-				document.get(ORIENTADOR), 
-				document.get(AREA_CNPQ), 
-				document.get(ID), 
-				document.get(AREA_PROGRAMA));
-				setRepositorio(document.get(REPOSITORIO));
-				setUrl(document.get(URL));
-				setGrau(document.get(GRAU));
-	}
-
-
-
-	public DocumentMTD(String titulo, String resumo,
-			List<String> keywords, Date dataDefesa, String autor,
-			String programa, String orientador, String areaCNPQ, String id,
-			String areaPrograma) {
-		this();
-		setTitulo(titulo);
-		setResumo(resumo);
-		setKeywords(keywords);
-		setDataDeDefesa(dataDefesa);
-		setAutor(autor);
-		setPrograma(programa);
-		setOrientador(orientador);
-		setAreaCNPQ(areaCNPQ);
-		setId(id);
-		setAreaPrograma(areaPrograma);
-	}
 	
 	/**
 	 * Devolve uma representacao do objeto corrente como um 
@@ -316,5 +277,4 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 	public boolean contemRepositorio(){
 		return repositorio != null;
 	}
-	
 }
