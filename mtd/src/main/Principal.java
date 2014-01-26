@@ -59,7 +59,6 @@ public class Principal {
 		    PrintWriter writerWordDocTable = new PrintWriter(wordDocTable, true);
 		    
 			TermEnum enumTerm =  iR.terms();
-			TermDocs termDoc = iR.termDocs();
 									
 			Set<String> termos = new TreeSet<String>();
 			
@@ -73,6 +72,8 @@ public class Principal {
 				}
 			}
 			
+			
+			TermDocs termDoc = iR.termDocs();
 			Iterator<String> iteratorTermos = termos.iterator();
 			
 			for(int i=0; iteratorTermos.hasNext(); i++){			
@@ -144,8 +145,8 @@ public class Principal {
 				while(iterator.hasNext()){
 					int doc = iterator.next();
 					int freq = mapaDocFreq.get(doc);
-				writerWordDocTable.println(i +" "+ doc +" "+ freq);
-				System.out.println(i +" "+ doc +" "+ freq);
+					writerWordDocTable.println(i +" "+ doc +" "+ freq);
+					System.out.println(i +" "+ doc +" "+ freq);
 				}
 								
 			}

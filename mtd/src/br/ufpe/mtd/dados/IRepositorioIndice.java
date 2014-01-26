@@ -21,4 +21,6 @@ public interface IRepositorioIndice {
 	
 	public void fecharRepositorio();
 	
+	public MTDIterator<DocumentMTD> iterator() throws Exception;
+	
 }

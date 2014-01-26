@@ -21,7 +21,9 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
+import org.apache.solr.common.SolrDocument;
 
+import br.ufpe.mtd.entidade.BuilderDocumentMTD;
 import br.ufpe.mtd.entidade.DocumentMTD;
 
 /**
@@ -142,7 +144,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 
-			DocumentMTD docAtual = new DocumentMTD(d);//TODO: colocar os dados que nao estao no construtor atraves dos sets
+			DocumentMTD docAtual = new BuilderDocumentMTD().buildDocument(d);//TODO: colocar os dados que nao estao no construtor atraves dos sets
 //			// docAtual.setNodo(documentoNodo.get(docAtual.getId()+""));
 			retorno.add(docAtual);
 		}
@@ -240,5 +242,11 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public MTDIterator<DocumentMTD> iterator() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
