@@ -250,7 +250,26 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 
 	@Override
 	public MTDIterator<DocumentMTD> iterator() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return new MTDIterator<DocumentMTD>() {
+			
+			@Override
+			public DocumentMTD next() throws Exception {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public void init() throws Exception {
+				
+				
+			}
+			
+			@Override
+			public boolean hasNext() throws Exception {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
 	}
 }
