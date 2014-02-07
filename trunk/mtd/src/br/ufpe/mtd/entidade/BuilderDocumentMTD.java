@@ -28,9 +28,10 @@ public class BuilderDocumentMTD {
 	public DocumentMTD buildDocument(Document document) {
 		ArrayList<String> keyWords = new ArrayList<String>();
 		String[] arrayKeyWords = document.getValues(DocumentMTD.KEY_WORD);
-		
-		for (int i = 0; i < arrayKeyWords.length; i++) {
-			keyWords.add(arrayKeyWords[i]);
+		if(arrayKeyWords!= null){
+			for (int i = 0; i < arrayKeyWords.length; i++) {
+				keyWords.add(arrayKeyWords[i]);
+			}
 		}
 		
 		DocumentMTD novoDocumento = buildDocument(document.get(DocumentMTD.TITULO), 
@@ -78,10 +79,11 @@ public class BuilderDocumentMTD {
 		ArrayList<String> keyWords = new ArrayList<String>();
 		Collection<Object> arrayKeyWords = document.getFieldValues(DocumentMTD.KEY_WORD);
 		
-		for (Object item : arrayKeyWords) {
-			keyWords.add(item.toString());
+		if(arrayKeyWords!= null){
+			for (Object item : arrayKeyWords) {
+				keyWords.add(item.toString());
+			}
 		}
-
 		
 		DocumentMTD novoDocumento = buildDocument(document.get(DocumentMTD.TITULO).toString(), 
 				document.get(DocumentMTD.RESUMO).toString(), 

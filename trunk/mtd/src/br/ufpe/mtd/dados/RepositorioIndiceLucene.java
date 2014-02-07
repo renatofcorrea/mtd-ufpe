@@ -8,20 +8,22 @@ import java.util.List;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.IOContext;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
-import org.apache.solr.common.SolrDocument;
 
 import br.ufpe.mtd.entidade.BuilderDocumentMTD;
 import br.ufpe.mtd.entidade.DocumentMTD;
@@ -58,7 +60,8 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	  considerar o uso do BrazilianAnalizer
 	 */
 	private StandardAnalyzer getAnalizerPadrao(){
-		return new StandardAnalyzer(Version.LUCENE_CURRENT);
+		Version matchVersion = Version.LUCENE_46;
+		return new StandardAnalyzer(matchVersion);
 	}
 	
 	/*
@@ -85,7 +88,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 */
 	private RAMDirectory getCopiaDiretorioMemoria() throws IOException{
 		if(diretorioEmMemoria == null){
-			diretorioEmMemoria = new RAMDirectory(getDirectoryEmDisco());
+			diretorioEmMemoria = new RAMDirectory(getDirectoryEmDisco(), IOContext.DEFAULT);
 		}
 		return diretorioEmMemoria;
 	}
@@ -94,7 +97,8 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * 
 	 */
 	private IndexWriter getWriterPadrao(boolean criar) throws CorruptIndexException, LockObtainFailedException, IOException{
-		IndexWriter indexWriter = new IndexWriter(getDirectoryEmDisco(), getAnalizerPadrao(), criar, IndexWriter.MaxFieldLength.UNLIMITED);
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_46, getAnalizerPadrao());
+		IndexWriter indexWriter = new IndexWriter(getDirectoryEmDisco(), config);
 		
 		return indexWriter;
 	}
@@ -115,15 +119,15 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * 
 	 */
 	public synchronized ArrayList<DocumentMTD> consultar(String termo, int maxResultado)
-			throws ParseException, CorruptIndexException, IOException {
+			throws CorruptIndexException, IOException, ParseException {
 
 		Directory indexDirectory = getCopiaDiretorioMemoria();		
 		StandardAnalyzer analisador = getAnalizerPadrao();
-		IndexReader reader = IndexReader.open(indexDirectory, true);
+		IndexReader reader = DirectoryReader.open(indexDirectory);
 		// Cria o acesso ao indice
 		IndexSearcher searcher = new IndexSearcher(reader);
 		
-		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(DocumentMTD.campos, analisador);
+		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(Version.LUCENE_46, DocumentMTD.campos, analisador);
 		mfqp.setPhraseSlop(2);
 		Query q = mfqp.parse(termo);
 
@@ -150,7 +154,6 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		}
 		
 		reader.close();
-		searcher.close();
 		analisador.close();
 
 		return retorno;
@@ -214,9 +217,10 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * @throws CorruptIndexException
 	 * @throws IOException
 	 */
+	@Deprecated
 	public synchronized void otimizarIndice() throws CorruptIndexException, IOException {
 		IndexWriter indexWriter = getWriterPadrao(false);
-		indexWriter.optimize();
+		indexWriter.forceMerge(50);
 		indexWriter.close();
 	}
 	

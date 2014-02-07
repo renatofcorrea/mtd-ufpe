@@ -181,7 +181,7 @@ public static void main(String[] args) {
 			DocumentMTD documento = resultSet.next();
 				
 			String id = documento.getId();
-			System.out.println(id);
+			System.out.println("Contador : "+contador +" "+id);
 			writer.println(contador+";"+id+";" + documento.getAreaCNPQ() +";" + documento.getPrograma()+";" + documento.getAreaPrograma());  
 		}
 		

@@ -21,20 +21,20 @@ import net.sf.jColtrane.handler.JColtraneXMLHandler;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.NumberTools;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+//import org.apache.lucene.document.NumberTools;
+//import org.apache.lucene.queryParser.MultiFieldQueryParser;
+//import org.apache.lucene.queryParser.ParseException;
+//import org.apache.lucene.search.TopDocCollector;
 
 public class Fachada {
 
@@ -51,24 +51,24 @@ public class Fachada {
 
 	public Fachada(String url, boolean stemming, String arquivoStopwords, String caminhoIndice)
 			throws ParserConfigurationException, SAXException, IOException {
-		this.dp = new DataProvider();
-		this.dp.setURLBase(url);
-		this.str = null;
-		this.sb = null;
-		this.parser = SAXParserFactory.newInstance().newSAXParser();
-
-		this.analisador = new Leitor();
-		this.analisadorMetadados = new LeitorDocumentos();
-
-		this.carregarStopWords(arquivoStopwords);
-
-		this.analyzer = new TextAnalyzer(stopwords, stemming);
-
-		String fsIndexDir = System.getProperty("java.io.tmpdir", "tmp")
-				+ System.getProperty("file.separator") + "fs-index";
-
-		// this.indexDirectory = new RAMDirectory();
-		this.indexDirectory = FSDirectory.getDirectory(caminhoIndice,false);
+//		this.dp = new DataProvider();
+//		this.dp.setURLBase(url);
+//		this.str = null;
+//		this.sb = null;
+//		this.parser = SAXParserFactory.newInstance().newSAXParser();
+//
+//		this.analisador = new Leitor();
+//		this.analisadorMetadados = new LeitorDocumentos();
+//
+//		this.carregarStopWords(arquivoStopwords);
+//
+//		this.analyzer = new TextAnalyzer(stopwords, stemming);
+//
+//		String fsIndexDir = System.getProperty("java.io.tmpdir", "tmp")
+//				+ System.getProperty("file.separator") + "fs-index";
+//
+//		// this.indexDirectory = new RAMDirectory();
+//		this.indexDirectory = FSDirectory.getDirectory(caminhoIndice,false);
 	}
 
 	private void carregarStopWords(String caminho) {
@@ -202,74 +202,76 @@ public class Fachada {
 	public String indexar() throws CorruptIndexException,
 			LockObtainFailedException, IOException {
 
-		IndexWriter w = new IndexWriter(indexDirectory, analyzer, true,
-				IndexWriter.MaxFieldLength.UNLIMITED);
-
-		Iterator<Documento> iterator = this.analisadorMetadados.documentos
-				.iterator();
-
-		int i = 0;
-		while (iterator.hasNext()) {
-			Documento d = iterator.next();
-
-			if (d.getDescricao() == null)
-				d.setDescricao("");
-			if (d.getTitulo() == null)
-				d.setTitulo("");
-			if (d.getAreaCNPQ() == null)
-				d.setAreaCNPQ("");
-			if (d.getAreaPrograma() == null)
-				d.setAreaPrograma("");
-			if (d.getAutor() == null)
-				d.setAutor("");
-			if (d.getOrientador() == null)
-				d.setOrientador("");
-			if (d.getPrograma() == null)
-				d.setPrograma("");
-
-			this.addDoc(w, d.getTitulo(), d.getDescricao(), d.getKeywords(), d
-					.getDataDeDefesa(), d.getAutor(), d.getPrograma(), d
-					.getOrientador(), d.getAreaCNPQ(), d.getId(), d
-					.getAreaPrograma());
-
-			System.out.println(i);
-			i++;
-		}
-
-		// Fecha o arquivo.
-		w.close();
+//		IndexWriter w = new IndexWriter(indexDirectory, analyzer, true,
+//				IndexWriter.MaxFieldLength.UNLIMITED);
+//
+//		Iterator<Documento> iterator = this.analisadorMetadados.documentos
+//				.iterator();
+//
+//		int i = 0;
+//		while (iterator.hasNext()) {
+//			Documento d = iterator.next();
+//
+//			if (d.getDescricao() == null)
+//				d.setDescricao("");
+//			if (d.getTitulo() == null)
+//				d.setTitulo("");
+//			if (d.getAreaCNPQ() == null)
+//				d.setAreaCNPQ("");
+//			if (d.getAreaPrograma() == null)
+//				d.setAreaPrograma("");
+//			if (d.getAutor() == null)
+//				d.setAutor("");
+//			if (d.getOrientador() == null)
+//				d.setOrientador("");
+//			if (d.getPrograma() == null)
+//				d.setPrograma("");
+//
+//			this.addDoc(w, d.getTitulo(), d.getDescricao(), d.getKeywords(), d
+//					.getDataDeDefesa(), d.getAutor(), d.getPrograma(), d
+//					.getOrientador(), d.getAreaCNPQ(), d.getId(), d
+//					.getAreaPrograma());
+//
+//			System.out.println(i);
+//			i++;
+//		}
+//
+//		// Fecha o arquivo.
+//		w.close();
 
 		return "Fim Indexação";
 	}
 
 	public void consultar(String termo, int maxResultado)
-			throws ParseException, CorruptIndexException, IOException {
+			throws 
+			//ParseException, 
+			CorruptIndexException, IOException {
 
-		String[] campos = { "title", "resumo", "keyword", "autor", "programa",
-				"orientador", "areaCNPQ", "areaPrograma", "dataDefesa" };
-				
-		Query q = new MultiFieldQueryParser(campos, analyzer).parse(termo);
-
-		// Cria o acesso ao índice
-		IndexSearcher searcher = new IndexSearcher(indexDirectory);
-
-		// Prepara a coleção de resultado
-		TopDocCollector collector = new TopDocCollector(maxResultado);
-
-		// Faz a pesquisa
-		System.out.println("Pesquisar");
-		searcher.search(q, collector);
-
-		// Separa os itens mais relevantes para a consulta.
-		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
-		System.out.println("Found " + hits.length + " hits.");
-		for (int i = 0; i < hits.length; ++i) {
-			int docId = hits[i].doc;
-			Document d = searcher.doc(docId);
-
-			System.out.println((i + 1) + ". " + d.get("title"));
-		}
+//		String[] campos = { "title", "resumo", "keyword", "autor", "programa",
+//				"orientador", "areaCNPQ", "areaPrograma", "dataDefesa" };
+//				
+//		Query q = new MultiFieldQueryParser(campos, analyzer).parse(termo);
+//
+//		// Cria o acesso ao índice
+//		IndexSearcher searcher = new IndexSearcher(indexDirectory);
+//
+//		// Prepara a coleção de resultado
+//		TopDocCollector collector = new TopDocCollector(maxResultado);
+//
+//		// Faz a pesquisa
+//		System.out.println("Pesquisar");
+//		searcher.search(q, collector);
+//
+//		// Separa os itens mais relevantes para a consulta.
+//		ScoreDoc[] hits = collector.topDocs().scoreDocs;
+//
+//		System.out.println("Found " + hits.length + " hits.");
+//		for (int i = 0; i < hits.length; ++i) {
+//			int docId = hits[i].doc;
+//			Document d = searcher.doc(docId);
+//
+//			System.out.println((i + 1) + ". " + d.get("title"));
+//		}
 
 	}
 
@@ -280,41 +282,41 @@ public class Fachada {
 		Document doc = new Document();
 
 		
-		
-		doc
-				.add(new Field("title", text, Field.Store.YES,
-						Field.Index.ANALYZED));
-		doc.add(new Field("resumo", resumo, Field.Store.YES,
-				Field.Index.ANALYZED));
-
-		if (dataDefesa != null) {
-			doc.add(new Field("dataDefesa", DateTools.dateToString(dataDefesa,
-					DateTools.Resolution.YEAR), Field.Store.YES,
-					Field.Index.ANALYZED));
-		} else {
-			System.out.println("data nula");
-		}
-
-		doc
-				.add(new Field("autor", autor, Field.Store.YES,
-						Field.Index.ANALYZED));
-		doc.add(new Field("programa", programa, Field.Store.YES,
-				Field.Index.ANALYZED));
-		doc.add(new Field("orientador", orientador, Field.Store.YES,
-				Field.Index.ANALYZED));
-		doc.add(new Field("areaCNPQ", areaCNPQ, Field.Store.YES,
-				Field.Index.ANALYZED));
-		String longToString = NumberTools.longToString(id);
-		doc.add(new Field("id", longToString, Field.Store.YES, Field.Index.NO));
-		doc.add(new Field("areaPrograma", areaPrograma, Field.Store.YES,
-				Field.Index.ANALYZED));
-
-		for (int i = 0; i < keywords.size() && keywords.elementAt(i) != null; i++) {
-			doc.add(new Field("keyword", keywords.elementAt(i),
-					Field.Store.YES, Field.Index.ANALYZED));
-		}
-
-		w.addDocument(doc);
+//		
+//		doc
+//				.add(new Field("title", text, Field.Store.YES,
+//						Field.Index.ANALYZED));
+//		doc.add(new Field("resumo", resumo, Field.Store.YES,
+//				Field.Index.ANALYZED));
+//
+//		if (dataDefesa != null) {
+//			doc.add(new Field("dataDefesa", DateTools.dateToString(dataDefesa,
+//					DateTools.Resolution.YEAR), Field.Store.YES,
+//					Field.Index.ANALYZED));
+//		} else {
+//			System.out.println("data nula");
+//		}
+//
+//		doc
+//				.add(new Field("autor", autor, Field.Store.YES,
+//						Field.Index.ANALYZED));
+//		doc.add(new Field("programa", programa, Field.Store.YES,
+//				Field.Index.ANALYZED));
+//		doc.add(new Field("orientador", orientador, Field.Store.YES,
+//				Field.Index.ANALYZED));
+//		doc.add(new Field("areaCNPQ", areaCNPQ, Field.Store.YES,
+//				Field.Index.ANALYZED));
+//		String longToString = NumberTools.longToString(id);
+//		doc.add(new Field("id", longToString, Field.Store.YES, Field.Index.NO));
+//		doc.add(new Field("areaPrograma", areaPrograma, Field.Store.YES,
+//				Field.Index.ANALYZED));
+//
+//		for (int i = 0; i < keywords.size() && keywords.elementAt(i) != null; i++) {
+//			doc.add(new Field("keyword", keywords.elementAt(i),
+//					Field.Store.YES, Field.Index.ANALYZED));
+//		}
+//
+//		w.addDocument(doc);
 
 	}
 

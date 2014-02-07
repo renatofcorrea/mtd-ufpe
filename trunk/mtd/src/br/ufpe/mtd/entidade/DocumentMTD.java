@@ -88,7 +88,6 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 		document.add(new Field(AREA_PROGRAMA, this.areaPrograma != null ? this.areaPrograma : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
 		document.add(new Field(REPOSITORIO, this.repositorio != null ? this.repositorio : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
 		
-		
 		return document;	
 	}
 	
