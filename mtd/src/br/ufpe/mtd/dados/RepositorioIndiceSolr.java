@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -200,7 +200,6 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 				}
 				
 				SolrDocument retorno = null;
-				
 				Iterator<SolrDocument> it = list.iterator();
 				
 				if(it.hasNext()){
@@ -212,7 +211,15 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 					parameters.set("q", DocumentMTD.ID+" :["+id+" TO *]");
 					QueryResponse resposta = solrServer.query(parameters);
 					list = resposta.getResults();
-					list.remove(0);
+					
+					System.out.println("==============================================");
+					List<SolrDocument> listaRemover = new ArrayList<SolrDocument>();
+					for(SolrDocument aux: list){
+						if(aux.getFieldValue(DocumentMTD.ID).equals(id)){
+							listaRemover.add(aux);
+						}
+					}
+					list.removeAll(listaRemover);
 					
 					it = list.iterator();
 					if(it.hasNext()){
@@ -221,9 +228,11 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 						it.remove();
 					}
 				}
-				
-				DocumentMTD documento = new BuilderDocumentMTD().buildDocument(retorno);
-				id = documento.getId();
+				DocumentMTD documento = null;
+				if(retorno != null){
+					documento = new BuilderDocumentMTD().buildDocument(retorno);
+					id = documento.getId();
+				}
 				
 				return documento;	
 			}

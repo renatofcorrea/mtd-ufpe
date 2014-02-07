@@ -19,6 +19,7 @@ import net.sf.jColtrane.handler.JColtraneXMLHandler;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.IndexableField;
 import org.xml.sax.SAXException;
 
 import br.ufpe.mtd.entidade.DocumentMTD;
@@ -88,10 +89,10 @@ public class TesteEncoding {
 			for (DocumentMTD documentMTD : lista) {
 				Document doc = documentMTD.toDocument();
 				
-				List<Field> campos = doc.getFields();
+				List<IndexableField> campos = doc.getFields();
 				
 				System.out.println("------------------------------------------");
-				for (Field field : campos) {
+				for (IndexableField field : campos) {
 					System.out.println(field.stringValue());
 				}
 			}
