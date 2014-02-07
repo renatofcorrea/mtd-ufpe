@@ -126,17 +126,17 @@
    -->	
 
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-   <field name="keyword" type="string" indexed="true" stored="true" required="false" multiValued="true" /> 
-   <field name="titulo" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
+   <field name="keyword" type="string" indexed="true" stored="true" required="false" multiValued="true" termVectors="true"/> 
+   <field name="titulo" type="string" indexed="true" stored="true" required="true" multiValued="false" termVectors="true"/> 
    <field name="data_defesa" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-   <field name="resumo" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
+   <field name="resumo" type="string" indexed="true" stored="true" required="true" multiValued="false" termVectors="true"/> 
    <field name="autor" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    <field name="programa" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-   <field name="area_cnpq" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
+   <field name="area_cnpq" type="string" indexed="true" stored="true" required="true" multiValued="false" termVectors="true"/> 
    <field name="orientador" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    <field name="area_programa" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    <field name="repositorio" type="string" indexed="true" stored="true" required="true" multiValued="false" />
-   <field name="url" type="string" indexed="false" stored="true" required="true" multiValued="false" /> 
+   <field name="url" type="string" indexed="false" stored="true" required="true" multiValued="false" />
    <field name="grau" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
 
 <!-- 
