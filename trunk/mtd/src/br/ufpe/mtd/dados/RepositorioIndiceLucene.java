@@ -1,17 +1,35 @@
 package br.ufpe.mtd.dados;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.DocsEnum;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiReader;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.misc.HighFreqTerms;
+import org.apache.lucene.misc.TermStats;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.IndexSearcher;
@@ -23,10 +41,13 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.IOContext;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 
 import br.ufpe.mtd.entidade.BuilderDocumentMTD;
 import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.util.MTDFactory;
+import br.ufpe.mtd.util.MTDParametros;
 
 /**
  * Classe que fara o controle de acesso ao indice do 
@@ -42,6 +63,8 @@ import br.ufpe.mtd.entidade.DocumentMTD;
  */
 public class RepositorioIndiceLucene implements IRepositorioIndice{
 
+	public static final Version MATCH_VERSION = Version.LUCENE_46;
+	private Set<String> stopWords;
 	private RAMDirectory diretorioEmMemoria;
 	private Directory diretorioEmDisco;
 	
@@ -58,10 +81,11 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	  Cria o analyzador
 	  TODO: deve pegar o analizador de acordo com a lingua
 	  considerar o uso do BrazilianAnalizer
+	  
 	 */
-	private StandardAnalyzer getAnalizerPadrao(){
-		Version matchVersion = Version.LUCENE_46;
-		return new StandardAnalyzer(matchVersion);
+	private Analyzer getAnalizerPadrao() throws IOException{
+		CharArraySet set = new CharArraySet(MATCH_VERSION,getStopWords(), false);
+		return new ArabicAnalyzer(MATCH_VERSION, set);
 	}
 	
 	/*
@@ -97,7 +121,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * 
 	 */
 	private IndexWriter getWriterPadrao(boolean criar) throws CorruptIndexException, LockObtainFailedException, IOException{
-		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_46, getAnalizerPadrao());
+		IndexWriterConfig config = new IndexWriterConfig(MATCH_VERSION, getAnalizerPadrao());
 		IndexWriter indexWriter = new IndexWriter(getDirectoryEmDisco(), config);
 		
 		return indexWriter;
@@ -122,12 +146,12 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 			throws CorruptIndexException, IOException, ParseException {
 
 		Directory indexDirectory = getCopiaDiretorioMemoria();		
-		StandardAnalyzer analisador = getAnalizerPadrao();
+		Analyzer analisador = getAnalizerPadrao();
 		IndexReader reader = DirectoryReader.open(indexDirectory);
 		// Cria o acesso ao indice
 		IndexSearcher searcher = new IndexSearcher(reader);
 		
-		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(Version.LUCENE_46, DocumentMTD.campos, analisador);
+		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(MATCH_VERSION, DocumentMTD.campos, analisador);
 		mfqp.setPhraseSlop(2);
 		Query q = mfqp.parse(termo);
 
@@ -248,11 +272,212 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		}
 	}
 
+	/**
+	 * Retorna uma mapa contendo todos os termos do indice (Cada termos é chave no mapa)
+	 * e cada valor é uma mapa com todos os documentos associados a o termo
+	 * e a frequencia de ocorrencia no documento
+	 * 
+	 * TreeMap<Termo, TreeMap<docId, freq>>
+	 *    
+	 * @param pastaDoIndice
+	 * 
+	 * @return
+	 * @throws IOException
+	 * 
+	 */
+	public synchronized TreeMap<String, TreeMap<Integer, Integer>> getMapaPalavraDocFreq(String[] campos) throws IOException{
+		
+		//mapa de palavras com mapa de doc freq
+		TreeMap<String, TreeMap<Integer, Integer>> mapaPorPalavra = new TreeMap<String, TreeMap<Integer, Integer>>();
+	    DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
+	    
+	    for(String campo : campos){
+	    	
+		    Terms termos = MultiFields.getTerms(reader, campo);
+		    TermsEnum termsEnum = null;
+		    if(termos != null){
+		    	
+		    	termsEnum = termos.iterator(termsEnum);
+		    	BytesRef bytesRef = termsEnum.next();
+		    	
+		    	while(bytesRef != null){
+		    		String palavra = termsEnum.term().utf8ToString();
+		    		
+		    		if(!mapaPorPalavra.containsKey(palavra)){
+		    			mapaPorPalavra.put(palavra, new TreeMap<Integer, Integer>());
+		    		}
+		    		TreeMap<Integer, Integer> mapaDocFreq = mapaPorPalavra.get(palavra);
+		    		
+		    		ArrayList<int[]> lista = getListaDocFreq(reader, campo, palavra);
+		    		
+		    		for (int[] is : lista) {
+		    			int docId = is[0];
+		    			if(mapaDocFreq.containsKey(docId)){
+		    				int freq = mapaDocFreq.get(docId) + is[1];
+		    				mapaDocFreq.put(docId, freq);
+		    			}else{
+		    				mapaDocFreq.put(docId, is[1]);
+		    			}
+					}
+		    		
+		    		bytesRef = termsEnum.next();
+		    	}
+		    }
+	    }
+	    
+	    reader.close();
+	    return mapaPorPalavra;
+	}
+	
+	/**
+	 * Recupera lista contendo todos os documentos e frequencia 
+	 * que contenham em determinado campo ocorrencia de determinado termo.
+	 * 
+	 * Cada linha da lista contem um array de duas posicoes de acordo com descricao abaixo 
+	 *  
+	 * [0] = docID
+	 * [1] = freq
+	 * 
+	 * @param reader
+	 * @param campo
+	 * @param termo
+	 * @return
+	 * @throws IOException
+	 */
+	private ArrayList<int[]> getListaDocFreq(DirectoryReader reader, String campo, String termo) throws IOException{
+		ArrayList<int[]> lista = new ArrayList<int[]>();
+	    DocsEnum de = MultiFields.getTermDocsEnum(reader, MultiFields.getLiveDocs(reader), campo, new BytesRef(termo));
+	    if(de != null){
+	    	int doc;
+	    	while((doc = de.nextDoc()) != DocsEnum.NO_MORE_DOCS) {
+	    		lista.add(new int[]{de.docID(), de.freq()});
+	    	}
+	    }
+	    return lista;
+	}
+	
+	
+	public synchronized List<DocumentMTD> getDocumentos(Collection<Integer> ids) throws IOException{
+		ArrayList<DocumentMTD> listaRetorno = new ArrayList<DocumentMTD>();
+		DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
+		IndexSearcher searcher = new IndexSearcher(reader);		
+	    for(int docId: ids){
+    		Document documento = searcher.doc(docId);
+    		DocumentMTD doc = new BuilderDocumentMTD().buildDocument(documento);
+    		doc.setDocId(docId);
+    		listaRetorno.add(doc);
+	    }
+		
+		return listaRetorno;
+	}
+	
+	/**
+	 * Pegar a frequencia para cada campo
+	 * 
+	 * Colocar um filtro para tirar as palavras que aprecem pouco
+	 * e as que aparecem demais.
+	 * 
+	 * O Ranking ja tira as palavras que aparecem pouco
+	 * porem faz para um unico campo
+	 * deve juntar todas as palavras que aparecem em todos os campo , colocar numa lista so i aplicar o criterio de eliminacao.
+	 * 
+	 * O criterio poderá ser aplicado tanto para as palavras que aparecem demais quanto para as que aparecem pouco.
+	 * 
+	 * 
+	 * 
+	 * @param campos
+	 * @throws Exception
+	 */
+	public List<String> filtrarPalavrasRelevantes(String[] campos, int maxPalavrasCampo, long minDocFreq, long maxTotalFreq) throws Exception{
+		TreeMap<String,long[]> conjuntoPalavras = new TreeMap<String,long[]>();
+		
+		IndexReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
+		MultiReader mr = new MultiReader(reader);
+		
+		//guarda todas as palavras em um mapa e soma os valores de docfreq e total freq encontrado por campo
+		for(String campo: campos){
+			TermStats[] stats = HighFreqTerms.getHighFreqTerms(mr, 5000, campo, new HighFreqTerms.DocFreqComparator());
+			
+			for (TermStats termstat : stats) {
+				String palavra = termstat.termtext.utf8ToString();
+				if(!conjuntoPalavras.containsKey(palavra)){
+					conjuntoPalavras.put(palavra, new long[2]);
+				}
+				
+				long[] freqs = conjuntoPalavras.get(palavra);
+				freqs[0] += termstat.docFreq;
+				freqs[1] += termstat.totalTermFreq;
+			}
+		}
+		
+		//adiciona na lista de retorno apenas as palavra que atendem ao criterio de filtro
+		List<String> listaRetorno = new ArrayList<String>();
+		for(String palavra: conjuntoPalavras.keySet()){
+			long docFreq = conjuntoPalavras.get(palavra)[0];
+			long totalFreq = conjuntoPalavras.get(palavra)[1];
+			if(docFreq > minDocFreq && totalFreq < maxTotalFreq){
+				listaRetorno.add(palavra);
+				System.out.println(palavra+" doc freq "+conjuntoPalavras.get(palavra)[0]+" total freq "+conjuntoPalavras.get(palavra)[1]);
+			}
+		}
+		
+		return listaRetorno;
+	}
+	
+	public static void main(String[] args) {
+		try {
+			System.out.println("Inicio");
+			((RepositorioIndiceLucene)MTDFactory.getInstancia().getSingleRepositorioIndice()).filtrarPalavrasRelevantes(
+					new String[]{DocumentMTD.RESUMO,DocumentMTD.AREA_CNPQ ,DocumentMTD.KEY_WORD}, 5000, 0,5);
+			
+			System.out.println("Fim");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * E uma lista de palavra que esta salva em um arquivo 
+	 * e sera usada para filtrar as palavras sem relevancia
+	 * para uma busca ou indexacao.
+	 * 
+	 * @return
+	 * @throws IOException
+	 * 
+	 */
+	private Set<String> getStopWords() throws IOException {
+		
+		if(stopWords == null){
+			File arquivo = MTDParametros.getLocalFile(MTDParametros.STOP_WORDS);
+			stopWords = new HashSet<String>();
+			FileInputStream fileInputStream = new FileInputStream(arquivo);
+			
+			BufferedReader buffer = new BufferedReader(new InputStreamReader(fileInputStream));
+			String palavra = buffer.readLine();
+			
+			while (palavra != null) {
+				stopWords.add(palavra);
+				palavra = buffer.readLine();
+			}
+			
+			fileInputStream.close();
+			buffer.close();
+		}
+        
+        return stopWords;
+    }
+	
 	@Override
 	public MTDIterator<DocumentMTD> iterator() throws Exception {
 		
-		return new MTDIterator<DocumentMTD>() {
-			
+		return new MTDIterator<DocumentMTD>() {			
 			@Override
 			public DocumentMTD next() throws Exception {
 				// TODO Auto-generated method stub
