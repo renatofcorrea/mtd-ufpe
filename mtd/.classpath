@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/lucene-analyzers-common-4.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-4.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-queryparser-4.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-misc-4.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
