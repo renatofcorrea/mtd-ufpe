@@ -17,6 +17,15 @@ public interface IRepositorioIndice {
 
 	public void inserirDocumento(List<Document> dosc) throws CorruptIndexException, IOException, SolrServerException;
 
+	/**
+	 * A otimizacao do indice e um processo que
+	 * evoluiu de forma a ser realizado internamente
+	 * e desaconselha-se fazer de forma manual
+	 *  
+	 * @throws CorruptIndexException
+	 * @throws IOException
+	 * @throws SolrServerException
+	 */
 	@Deprecated
 	public void otimizarIndice() throws CorruptIndexException, IOException, SolrServerException;
 	

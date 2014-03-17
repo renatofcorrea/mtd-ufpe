@@ -1,10 +1,23 @@
 package br.ufpe.mtd.teste;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.DocsEnum;
+import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -21,143 +34,28 @@ import br.ufpe.mtd.util.MTDParametros;
 
 public class TesteGerarArquivosEntradaRN {
 
+	static TreeMap<String,Integer> arvoreTermos;
 	
-public static void main(String[] args) {
-		
-
+	public static void main(String[] args) {
 		try {
-			
-			String urlString = "http://localhost:8080/solr/mtd";
-			SolrServer solr = new HttpSolrServer(urlString);
+//			String urlString = "http://localhost:8080/solr/mtd";
+//			SolrServer solr = new HttpSolrServer(urlString);
 			
 			File diretorio = MTDParametros.getExternalStorageDirectory();
+			String indiceDir = MTDParametros.getMTDProperties().getProperty("indice_dir");
+			
 			File pastaTabelas = new File(diretorio, "tabelas");
+			File pastaIndice = new File(diretorio, indiceDir);
 			pastaTabelas.mkdirs();
 			
 			File tabelaPalavra = new File(pastaTabelas, "word_table.txt");
 			File tabelaDocumento = new File(pastaTabelas, "doc_table.txt");
 			File tabelaPalavraDocumento = new File(pastaTabelas, "word_doc_table.txt");
 			
-			tabelaPalavra.createNewFile();
-			tabelaDocumento.createNewFile();
-			tabelaPalavraDocumento.createNewFile();
-			
-			FileWriter wordTable = new FileWriter(tabelaPalavra, false);
-			FileWriter wordDocTable = new FileWriter(tabelaPalavraDocumento, false);
-			FileWriter docTable = new FileWriter(tabelaDocumento, false);
-			
-			PrintWriter writer = new PrintWriter(docTable, true);
-			
-			//acesso direto
-			//escreverTabelaDocumentos(solr, writer);
-			
-			//usando o repositorio solr
-			escreverTabelaDocumentos(writer);
-			
-			
-			
-			
-//		    writer = new PrintWriter(wordTable, true); 
-//		    
-//		    Ter
-//		    
-//			TermEnum enumTerm =  iR.terms();
-//									
-//			Set<String> termos = new TreeSet<String>();
-//			
-//			for(int i=0; enumTerm.next(); i++){									
-//				Term termoAtual = enumTerm.term();	
-//				
-//				if(!termos.add(termoAtual.text())){
-//					i--;
-//				}else{
-//					writer.println(i + " " +termoAtual.text());
-//				}
-//			}
-			
-//			
-//		    PrintWriter writerWordDocTable = new PrintWriter(wordDocTable, true);
-//			TermDocs termDoc = iR.termDocs();
-//			Iterator<String> iteratorTermos = termos.iterator();
-//			
-//			for(int i=0; iteratorTermos.hasNext(); i++){			
-//				HashMap<Integer, Integer> mapaDocFreq = new HashMap<Integer, Integer>();
-//				
-//				String termoAtual = iteratorTermos.next();
-//								
-//				Term termoResumo = new Term("resumo", termoAtual);
-//				
-//				termDoc.seek(termoResumo);
-//								
-//				while(termDoc.next()){
-//					int doc = termDoc.doc();
-//					int freq = termDoc.freq();
-//					
-//					if(mapaDocFreq.containsKey(doc)){
-//						int freqAtual = mapaDocFreq.get(doc);
-//						mapaDocFreq.remove(doc);
-//						freq = freqAtual + freq;
-//						mapaDocFreq.put(doc, freq);
-//					}else{
-//						mapaDocFreq.put(doc, freq);
-//					}
-//					
-////					writerWordDocTable.println(i +" "+ doc +" "+ freq);
-//				}
-//				
-//				Term termoTitulo = new Term("title", termoAtual);
-//				
-//				termDoc.seek(termoTitulo);
-//				
-//				while(termDoc.next()){
-//					int doc = termDoc.doc();
-//					int freq = termDoc.freq();
-//					
-//					if(mapaDocFreq.containsKey(doc)){
-//						int freqAtual = mapaDocFreq.get(doc);
-//						mapaDocFreq.remove(doc);
-//						freq = freqAtual + freq;
-//						mapaDocFreq.put(doc, freq);
-//					}else{
-//						mapaDocFreq.put(doc, freq);
-//					}
-//					
-////					writerWordDocTable.println(i +" "+ doc +" "+ freq);
-//				}
-//				
-//				Term termoKeyWord = new Term("keyword", termoAtual);
-//				
-//				termDoc.seek(termoKeyWord);
-//
-//				while(termDoc.next()){
-//					int doc = termDoc.doc();
-//					int freq = termDoc.freq();
-//					
-//					if(mapaDocFreq.containsKey(doc)){
-//						int freqAtual = mapaDocFreq.get(doc);
-//						mapaDocFreq.remove(doc);
-//						freq = freqAtual + freq;
-//						mapaDocFreq.put(doc, freq);
-//					}else{
-//						mapaDocFreq.put(doc, freq);
-//					}
-////					writerWordDocTable.println(i +" "+ doc +" "+ freq);
-//				}
-//				
-//				Iterator<Integer> iterator = mapaDocFreq.keySet().iterator();
-//				
-//				while(iterator.hasNext()){
-//					int doc = iterator.next();
-//					int freq = mapaDocFreq.get(doc);
-//					writerWordDocTable.println(i +" "+ doc +" "+ freq);
-//					System.out.println(i +" "+ doc +" "+ freq);
-//				}
-//								
-//			}
-//			
-//			writerWordDocTable.close();
-//			writer.close();
-//						
+			System.out.println("Iniciando word table");
+			TreeSet<String> arvoreTermos = carregarTermos(pastaIndice);
+			gravarDadosArquivo(tabelaPalavra, getWordTable(arvoreTermos));
+			System.out.println("Concluido word table");
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -225,5 +123,118 @@ public static void main(String[] args) {
 		writer.close();
 
 	}
-
+	
+	public static TreeSet<String> carregarTermos(File pastaDoIndice) throws IOException{
+		TreeSet<String> arvoreTermos = new TreeSet<String>();
+		
+		Directory directory = FSDirectory.open(pastaDoIndice);  	    
+		DirectoryReader reader = DirectoryReader.open(directory);
+		String[] campos = new String[]{DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_PROGRAMA};
+		for(String campo : campos){
+			
+			Terms termos = MultiFields.getTerms(reader, campo);
+			TermsEnum termsEnum = null;
+			if(termos != null){
+				
+				termsEnum = termos.iterator(termsEnum);
+				BytesRef bytesRef = termsEnum.next();
+				
+				while(bytesRef != null){
+					
+					String palavra = termsEnum.term().utf8ToString();
+					arvoreTermos.add(palavra);
+					bytesRef = termsEnum.next();
+				}
+			}
+			
+		}
+		
+		reader.close();
+		
+		return arvoreTermos;
+	}
+	public static TreeMap<String,Integer> carregarArvoreTermos(File pastaDoIndice) throws IOException{
+		TreeMap<String,Integer> arvoreTermos = new TreeMap<String,Integer>();
+		
+		Directory directory = FSDirectory.open(pastaDoIndice);  	    
+	    DirectoryReader reader = DirectoryReader.open(directory);
+	    String[] campos = new String[]{DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_PROGRAMA};
+	    for(String campo : campos){
+	    	
+		    Terms termos = MultiFields.getTerms(reader, campo);
+		    TermsEnum termsEnum = null;
+		    if(termos != null){
+		    	
+		    	termsEnum = termos.iterator(termsEnum);
+		    	BytesRef bytesRef = termsEnum.next();
+		    	
+		    	while(bytesRef != null){
+		    		
+		    		String palavra = termsEnum.term().utf8ToString();
+		    		Integer freq = arvoreTermos.get(termsEnum.term().utf8ToString());
+		    		if(freq == null){
+		    			freq = termsEnum.docFreq();
+		    		}else{
+		    			freq += termsEnum.docFreq();
+		    			
+		    		}
+		    		arvoreTermos.put(palavra, freq);
+		    		bytesRef = termsEnum.next();
+		    	}
+		    }
+	    	
+	    }
+	    
+	    reader.close();
+		
+		return arvoreTermos;
+	}
+	
+	public static TreeMap<String,Long> freqMaxTermos(File pastaDoIndice) throws IOException{
+		TreeMap<String,Long> arvoreTermos = new TreeMap<String,Long>();
+		
+		Directory directory = FSDirectory.open(pastaDoIndice);  	    
+		DirectoryReader reader = DirectoryReader.open(directory);
+		String[] campos = new String[]{DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_PROGRAMA};
+		for(String campo : campos){
+			
+			Terms termos = MultiFields.getTerms(reader, campo);
+			TermsEnum termsEnum = null;
+			if(termos != null){
+				
+				termsEnum = termos.iterator(termsEnum);
+				BytesRef bytesRef = termsEnum.next();
+				
+				while(bytesRef != null){
+					String palavra = termsEnum.term().utf8ToString();
+					Long freq = arvoreTermos.get(termsEnum.term().utf8ToString());
+					if(freq == null){
+						freq = termsEnum.totalTermFreq();
+						arvoreTermos.put(palavra, freq);
+					}
+					bytesRef = termsEnum.next();
+				}
+			}
+		}
+		
+		reader.close();
+		
+		return arvoreTermos;
+	}
+	
+	public static String getWordTable(TreeSet<String> arvoreTermos) throws IOException{
+	    int contador = 0;
+		StringBuffer strBuffer = new StringBuffer();
+	    for(String id: arvoreTermos){
+	    	strBuffer.append((contador++)+" "+id+"\n");
+	    }
+	    
+	    return strBuffer.toString();
+	}
+	
+	public static void gravarDadosArquivo(File arquivo, String dado) throws IOException{
+		FileOutputStream fos = new FileOutputStream(arquivo);
+		fos.write(dado.getBytes());
+		fos.close();
+	}
 }
