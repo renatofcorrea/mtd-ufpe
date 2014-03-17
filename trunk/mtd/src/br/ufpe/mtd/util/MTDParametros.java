@@ -8,6 +8,7 @@ import java.util.Properties;
 
 public class MTDParametros {
 
+	public final static String STOP_WORDS = "bdtdstopwords.txt";
 	private static Properties properties;
 	private static TipoAmbiente tipoAmbiente;
 	
@@ -58,5 +59,16 @@ public class MTDParametros {
 		}
 		
 		return properties;
+	}
+	
+	/**
+	 * Retorna uma arquivo interno do projeto
+	 * localizado na pasta local
+	 * @param nome
+	 * @return
+	 */
+	public static File getLocalFile(String nome){
+		File file = new File(System.getProperty("user.dir")+File.separator+nome);
+		return file;
 	}
 }

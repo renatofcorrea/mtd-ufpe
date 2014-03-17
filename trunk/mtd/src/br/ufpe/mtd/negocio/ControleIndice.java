@@ -8,6 +8,7 @@ import br.ufpe.mtd.dados.OAIPMHDriver;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.thread.BaseThread;
 import br.ufpe.mtd.thread.ThreadBuscaMetadados;
+import br.ufpe.mtd.thread.TreinamentoThread;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
 
@@ -17,6 +18,10 @@ public class ControleIndice {
 
 	public ControleIndice(IRepositorioIndice repositorio) {
 		this.repositorio = repositorio;
+	}
+	
+	public void treinarRedeNeural(){
+		new TreinamentoThread().executarNoPool();
 	}
 	
 	public void indexar(String urlBase, String metaDataPrefix) throws Exception {
@@ -93,4 +98,5 @@ public class ControleIndice {
 		
 		t.executarNoPool();
 	}
+	
 }

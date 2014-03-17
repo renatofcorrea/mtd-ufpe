@@ -167,6 +167,8 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 		solrServer.shutdown();
 	}
 	
+	
+	
 	/**
 	 * Retorna um mtdIterator que traz todos os documentos 
 	 * existentes no indice do solr. os dados sao trazidos sob demanda

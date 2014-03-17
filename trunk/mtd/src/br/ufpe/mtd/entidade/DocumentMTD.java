@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.index.FieldInfo.IndexOptions;
 
 
 /**
@@ -37,7 +39,7 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 	public static final String GRAU = campos[11];
 	public static final String KEY_WORD = campos[12];
 	
-	
+	private int docId;
 	private String titulo;
 	private String resumo;
 	private List<String> keywords;
@@ -65,30 +67,49 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 	 */
 	public Document toDocument(){
 		
+		//configuracao de campo indexado
+		FieldType fieldTypeIndexadoTV = new FieldType();
+		fieldTypeIndexadoTV.setStoreTermVectors(true);
+	    fieldTypeIndexadoTV.setStoreTermVectorPositions(true);
+	    fieldTypeIndexadoTV.setIndexed(true);
+	    fieldTypeIndexadoTV.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+	    fieldTypeIndexadoTV.setStored(true);
+	    
+	    FieldType fieldTypeIndexadoSimples = new FieldType();
+	    fieldTypeIndexadoSimples.setIndexed(true);
+	    fieldTypeIndexadoSimples.setStored(true);
+	    
+	    
+		
+	    //configuracao de campo nao indexado
+	    FieldType fieldTypeNaoIndex = new FieldType();
+	    fieldTypeNaoIndex.setStored(true);
+	    
+	    
 		Document document = new Document();
 		
 		for(String key: keywords){
-			document.add(new Field(KEY_WORD, key ,Field.Store.YES, Field.Index.ANALYZED));
+			document.add(new Field(KEY_WORD, key ,fieldTypeIndexadoTV));
 		}
 		
-		document.add(new Field(GRAU, this.grau!= null ?  this.grau : VAZIO, Field.Store.YES, Field.Index.ANALYZED));
-		document.add(new Field(URL, this.url!= null ?  this.url : VAZIO, Field.Store.YES, Field.Index.NO));
-		document.add(new Field(TITULO, this.titulo != null ? this.titulo : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		document.add(new Field(GRAU, this.grau!= null ?  this.grau : VAZIO, fieldTypeIndexadoSimples));
+		document.add(new Field(URL, this.url!= null ?  this.url : VAZIO, fieldTypeNaoIndex));
+		document.add(new Field(TITULO, this.titulo != null ? this.titulo : VAZIO, fieldTypeIndexadoTV));
 		if (this.anoDefesa != null) {
-			document.add(new Field(DATA_DEFESA, this.anoDefesa , Field.Store.YES,Field.Index.ANALYZED));
+			document.add(new Field(DATA_DEFESA, this.anoDefesa , fieldTypeIndexadoSimples));
 		}// data nula
-		document.add(new Field(RESUMO, this.resumo != null ? this.resumo: VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		document.add(new Field(RESUMO, this.resumo != null ? this.resumo: VAZIO, fieldTypeIndexadoTV));
 		
-		document.add(new Field(AUTOR, this.autor!= null ? this.autor : VAZIO, Field.Store.YES, Field.Index.ANALYZED));
+		document.add(new Field(AUTOR, this.autor!= null ? this.autor : VAZIO, fieldTypeIndexadoTV));
 
-		document.add(new Field(PROGRAMA, this.programa!= null ? this.programa : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
-		document.add(new Field(AREA_CNPQ, this.areaCNPQ != null ? this.areaCNPQ : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
-		document.add(new Field(ORIENTADOR, this.orientador!= null ? this.orientador : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
-		document.add(new Field(ID, this.id!= null ? this.id : VAZIO, Field.Store.YES, Field.Index.NO));
-		document.add(new Field(AREA_PROGRAMA, this.areaPrograma != null ? this.areaPrograma : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
-		document.add(new Field(REPOSITORIO, this.repositorio != null ? this.repositorio : VAZIO, Field.Store.YES,Field.Index.ANALYZED));
+		document.add(new Field(PROGRAMA, this.programa!= null ? this.programa : VAZIO, fieldTypeIndexadoTV));
+		document.add(new Field(AREA_CNPQ, this.areaCNPQ != null ? this.areaCNPQ : VAZIO, fieldTypeIndexadoTV));
+		document.add(new Field(ORIENTADOR, this.orientador!= null ? this.orientador : VAZIO, fieldTypeIndexadoTV));
+		document.add(new Field(ID, this.id!= null ? this.id : VAZIO, fieldTypeNaoIndex));
+		document.add(new Field(AREA_PROGRAMA, this.areaPrograma != null ? this.areaPrograma : VAZIO, fieldTypeIndexadoTV));
+		document.add(new Field(REPOSITORIO, this.repositorio != null ? this.repositorio : VAZIO, fieldTypeIndexadoSimples));
 		
-		return document;	
+		return document;
 	}
 	
 	
@@ -275,5 +296,13 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 	
 	public boolean contemRepositorio(){
 		return repositorio != null;
+	}
+	
+	public void setDocId(int docId) {
+		this.docId = docId;
+	}
+	
+	public int getDocId() {
+		return docId;
 	}
 }

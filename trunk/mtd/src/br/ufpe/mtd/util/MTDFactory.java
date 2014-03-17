@@ -1,6 +1,8 @@
 package br.ufpe.mtd.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
@@ -9,6 +11,7 @@ import java.util.Properties;
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.RepositorioIndiceLucene;
 import br.ufpe.mtd.dados.RepositorioIndiceSolr;
+import br.ufpe.mtd.enumerado.MTDArquivoEnum;
 import br.ufpe.mtd.negocio.ControleIndice;
 import br.ufpe.mtd.thread.MTDThreadPool;
 
@@ -27,6 +30,7 @@ public class MTDFactory implements ContentHandlerFactory{
 	private IRepositorioIndice repositorioIndice;
 	private MTDThreadPool poolThread;
 	private MTDThreadPool logPoolThread;
+	private MTDThreadPool treinamentoPoolThread;
 	private int qtdMaxThread = 1;
 	
 	private MTDFactory(){
@@ -39,12 +43,14 @@ public class MTDFactory implements ContentHandlerFactory{
 				repositorioIndice = new RepositorioIndiceSolr(strSolrUrl);
 				
 			}else{
-				repositorioIndice = new RepositorioIndiceLucene(new File(MTDParametros.getExternalStorageDirectory(),MTDParametros.getMTDProperties().getProperty("indice_dir")));
+				repositorioIndice = new RepositorioIndiceLucene(MTDArquivoEnum.INDICE_DIR.getArquivo());
 			}
 			
 			
 			poolThread = new MTDThreadPool(qtdMaxThread);
 			logPoolThread = new MTDThreadPool(1);
+			treinamentoPoolThread = new MTDThreadPool(1);
+			
 			log = new Log();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,6 +108,10 @@ public class MTDFactory implements ContentHandlerFactory{
 		return logPoolThread;
 	}
 	
+	public synchronized MTDThreadPool getTreinamentoPoolThread(){
+		return treinamentoPoolThread;
+	}
+	
 	/**
 	 * Faça o log dos seus dados e exceptions atraves deste objeto.
 	 * 
@@ -111,5 +121,8 @@ public class MTDFactory implements ContentHandlerFactory{
 		return log;
 	}
 	
+	public FileOutputStream getTreinamentoStream(MTDArquivoEnum arquivoTreinamento) throws FileNotFoundException{
+		return new FileOutputStream(arquivoTreinamento.getArquivo());
+	}
 	
 }
