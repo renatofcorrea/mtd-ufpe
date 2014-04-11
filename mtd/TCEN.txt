@@ -1,0 +1,550 @@
+1.00.00.00 3 Ciências Exatas e da Terra 
+1.01.00.00-8 Matemática 
+1.01.01.00-4 Álgebra 
+1.01.01.01-2 Conjuntos 
+1.01.01.02-0 Lógica Matemática 
+1.01.01.03-9 Teoria dos Números 
+1.01.01.04-7 Grupos de Algebra Não-Comutaviva 
+1.01.01.05-5 Algebra Comutativa 
+1.01.01.06-3 Geometria Algebrica 
+1.01.02.00-0 Análise 
+1.01.02.01-9 Análise Complexa 
+1.01.02.02-7 Análise Funcional 
+1.01.02.03-5 Análise Funcional Não-Linear 
+1.01.02.04-3 Equações Diferênciais Ordinárias 
+1.01.02.05-1 Equações Diferênciais Parciais 
+1.01.02.06-0 Equações Diferênciais Funcionais 
+1.01.03.00-7 Geometria e Topologia 
+1.01.03.01-5 Geometria Diferêncial 
+1.01.03.02-3 Topologia Algébrica 
+1.01.03.03-1 Topologia das Variedades 
+1.01.03.04-0 Sistemas Dinâmicos 
+1.01.03.05-8 Teoria das Singularidades e Teoria das Catástrofes 
+1.01.03.06-6 Teoria das Folheações 
+1.01.04.00-3 Matemática Aplicada 
+1.01.04.01-1 Física Matemática 
+1.01.04.02-0 Análise Numérica 
+1.01.04.03-8 Matemática Discreta e Combinatoria 
+1.02.00.00-2 Probabilidade e Estatística 
+1.02.01.00-9 Probabilidade 
+1.02.01.01-7 Teoria Geral e Fundamentos da Probabilidade 
+1.02.01.02-5 Teoria Geral e Processos Estocásticos 
+1.02.01.03-3 Teoremas de Limite 
+1.02.01.04-1 Processos Markovianos 
+1.02.01.05-0 Análise Estocástica 
+1.02.01.06-8 Processos Estocásticos Especiais 
+1.02.02.00-5 Estatística 
+1.02.02.01-3 Fundamentos da Estatística 
+1.02.02.02-1 Inferência Paramétrica 
+1.02.02.03-0 Inferência Nao-Paramétrica 
+1.02.02.04-8 Inferência em Processos Estocásticos 
+1.02.02.05-6 Análise Multivariada 
+1.02.02.06-4 Regressão e Correlação 
+1.02.02.07-2 Planejamento de Experimentos 
+1.02.02.08-0 Análise de Dados 
+1.02.03.00-1 Probabilidade e Estatística Aplicadas 
+1.03.00.00-7 Ciência da Computação 
+1.03.01.00-3 Teoria da Computação 
+1.03.01.01-1 Computabilidade e Modelos de Computação 
+1.03.01.02-0 Linguagem Formais e Automatos 
+1.03.01.03-8 Análise de Algoritmos e Complexidade de Computação 
+1.03.01.04-6 Lógicas e Semântica de Programas 
+1.03.02.00-0 Matemática da Computação 
+1.03.02.01-8 Matemática Simbólica 
+1.03.02.02-6 Modelos Analíticos e de Simulação 
+1.03.03.00-6 Metodologia e Técnicas da Computação 
+1.03.03.01-4 Linguagens de Programação 
+1.03.03.02-2 Engenharia de Software 
+1.03.03.03-0 Banco de Dados 
+1.03.03.04-9 Sistemas de Informação 
+1.03.03.05-7 Processamento Gráfico (Graphics) 
+1.03.04.00-2 Sistemas de Computação 
+1.03.04.01-0 Hardware 
+1.03.04.02-9 Arquitetura de Sistemas de Computação 
+1.03.04.03-7 Software Básico 
+1.03.04.04-5 Teleinformática 
+1.04.00.00-1 Astronomia 
+1.04.01.00-8 Astronomia de Posição e Mecânica Celeste 
+1.04.01.01-6 Astronomia Fundamental 
+1.04.01.02-4 Astronomia Dinâmica 
+1.04.02.00-4 Astrofísica Estelar 
+1.04.03.00-0 Astrofísica do Meio Interestelar 
+1.04.03.01-9 Meio Interestelar 
+1.04.03.02-7 Nebulosa 
+1.04.04.00-7 Astrofísica Extragaláctica 
+1.04.04.01-5 Galáxias 
+1.04.04.02-3 Aglomerados de Galáxias 
+1.04.04.03-1 Quasares 
+1.04.04.04-0 Cosmologia 
+1.04.05.00-3 Astrofísica do Sistema Solar 
+1.04.05.01-1 Física Solar 
+1.04.05.02-0 Movimento da Terra 
+1.04.05.03-8 Sistema Planetário 
+1.04.06.00-0 Instrumentação Astronômica 
+1.04.06.01-8 Astronômia Ótica 
+1.04.06.02-6 Radioastronomia 
+1.04.06.03-4 Astronomia Espacial 
+1.04.06.04-2 Processamento de Dados Astronômicos 
+1.05.00.00-6 Física 
+1.05.01.00-2 Física Geral 
+1.05.01.01-0 Métodos Matemáticos da Física 
+1.05.01.02-9 Física Clássica e Física Quântica; Mecânica e Campos 
+1.05.01.03-7 Relatividade e Gravitação 
+1.05.01.04-5 Física Estatística e Termodinâmica 
+1.05.01.05-3 Metrologia, Técnicas Gerais de Laboratório, Sistema de Instrumentação 
+1.05.01.06-1 Instrumentação Específica de Uso Geral em Física 
+1.05.02.00-9 Áreas Clássicas de Fenomenologia e suas Aplicações 
+1.05.02.01-7 Eletricidade e Magnetismo; Campos e Partículas Carregadas 
+1.05.02.02-5 Ótica 
+1.05.02.03-3 Acústica 
+1.05.02.04-1 Transferência de Calor; Processos Térmicos e Termodinâmicos 
+1.05.02.05-0 Mecânica, Elasticidade e Reologia 
+1.05.02.06-8 Dinâmica dos Fluidos 
+1.05.03.00-5 Física das Partículas Elementares e Campos 
+1.05.03.01-3 Teoria Geral de Partículas e Campos 
+1.05.03.02-1 Teorias Específicas e Modelos de Interação; Sistematica de Partículas; Raios Cósmicos 
+1.05.03.03-0 Reações Específicas e Fenomiologia de Partículas 
+1.05.03.04-8 Propriedades de Partículas Específicas e Ressonâncias 
+1.05.04.00-1 Física Nuclear 
+1.05.04.01-0 Estrutura Nuclear 
+1.05.04.02-8 Desintegração Nuclear e Radioatividade 
+1.05.04.03-6 Reações Nucleares e Espalhamento Geral 
+1.05.04.04-4 Reações Nucleares e Espalhamento (Reações Específicas) 
+1.05.04.05-2 Propriedades de Núcleos Específicos 
+1.05.04.06-0 Métodos Experimentais e Instrumentação para Partículas Elementares e Física Nuclear 
+1.05.05.00-8 Física Atômica e Molécular 
+1.05.05.01-6 Estrutura Eletrônica de Átomos e Moléculas; Teoria 
+1.05.05.02-4 Espectros Atômicos e Integração de Fótons 
+1.05.05.03-2 Espectros Moléculares e Interações de Fótons com Moléculas 
+1.05.05.04-0 Processos de Colisão e Interações de Átomos e Moléculas 
+1.05.05.05-9 Inf.Sobre Átomos e Moléculas Obtidos Experimentalmente;Instrumentação e Técnicas 
+1.05.05.06-7 Estudos de Átomos e Moléculas Especiais 
+1.05.06.00-4 Física dos Fluidos, Física de Plasmas e Descargas Elétricas 
+1.05.06.01-2 Cinética e Teoria de Transporte de Fluidos; Propriedades Físicas de Gases 
+1.05.06.02-0 Física de Plasmas e Descargas Elétricas 
+1.05.07.00-0 Física da Matéria Condensada 
+1.05.07.01-9 Estrutura de Líquidos e Sólidos; Cristalografia 
+1.05.07.02-7 Propriedades Mecânicas e Acústicas da Matéria Condensada 
+1.05.07.03-5 Dinâmica da Rede e Estatística de Cristais 
+1.05.07.04-3 Equação de Estado, Equilíbrio de Fases e Transições de Fase 
+1.05.07.05-1 Propriedades Térmicas da Matéria Condensada 
+1.05.07.06-0 Propriedades de Transportes de Matéria Condensada (Não Eletrônicas) 
+1.05.07.07-8 Campos Quânticos e Sólidos, Hélio, Líquido, Sólido 
+1.05.07.08-6 Superfícies e Interfaces; Películas e Filamentos 
+1.05.07.09-4 Estados Eletrônicos 
+1.05.07.10-8 Transp.Eletrônicos e Prop. Elétricas de Superfícies; Interfaces e Películas 
+1.05.07.11-6 Estruturas Eletrônicas e Propriedades Elétricas de Superfícies Interfaces e Películas 
+1.05.07.12-4 Supercondutividade 
+1.05.07.13-2 Materiais Magnéticos e Propriedades Magnéticas 
+1.05.07.14-0 Ressonância Mag.e Relax.Na Mat.Condens;Efeitos Mosbauer;Corr.Ang.Pertubada 
+1.05.07.15-9 Materiais Dielétricos e Propriedades Dielétricas 
+1.05.07.16-7 Prop.Óticas e Espectrosc.da Mat.Condens;Outras Inter.da Mat.Com Rad.e Part. 
+1.05.07.17-5 Emissão Eletrônica e Iônica por Líquidos e Sólidos; Fenômenos de Impacto 
+1.06.00.00-0 Química 
+1.06.01.00-7 Química Orgânica 
+1.06.01.01-5 Estrutura, Conformação e Estereoquímica 
+1.06.01.02-3 Sintese Orgânica 
+1.06.01.03-1 Fisico-Química Orgânica 
+1.06.01.04-0 Fotoquímica Orgânica 
+1.06.01.05-8 Química dos Produtos Naturais 
+1.06.01.06-6 Evolução, Sistemática e Ecologia Química 
+1.06.01.07-4 Polimeros e Colóides 
+1.06.02.00-3 Química Inorgânica 
+1.06.02.01-1 Campos de Coordenação 
+1.06.02.02-0 Não-Metais e Seus Compostos 
+1.06.02.03-8 Compostos Organo-Metálicos 
+1.06.02.04-6 Determinação de Estrutura de Compostos Inorgânicos 
+1.06.02.05-4 Foto-Química Inorgânica 
+1.06.02.06-2 Fisico Química Inorgânica 
+1.06.02.07-0 Química Bio-Inorgânica 
+1.06.03.00-0 Fisico-Química 
+1.06.03.01-8 Cinética Química e Catálise 
+1.06.03.02-6 Eletroquímica 
+1.06.03.03-4 Espectroscopia 
+1.06.03.04-2 Química de Interfaces 
+1.06.03.05-0 Química do Estado Condensado 
+1.06.03.06-9 Química Nuclear e Radioquímica 
+1.06.03.07-7 Química Teórica 
+1.06.03.08-5 Termodinâmica Química 
+1.06.04.00-6 Química Analítica 
+1.06.04.01-4 Separação 
+1.06.04.02-2 Métodos Óticos de Análise 
+1.06.04.03-0 Eletroanalítica 
+1.06.04.04-9 Gravimetria 
+1.06.04.05-7 Titimetria 
+1.06.04.06-5 Instrumentação Analítica 
+1.06.04.07-3 Análise de Traços e Química Ambiental 
+1.07.00.00-5 GeoCiências 
+1.07.01.00-1 Geologia 
+1.07.01.01-0 Mineralogia 
+1.07.01.02-8 Petrologia 
+1.07.01.03-6 Geoquímica 
+1.07.01.04-4 Geologia Regional 
+1.07.01.05-2 Geotectônica 
+1.07.01.06-0 Geocronologia 
+1.07.01.07-9 Cartografia Geológica 
+1.07.01.08-7 Metalogenia 
+1.07.01.09-5 Hidrogeologia 
+1.07.01.10-9 Prospecção Mineral 
+1.07.01.11-7 Sedimentologia 
+1.07.01.12-5 Paleontologia Estratigráfica 
+1.07.01.13-3 Estratigrafia 
+1.07.01.14-1 Geologia Ambiental 
+1.07.02.00-8 Geofísica 
+1.07.02.01-6 Geomagnetismo 
+1.07.02.02-4 Sismologia 
+1.07.02.03-2 Geotermia e Fluxo Térmico 
+1.07.02.04-0 Propriedades Físicas das Rochas 
+1.07.02.05-9 Geofísica Nuclear 
+1.07.02.06-7 Sensoriamento Remoto 
+1.07.02.07-5 Aeronomia 
+1.07.02.08-3 Desenvolvimento de Instrumentação Geofísica 
+1.07.02.09-1 Geofísica Aplicada 
+1.07.02.10-5 Gravimetria 
+1.07.03.00-4 Meteorologia 
+1.07.03.01-2 Meteorologia Dinâmica 
+1.07.03.02-0 Meteorologia Sinótica 
+1.07.03.03-9 Meteorologia Física 
+1.07.03.04-7 Química da Atmosfera 
+1.07.03.05-5 Instrumentação Meteorológica 
+1.07.03.06-3 Climatologia 
+1.07.03.07-1 Micrometeorologia 
+1.07.03.08-0 Sensoriamento Remoto da Atmosfera 
+1.07.03.09-8 Meteorologia Aplicada 
+1.07.04.00-0 Geodesia 
+1.07.04.01-9 Geodesia Física 
+1.07.04.02-7 Geodesia Geométrica 
+1.07.04.03-5 Geodesia Celeste 
+1.07.04.04-3 Fotogrametria 
+1.07.04.05-1 Cartografia Básica 
+1.07.05.00-7 Geografia Física 
+1.07.05.01-5 Geomorfologia 
+1.07.05.02-3 Climatologia Geográfica 
+1.07.05.03-1 Pedologia 
+1.07.05.04-0 Hidrogeografia 
+1.07.05.05-8 Geoecologia 
+1.07.05.06-6 Fotogeografia (Físico-Ecológica) 
+1.07.05.07-4 Geocartografia 
+1.08.00.00-0 Oceanografia 
+1.08.01.00-6 Oceanografia Biológica 
+1.08.01.01-4 Interação entre os Organismos Marinhos e os Parâmetros Ambientais 
+1.08.02.00-2 Oceanografia Física 
+1.08.02.01-0 Variáveis Físicas da Água do Mar 
+1.08.02.02-9 Movimento da Água do Mar 
+1.08.02.03-7 Origem das Massas de Água 
+1.08.02.04-5 Interação do Oceano com o Leito do Mar 
+1.08.02.05-3 Interação do Oceano com a Atmosfera 
+1.08.03.00-9 Oceanografia Química 
+1.08.03.01-7 Propriedades Químicas da Água do Mar 
+1.08.03.02-5 Interações Químico-Biológicas/Geológicas das Substâncias Químicas da Água do Mar 
+1.08.04.00-5 Oceanografia Geológica 
+1.08.04.01-3 Geomorfologia Submarina 
+1.08.04.02-1 Sedimentologia Marinha 
+1.08.04.03-0 Geofísica Marinha 
+
+3.00.00.00 9 Engenharias 
+3.01.00.00-3 Engenharia Civil 
+3.01.01.00-0 Construção Civil 
+3.01.01.01-8 Materiais e Componentes de Construção 
+3.01.01.02-6 Processos Construtivos 
+3.01.01.03-4 Instalações Prediais 
+3.01.02.00-6 Estruturas 
+3.01.02.01-4 Estruturas de Concreto 
+3.01.02.02-2 Estruturas de Madeiras 
+3.01.02.03-0 Estruturas Metálicas 
+3.01.02.04-9 Mecânica das Estruturas 
+3.01.03.00-2 Geotécnica 
+3.01.03.01-0 Fundações e Escavações 
+3.01.03.02-9 Mecânicas das Rochas 
+3.01.03.03-7 Mecânicas dos Solos 
+3.01.03.04-5 Obras de Terra e Enrocamento 
+3.01.03.05-3 Pavimentos 
+3.01.04.00-9 Engenharia Hidráulica 
+3.01.04.01-7 Hidráulica 
+3.01.04.02-5 Hidrologia 
+3.01.05.00-5 Infra-Estrutura de Transportes 
+3.01.05.01-3 Aeroportos; Projeto e Construção 
+3.01.05.02-1 Ferrovias; Projetos e Construção 
+3.01.05.03-0 Portos e Vias Nevegáveis; Projeto e Construção 
+3.01.05.04-8 Rodovias; Projeto e Construção 
+3.02.00.00-8 Engenharia de Minas Engenharia de Minas 
+3.02.01.00-4 Pesquisa Mineral 
+3.02.01.01-2 Caracterização do Minério 
+3.02.01.02-0 Dimensionamento de Jazidas 
+3.02.02.00-0 Lavra 
+3.02.02.01-9 Lavra a Céu Aberto 
+3.02.02.02-7 Lavra de Mina Subterrânea 
+3.02.02.03-5 Equipamentos de Lavra 
+3.02.03.00-7 Tratamento de Minérios 
+3.02.03.01-5 Métodos de Concentração e Enriquecimento de Minérios 
+3.02.03.02-3 Equipamentos de Beneficiamento de Minérios 
+3.03.00.00-2 Engenharia de Materiais e Metalúrgica 
+3.03.01.00-9 Instalações e Equipamentos Metalúrgicos 
+3.03.01.01-7 Instalações Metalúrgicas 
+3.03.01.02-5 Equipamentos Metalúrgicos 
+3.03.02.00-5 Metalurgia Extrativa 
+3.03.02.01-3 Aglomeração 
+3.03.02.02-1 Eletrometalurgia 
+3.03.02.03-0 Hidrometalurgia 
+3.03.02.04-8 Pirometalurgia 
+3.03.02.05-6 Tratamento de Minérios 
+3.03.03.00-1 Metalurgia de Transformação 
+3.03.03.01-0 Conformação Mecânica 
+3.03.03.02-8 Fundição 
+3.03.03.03-6 Metalurgia de Po 
+3.03.03.04-4 Recobrimentos 
+3.03.03.05-2 Soldagem 
+3.03.03.06-0 Tratamento Térmicos, Mecânicos e Químicos 
+3.03.03.07-9 Usinagem 
+3.03.04.00-8 Metalurgia Fisica 
+3.03.04.01-6 Estrutura dos Metais e Ligas 
+3.03.04.02-4 Propriedades Físicas dos Metais e Ligas 
+3.03.04.03-2 Propriedades Mecânicas dos Metais e Ligas 
+3.03.04.04-0 Transformação de Fases 
+3.03.04.05-9 Corrosão 
+3.03.05.00-4 Materiais não Metálicos 
+3.03.05.01-2 Extração e Transformação de Materiais 
+3.03.05.02-0 Cerâmicos 
+3.03.05.03-9 Materiais Conjugados não Metálicos 
+3.03.05.04-7 Polímeros, Aplicações 
+3.04.00.00-7 Engenharia Elétrica 
+3.04.01.00-3 Materiais Elétricos 
+3.04.01.01-1 Materiais Condutores 
+3.04.01.02-0 Materiais e Componentes Semicondutores 
+3.04.01.03-8 Materiais e Dispositivos Supercondutores 
+3.04.01.04-6 Materiais Dielétricos, Piesoelétricos e Ferroelétricos 
+3.04.01.05-4 Materiais e Componentes Eletroóticos e Magnetoóticos, Materiais Fotoelétricos 
+3.04.01.06-2 Materiais e Dispositivos Magnéticos 
+3.04.02.00-0 Medidas Elétricas, Magnéticas e Eletrônicas; Instrumentação 
+3.04.02.01-8 Medidas Elétricas 
+3.04.02.02-6 Medidas Magnéticas 
+3.04.02.03-4 Instrumentação Eletromecânica 
+3.04.02.04-2 Instrumentação Eletrônica 
+3.04.02.05-0 Sistemas Eletrônicos de Medida e de Controle 
+3.04.03.00-6 Circuitos Elétricos, Magnéticos e Eletrônicos 
+3.04.03.01-4 Teoria Geral dos Circuitos Elétricos 
+3.04.03.02-2 Circuitos Lineares e Não-Lineares 
+3.04.03.03-0 Circuitos Eletrônicos 
+3.04.03.04-9 Circuitos Magnéticos, Magnetismos, Eletromagnetismo 
+3.04.04.00-2 Sistemas Elétricos de Potência 
+3.04.04.01-0 Geração da Energia Elétrica 
+3.04.04.02-9 Transmissão da Energia Elétrica, Distribuição da Energia Elétrica 
+3.04.04.03-7 Conversão e Retificação da Energia Elétrica 
+3.04.04.04-5 Medição, Controle, Correção e Proteção de Sistemas Elétricos de Potência 
+3.04.04.05-3 Máquinas Elétricas e Dispositivos de Potência 
+3.04.04.06-1 Instalações Elétricas Prediais e Industriais 
+3.04.05.00-9 Eletrônica Industrial, Sistemas e Controles Eletrônicos 
+3.04.05.01-7 Eletrônica Industrial 
+3.04.05.02-5 Automação Eletrônica de Processos Elétricos e Industriais 
+3.04.05.03-3 Controle de Processos Eletrônicos, Retroalimentação 
+3.04.06.00-5 Telecomunicações 
+3.04.06.01-3 Teoria Eletromagnética, Microondas, Propagação de Ondas, Antenas 
+3.04.06.02-1 Radionavegação e Radioastronomia 
+3.04.06.03-0 Sistemas de Telecomunicações 
+3.05.00.00-1 Engenharia Mecânica 
+3.05.01.00-8 Fenômenos de Transporte 
+3.05.01.01-6 Transferência de Calor 
+3.05.01.02-4 Mecânica dos Fluidos 
+3.05.01.03-2 Dinâmica dos Gases 
+3.05.01.04-0 Principios Variacionais e Métodos Numéricos 
+3.05.02.00-4 Engenharia Térmica 
+3.05.02.01-2 Termodinâmica 
+3.05.02.02-0 Controle Ambiental 
+3.05.02.03-9 Aproveitamento da Energia 
+3.05.03.00-0 Mecânica dos Sólidos 
+3.05.03.01-9 Mecânica dos Corpos Sólidos, Elásticos e Plásticos 
+3.05.03.02-7 Dinâmica dos Corpos Rígidos, Elásticos e Plásticos 
+3.05.03.03-5 Análise de Tensões 
+3.05.03.04-3 Termoelasticidade 
+3.05.04.00-7 Projetos de Máquinas 
+3.05.04.01-5 Teoria dos Mecanismos 
+3.05.04.02-3 Estática e Dinâmica Aplicada 
+3.05.04.03-1 Elementos de Máquinas 
+3.05.04.04-0 Fundamentos Gerais de Projetos das Máquinas 
+3.05.04.05-8 Máquinas, Motores e Equipamentos 
+3.05.04.06-6 Métodos de Síntese e Otimização Aplicados ao Projeto Mecânico 
+3.05.04.07-4 Controle de Sistemas Mecânicos 
+3.05.04.08-2 Aproveitamento de Energia 
+3.05.05.00-3 Processos de Fabricação 
+3.05.05.01-1 Matrizes e Ferramentas 
+3.05.05.02-0 Máquinas de Usinagem e Conformação 
+3.05.05.03-8 Controle Numérico 
+3.05.05.04-6 Robotização 
+3.05.05.05-4 Processos de Fabricação, Seleção Econômica 
+3.06.00.00-6 Engenharia Química 
+3.06.01.00-2 Processos Industriais de Engenharia Química 
+3.06.01.01-0 Processos Bioquimicos 
+3.06.01.02-9 Processos Orgânicos 
+3.06.01.03-7 Processos Inorgânicos 
+3.06.02.00-9 Operações Industriais e Equipamentos para Engenharia Química 
+3.06.02.01-7 Reatores Químicos 
+3.06.02.02-5 Operações Características de Processos Bioquímicos 
+3.06.02.03-3 Operações de Separação e Mistura 
+3.06.03.00-5 Tecnologia Química 
+3.06.03.01-3 Balancos Globais de Matéria e Energia 
+3.06.03.02-1 Água 
+3.06.03.03-0 Álcool 
+3.06.03.04-8 Alimentos 
+3.06.03.05-6 Borrachas 
+3.06.03.06-4 Carvão 
+3.06.03.07-2 Cerâmica 
+3.06.03.08-0 Cimento 
+3.06.03.09-9 Couro 
+3.06.03.10-2 Detergentes 
+3.06.03.11-0 Fertilizantes 
+3.06.03.12-9 Medicamentos 
+3.06.03.13-7 Metais não-Ferrosos 
+3.06.03.14-5 Óleos 
+3.06.03.15-3 Papel e Celulose 
+3.06.03.16-1 Petróleo e Petroquímica 
+3.06.03.17-0 Polímeros 
+3.06.03.18-8 Produtos Naturais 
+3.06.03.19-6 Têxteis 
+3.06.03.20-0 Tratamentos e Aproveitamento de Rejeitos 
+3.06.03.21-8 Xisto 
+3.07.00.00-0 Engenharia Sanitária 
+3.07.01.00-7 Recursos Hídricos 
+3.07.01.01-5 Planejamento Integrado dos Recursos Hídricos 
+3.07.01.02-3 Tecnologia e Problemas Sanitários de Irrigação 
+3.07.01.03-1 Águas Subterrâneas e Poços Profundos 
+3.07.01.04-0 Controle de Enchentes e de Barragens 
+3.07.01.05-8 Sedimentologia 
+3.07.02.00-3 Tratamento de Águas de Abastecimento e Residuárias 
+3.07.02.01-1 Química Sanitária 
+3.07.02.02-0 Processos Simplificados de Tratamento de Águas 
+3.07.02.03-8 Técnicas Convencionais de Tratamento de Águas 
+3.07.02.04-6 Técnicas Avancadas de Tratamento de Águas 
+3.07.02.05-4 Estudos e Caracterização de Efluentes Industriais 
+3.07.02.06-2 Lay Out de Processos Industriais 
+3.07.02.07-0 Resíduos Radioativos 
+3.07.03.00-0 Saneamento Básico 
+3.07.03.01-8 Técnicas de Abastecimento da Água 
+3.07.03.02-6 Drenagem de Águas Residuárias 
+3.07.03.03-4 Drenagem Urbana de Águas Pluviais 
+3.07.03.04-2 Resíduos Sólidos, Domésticos e Industriais 
+3.07.03.05-0 Limpeza Pública 
+3.07.03.06-9 Instalações Hidráulico-Sanitárias 
+3.07.04.00-6 Saneamento Ambiental 
+3.07.04.01-4 Ecologia Aplicada à Engenharia Sanitária 
+3.07.04.02-2 Microbiologia Aplicada e Engenharia Sanitária 
+3.07.04.03-0 Parasitologia Aplicada à Engenharia Sanitária 
+3.07.04.04-9 Qualidade do Ar, das Águas e do Solo 
+3.07.04.05-7 Controle da Poluição 
+3.07.04.06-5 Legislação Ambiental 
+3.08.00.00-5 Engenharia de Produção 
+3.08.01.00-1 Gerência de Produção 
+3.08.01.01-0 Planejamento de Instalações Industriais 
+3.08.01.02-8 Planejamento, Projeto e Controle de Sistemas de Produção 
+3.08.01.03-6 Higiene e Segurança do Trabalho 
+3.08.01.04-4 Suprimentos 
+3.08.01.05-2 Garantia de Controle de Qualidade 
+3.08.02.00-8 Pesquisa Operacional 
+3.08.02.01-6 Processos Estocásticos e Teorias da Filas 
+3.08.02.02-4 Programação Linear, Não-Linear, Mista e Dinâmica 
+3.08.02.03-2 Séries Temporais 
+3.08.02.04-0 Teoria dos Grafos 
+3.08.02.05-9 Teoria dos Jogos 
+3.08.03.00-4 Engenharia do Produto 
+3.08.03.01-2 Ergonomia 
+3.08.03.02-0 Metodologia de Projeto do Produto 
+3.08.03.03-9 Processos de Trabalho 
+3.08.03.04-7 Gerência do Projeto e do Produto 
+3.08.03.05-5 Desenvolvimento de Produto 
+3.08.04.00-0 Engenharia Econômica 
+3.08.04.01-9 Estudo de Mercado 
+3.08.04.02-7 Localização Industrial 
+3.08.04.03-5 Análise de Custos 
+3.08.04.04-3 Economia de Tecnologia 
+3.08.04.05-1 Vida Econômica dos Equipamentos 
+3.08.04.06-0 Avaliação de Projetos 
+3.09.00.00-0 Engenharia Nuclear 
+3.09.01.00-6 Aplicações de Radioisotopos 
+3.09.01.01-4 Produção de Radioisotopos 
+3.09.01.02-2 Aplicações Industriais de Radioisotopos 
+3.09.01.03-0 Instrumentação para Medida e Controle de Radiação 
+3.09.02.00-2 Fusão Controlada 
+3.09.02.01-0 Processos Industriais da Fusão Controlada 
+3.09.02.02-9 Problemas Tecnológicos da Fusão Controlada 
+3.09.03.00-9 Combustível Nuclear 
+3.09.03.01-7 Extração de Combustível Nuclear 
+3.09.03.02-5 Conversão, Enriquecimento e Fabricação de Combustível Nuclear 
+3.09.03.03-3 Reprocessamento de Combustível Nuclear 
+3.09.03.04-1 Rejeitos de Combustível Nuclear 
+3.09.04.00-5 Tecnologia dos Reatores 
+3.09.04.01-3 Núcleo do Reator 
+3.09.04.02-1 Materiais Nucleares e Blindagem de Reatores 
+3.09.04.03-0 Transferência de Calor em Reatores 
+3.09.04.04-8 Geração e Integração Com Sistemas Elétricos em Reatores 
+3.09.04.05-6 Instrumentação Para Operação e Controle de Reatores 
+3.09.04.06-4 Seguranca, Localização e Licênciamento de Reatores 
+3.09.04.07-2 Aspectos Econômicos de Reatores 
+3.10.00.00-2 Engenharia de Transportes 
+3.10.01.00-9 Planejamento de Transportes 
+3.10.01.01-7 Planejamento e Organização do Sistema de Transporte 
+3.10.01.02-5 Economia dos Transportes 
+3.10.02.00-5 Veículos e Equipamentos de Controle 
+3.10.02.01-3 Vias de Transporte 
+3.10.02.02-1 Veículos de Transportes 
+3.10.02.03-0 Estação de Transporte 
+3.10.02.04-8 Equipamentos Auxiliares e Controles 
+3.10.03.00-1 Operações de Transportes 
+3.10.03.01-0 Engenharia de Tráfego 
+3.10.03.02-8 Capacidade de Vias de Transporte 
+3.10.03.03-6 Operação de Sistemas de Transporte 
+3.11.00.00-7 Engenharia Naval e Oceânica 
+3.11.01.00-3 Hidrodinâmica de Navios e Sistemas Oceânicos 
+3.11.01.01-1 Resistência Hidrodinâmica 
+3.11.01.02-0 Propulsão de Navios 
+3.11.02.00-0 Estruturas Navais e Oceânicas 
+3.11.02.01-8 Análise Teórica e Experimental de Estrutura 
+3.11.02.02-6 Dinâmica Estrutural Naval e Oceânica 
+3.11.02.03-4 Síntese Estrutural Naval e Oceânica 
+3.11.03.00-6 Máquinas Marítimas 
+3.11.03.01-4 Análise de Sistemas Propulsores 
+3.11.03.02-2 Controle e Automação de Sistemas Propulsores 
+3.11.03.03-0 Equipamentos Auxiliares do Sistema Propulsivo 
+3.11.03.04-9 Motor de Propulsão 
+3.11.04.00-2 Projeto de Navios e de Sistemas Oceânicos 
+3.11.04.01-0 Projetos de Navios 
+3.11.04.02-9 Projetos de Sistemas Oceânicos Fixos e Semi-Fixos 
+3.11.04.03-7 Projetos de Embarcações Não-Convencionais 
+3.11.05.00-9 Tecnologia de Construção Naval e de Sistemas Oceânicas 
+3.11.05.01-7 Métodos de Fabricação de Navios e Sistemas Oceânicos 
+3.11.05.02-5 Soldagem de Estruturas Navais e Oceânicos 
+3.11.05.03-3 Custos de Construção Naval 
+3.11.05.04-1 Normatização e Certificação de Qualidade de Navios 
+3.12.00.00-1 Engenharia Aeroespacial 
+3.12.01.00-8 Aerodinâmica 
+3.12.01.01-6 Aerodinâmica de Aeronaves Espaciais 
+3.12.01.02-4 Aerodinâmica dos Processos Geofísicos e Interplanetarios 
+3.12.02.00-4 Dinâmica de Vôo 
+3.12.02.01-2 Trajetorias e Orbitas 
+3.12.02.02-0 Estabilidade e Controle 
+3.12.03.00-0 Estruturas Aeroespaciais 
+3.12.03.01-9 Aeroelasticidade 
+3.12.03.02-7 Fadiga 
+3.12.03.03-5 Projeto de Estruturas Aeroespaciais 
+3.12.04.00-7 Materiais e Processos para Engenharia Aeronáutica e Aeroespacial 
+3.12.05.00-3 Propulsão Aeroespacial 
+3.12.05.01-1 Combustão e Escoamento com Reações Químicas 
+3.12.05.02-0 Propulsão de Foguetes 
+3.12.05.03-8 Máquinas de Fluxo 
+3.12.05.04-6 Motores Alternativos 
+3.12.06.00-0 Sistemas Aeroespaciais 
+3.12.06.01-8 Aviões 
+3.12.06.02-6 Foguetes 
+3.12.06.03-4 Helicópteros 
+3.12.06.04-2 Hovercraft 
+3.12.06.05-0 Satélites e Outros Dispositivos Aeroespaciais 
+3.12.06.06-9 Normatização e Certificação de Qualidade de Aeronaves e Componentes 
+3.12.06.07-7 Manutenção de Sistemas Aeroespaciais 
+3.13.00.00-6 Engenharia Biomédica 
+3.13.01.00-2 Bioengenharia 
+3.13.01.01-0 Processamento de Sinais Biológicos 
+3.13.01.02-9 Modelagem de Fenomenos Biológicos 
+3.13.01.03-7 Modelagem de Sistemas Biológicos 
+3.13.02.00-9 Engenharia Médica 
+3.13.02.01-7 Biomateriais e Materiais Biocompatíveis 
+3.13.02.02-5 Transdutores para Aplicações Biomédicas 
+3.13.02.03-3 Instrumentação Odontológica e Médico-Hospitalar 
+3.13.02.04-1 Tecnologia de Próteses 

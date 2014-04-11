@@ -1,17 +1,17 @@
 package br.ufpe.mtd.util;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
-import java.util.Properties;
 
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.RepositorioIndiceLucene;
 import br.ufpe.mtd.dados.RepositorioIndiceSolr;
+import br.ufpe.mtd.enumerado.AreaCNPQEnum;
 import br.ufpe.mtd.enumerado.MTDArquivoEnum;
+import br.ufpe.mtd.enumerado.MimeTypeEnum;
 import br.ufpe.mtd.negocio.ControleIndice;
 import br.ufpe.mtd.thread.MTDThreadPool;
 
@@ -31,23 +31,18 @@ public class MTDFactory implements ContentHandlerFactory{
 	private MTDThreadPool poolThread;
 	private MTDThreadPool logPoolThread;
 	private MTDThreadPool treinamentoPoolThread;
-	private int qtdMaxThread = 1;
 	
 	private MTDFactory(){
 		try {
-			Properties propriedades = MTDParametros.getMTDProperties();
-			String strUsarSoler = propriedades.getProperty("solr_usar");
-			
-			if(strUsarSoler != null && Boolean.parseBoolean(strUsarSoler) == true){
-				String strSolrUrl = propriedades.getProperty("solr_url");
-				repositorioIndice = new RepositorioIndiceSolr(strSolrUrl);
+			String urlSolr = MTDParametros.getSolrUrl();
+			if(urlSolr != null){
+				repositorioIndice = new RepositorioIndiceSolr(urlSolr);
 				
 			}else{
 				repositorioIndice = new RepositorioIndiceLucene(MTDArquivoEnum.INDICE_DIR.getArquivo());
 			}
 			
-			
-			poolThread = new MTDThreadPool(qtdMaxThread);
+			poolThread = new MTDThreadPool(MTDParametros.getNumMaxThreads());
 			logPoolThread = new MTDThreadPool(1);
 			treinamentoPoolThread = new MTDThreadPool(1);
 			
@@ -125,4 +120,20 @@ public class MTDFactory implements ContentHandlerFactory{
 		return new FileOutputStream(arquivoTreinamento.getArquivo());
 	}
 	
+	/**
+	 * Devolve uma grande area cnpq para um determinado termo que representa uma sub area.
+	 * 
+	 * @param nomeSubArea
+	 * @return
+	 */
+	public AreaCNPQEnum getAreaCNPQ(String nomeSubArea){
+		
+		for(AreaCNPQEnum area : AreaCNPQEnum.values()){
+			if(area.contains(nomeSubArea)){
+				return area;
+			}
+		}
+		
+		return AreaCNPQEnum.OUTROS;
+	}
 }

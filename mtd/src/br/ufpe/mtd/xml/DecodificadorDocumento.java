@@ -176,14 +176,18 @@ public class DecodificadorDocumento {
 			parser.parse(is, new JColtraneXMLHandler(decodificador));
 		
 		}catch (Exception e){
-			e.printStackTrace();
 			MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro durante parse : "+identificador.getId()); 
+			
 			log.salvarDadosLog(Thread.currentThread().getName()+"- Erro de parse - procurar no log de Excecao por: "+identificador.getId());
 			log.salvarDadosLog(excecao);
-		} 
-		
-		if(is != null){
-			is.close();
+			
+			excecao.setExtraData(identificador);
+			throw excecao;
+			
+		}finally{
+			if(is != null){
+				is.close();
+			}
 		}
 	}
 }

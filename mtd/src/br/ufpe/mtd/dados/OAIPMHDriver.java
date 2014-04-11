@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.List;
 
 import br.ufpe.mtd.entidade.Identificador;
+import br.ufpe.mtd.util.MTDParametros;
 import br.ufpe.mtd.xml.DecodificadorIdentificador;
 
 /**
@@ -16,7 +17,6 @@ import br.ufpe.mtd.xml.DecodificadorIdentificador;
  */
 public class OAIPMHDriver {
 
-	private final  int QTD_MAX_TENTATIVAS = 5;
 	private DecodificadorIdentificador decodificador;
 	private String strUrlBase;
 	private String metaDataPrefix;
@@ -51,7 +51,8 @@ public class OAIPMHDriver {
 		String urlstr = strUrlBase + metaInf;
 		URL urlbase = new URL(urlstr);
 		
-		while(dados == null && tentativas < QTD_MAX_TENTATIVAS){
+		final int numMaxRetentativas = MTDParametros.getNumMaxRetentativas();
+		while(dados == null && tentativas < numMaxRetentativas){
 			try {
 				tentativas++;
 				
@@ -62,7 +63,7 @@ public class OAIPMHDriver {
 				
 			} catch (Exception e) {
 				
-				if(tentativas == QTD_MAX_TENTATIVAS){
+				if(tentativas == numMaxRetentativas){
 					throw e;
 				}else{
 					Thread.sleep(1000);

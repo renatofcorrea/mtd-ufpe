@@ -4,9 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
-
 import org.apache.lucene.document.Document;
-
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.OAIPMHDriver;
 import br.ufpe.mtd.entidade.DocumentMTD;
@@ -14,6 +12,7 @@ import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.util.Log;
 import br.ufpe.mtd.util.MTDFactory;
+import br.ufpe.mtd.util.MTDParametros;
 import br.ufpe.mtd.xml.DecodificadorDocumento;
 
 /**
@@ -91,8 +90,9 @@ public class ThreadBuscaMetadados extends BaseThread{
 	 * @return
 	 * @throws Exception 
 	 */
-	public List<Document> colherMetadadosOnline(List<Identificador> identificadores,String urlBase,String metaDataPrefix)
-			throws Exception {
+	public List<Document> colherMetadadosOnline(List<Identificador> identificadores,String urlBase,String metaDataPrefix) throws Exception {
+		
+		List<Identificador> listaRetentativa = new ArrayList<Identificador>();//verificar se tem instabilidadee no jCoollTraine
 		OAIPMHDriver driver = new  OAIPMHDriver(urlBase);
 		DecodificadorDocumento decodificador = new DecodificadorDocumento();
 		String url = null;
@@ -101,21 +101,46 @@ public class ThreadBuscaMetadados extends BaseThread{
 		long qtd = 0; 
 		long tamanho = identificadores.size();
 		
-		
+		//baixar dados normalmente.
 		for (Identificador identificador : identificadores) {
-			log.salvarDadosLog(Thread.currentThread().getName()+" Buscando documento para identificador: ("+identificador.getId()+"),  registro "+(++qtd) + " De "+tamanho);
 			
-			url = driver.getRecord(metaDataPrefix, identificador.getId());//busca os dados online
-			
+			log.salvarDadosLog(Thread.currentThread().getName()+" Buscando documento para identificador: ("+identificador.getId()+"),  registro "+(++qtd) + " De "+tamanho);			
+			url = driver.getRecord(metaDataPrefix, identificador.getId());//busca os dados online			
 			InputStream is = driver.getResponse(url);
 			
-			DecodificadorDocumento.parse(is, decodificador, identificador);
+			try{
+				DecodificadorDocumento.parse(is, decodificador, identificador);
+				
+			}catch(MTDException e ){
+				Object o = e.getExtraData();
+				if(o instanceof Identificador){
+					listaRetentativa.add((Identificador)o);
+				}
+			}
+		}
+		
+		//Retentar para os casos onde teve falha.
+		for (Identificador identificador : listaRetentativa) {
+			int tentativas = 0;
+			while(tentativas < MTDParametros.getNumMaxRetentativas()){
+				try{
+				
+					log.salvarDadosLog(Thread.currentThread().getName()+" Retentando documento para identificador: ("+identificador.getId()+")");
+					url = driver.getRecord(metaDataPrefix, identificador.getId());//busca os dados online
+					InputStream is = driver.getResponse(url);
+					DecodificadorDocumento.parse(is, decodificador, identificador);
+					break;
+					
+				}catch(MTDException e ){
+					tentativas++;
+					Thread.sleep(1000);
+				}
+			}
 		}
 		
 		ArrayList<Document> docs = new ArrayList<Document>();
 		//tirar os repetidos caso existam
 		TreeSet<DocumentMTD> treeSetDocs = new TreeSet<DocumentMTD>(decodificador.getDocumentos());
-		
 		for (DocumentMTD documento : treeSetDocs) {
 			docs.add(documento.toDocument());
 		}
