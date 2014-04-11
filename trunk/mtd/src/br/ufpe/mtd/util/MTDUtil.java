@@ -73,4 +73,30 @@ public class MTDUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Retira caracteres de string e substitue por outros caracteres
+	 * padrao para a busca de dados
+	 * 
+	 * @param strEntrada
+	 * @return
+	 */
+	public static String substituirCaracteresEspeciais(String strEntrada){
+		
+		String[] caracteresInic = new String[]{"á","à","ã","â","ä","Á","À","Â","Ã","Ä","é","è","ê","ë","É","È","Ê","Ë","í","ì","î","ï","Í","Ì","Î","Ï","ó","ò","õ","ô",
+												"ö","Ó","Ò","Õ","Ô","Ö","ú","ù","û","ü","Ú","Ù","Û","Ü","ç","Ç","\t",",",".","?","&",":","/","!",";","º","ª","%","‘","’","(",")","\"","”","“"};
+		
+		String[] caracteresSubs = new String[]{"A","A","A","A","A","A","A","A","A","A","E","E","E","E","E","E","E","E","I","I","I","I","I","I","I","I","O","O","O","O",
+												"O","O","O","O","O","O","U","U","U","U","U","U","U","U","C","C", "" ,"-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-" ,"-","-"};	
+		
+		for(int i = 0; i < caracteresInic.length ; i++){
+			strEntrada = strEntrada.replace(caracteresInic[i], caracteresSubs[i]);
+		}
+		
+	    while(strEntrada.contains("  ")){
+	    	strEntrada = strEntrada.replace("  ", " ").trim();
+	    }
+		
+		return strEntrada;
+	}
 }

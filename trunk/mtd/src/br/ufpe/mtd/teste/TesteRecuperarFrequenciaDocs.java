@@ -45,7 +45,7 @@ public class TesteRecuperarFrequenciaDocs {
 			
 			System.out.println("Inicio");
 			
-			teste1();
+			//teste1();
 			
 			//carregarStopWords();
 			
@@ -53,7 +53,7 @@ public class TesteRecuperarFrequenciaDocs {
 			
 			//gerarRNComRepostorio();
 			
-			//treinarRedeNeuralComControleIndice();
+			treinarRedeNeuralComControleIndice();
 			
 			System.out.println("Fim");
 			
@@ -100,7 +100,7 @@ public class TesteRecuperarFrequenciaDocs {
 		
 	}
 	
-	static void gerarRNComRepostorio() throws IOException{
+	static void gerarRNComRepostorio() throws Exception{
 		
 		File diretorio = MTDParametros.getExternalStorageDirectory();
 		String indiceDir = MTDParametros.getMTDProperties().getProperty("indice_dir");
@@ -108,8 +108,13 @@ public class TesteRecuperarFrequenciaDocs {
 		IRepositorioIndice rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
 		
 		if(rep instanceof RepositorioIndiceLucene){
+			String[] campos = new String[] {DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_CNPQ};
 			RepositorioIndiceLucene repLucene = (RepositorioIndiceLucene)rep;
-			TreeMap<String, TreeMap<Integer, Integer>> mapa = repLucene.getMapaPalavraDocFreq(new String[] {DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_CNPQ});
+			
+			int frequenciaMax = ((RepositorioIndiceLucene) rep).getQuantidadeDocumentosNoIndice() * 80 /100; 
+			
+			List<String> lista = repLucene.filtroPalavrasRelevantes(campos, 5000, 0, frequenciaMax);
+			TreeMap<String, TreeMap<Integer, Integer>> mapa = repLucene.getMapaPalavraDocFreq(campos,lista);
 			
 			TreeSet<Integer> mapaDocId = new TreeSet<Integer>();
 			File pastaTabelas = new File(pastaIndice.getParentFile(), "tabelas");

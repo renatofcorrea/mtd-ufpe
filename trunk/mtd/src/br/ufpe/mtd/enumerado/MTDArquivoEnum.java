@@ -1,7 +1,6 @@
 package br.ufpe.mtd.enumerado;
 
 import java.io.File;
-import java.io.IOException;
 
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDParametros;
@@ -12,7 +11,11 @@ public enum MTDArquivoEnum {
 	PASTA_TABELAS(MTDParametros.getExternalStorageDirectory(),"tabelas"),
 	DOC_TABLE(PASTA_TABELAS.getArquivo(),"doc_table.txt"), 
 	WORD_TABLE(PASTA_TABELAS.getArquivo(),"word_table.txt"), 
-	WORD_DOC_TABLE(PASTA_TABELAS.getArquivo(),"word_doc_table.txt");
+	WORD_DOC_TABLE(PASTA_TABELAS.getArquivo(),"word_doc_table.txt"),
+	TCEN_ARQUIVO(MTDParametros.getLocalFile("TCEN.txt")),
+	OUTROS_ARQUIVO(MTDParametros.getLocalFile("OUTROS.txt")),
+	CHLA_ARQUIVO(MTDParametros.getLocalFile("CHLA.txt")),
+	CBS_ARQUIVO(MTDParametros.getLocalFile("CBS.txt"));
 	
 	private File arquivo;
 
@@ -29,11 +32,15 @@ public enum MTDArquivoEnum {
 		}else if(arquivo.isFile() && !arquivo.exists()){
 			try {
 				arquivo.createNewFile();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				MTDFactory.getInstancia().getLog().salvarDadosLog(e);
 			}
 		}
-		
+	}
+
+	
+	private MTDArquivoEnum(File arquivoLocal){
+		arquivo = arquivoLocal;
 	}
 	
 	private MTDArquivoEnum(String nomeArquivo) {

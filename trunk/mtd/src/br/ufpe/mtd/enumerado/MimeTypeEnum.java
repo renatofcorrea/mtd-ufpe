@@ -1,4 +1,4 @@
-package br.ufpe.mtd.util;
+package br.ufpe.mtd.enumerado;
 
 public enum MimeTypeEnum {
 	

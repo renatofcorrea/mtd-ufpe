@@ -10,6 +10,7 @@ import java.util.TreeSet;
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.RepositorioIndiceLucene;
 import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.enumerado.AreaCNPQEnum;
 import br.ufpe.mtd.enumerado.MTDArquivoEnum;
 import br.ufpe.mtd.util.MTDFactory;
 
@@ -22,9 +23,9 @@ public class TreinamentoThread extends BaseThread{
 			System.out.println(" ---- iniciando treinamento da rede neural-----");
 			gerarArquivosEntradaRN();
 			System.out.println(" ---- fim do treinamento da rede neural-----");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			MTDFactory.getInstancia().getLog().salvarDadosLog(e);
-		}
+		} 
 	}
 	
 	@Override
@@ -39,16 +40,21 @@ public class TreinamentoThread extends BaseThread{
 	 * word_table - que contem uma tabela textual com as informacoes das palvras no formato (id_palavra palavra) sendo espaço o separador das colunas.
 	 * doc_table - que contem uma tabela textual com as informacoes das dos documentos no formato (id_documento doc_identifier;area_cnpq;titulo;area_programa) sendo espaço o separador das colunas.
 	 * word_doc_table - que contem uma tabela textual com as informacoes das palvras-documentos-frequencia da palavra no doc,  no formato (idpalavra id_documento frequencia) sendo espaço o separador das colunas.
-	 * 
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public void gerarArquivosEntradaRN() throws IOException{
+	public void gerarArquivosEntradaRN() throws Exception{
 		MTDFactory mtdFabrica = MTDFactory.getInstancia();
 		IRepositorioIndice rep = mtdFabrica.getSingleRepositorioIndice();
 		
 		if(rep instanceof RepositorioIndiceLucene){
+			String[] campos = new String[] {DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_CNPQ, DocumentMTD.KEY_WORD};
 			RepositorioIndiceLucene repLucene = (RepositorioIndiceLucene)rep;
-			TreeMap<String, TreeMap<Integer, Integer>> mapaPalavraDocFreq = repLucene.getMapaPalavraDocFreq(new String[] {DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_CNPQ, DocumentMTD.KEY_WORD});
+						
+			int docFreqMax = (repLucene.getQuantidadeDocumentosNoIndice() * 80 ) / 100;
+			
+			List<String> filtroPalavrasRelevantes = repLucene.filtroPalavrasRelevantes(campos, 5000, 5, docFreqMax);
+			
+			TreeMap<String, TreeMap<Integer, Integer>> mapaPalavraDocFreq = repLucene.getMapaPalavraDocFreq(campos, filtroPalavrasRelevantes);
 			
 			TreeSet<Integer> mapaDocId = gerarMapaPalavraEPalavraDoc(mapaPalavraDocFreq);
 		    
@@ -60,7 +66,7 @@ public class TreinamentoThread extends BaseThread{
 	/**
 	 * Gera os aquivos de mapa de palavra e mapa palavra documento
 	 * 
-	 * Retorna um conjunto contendo os ids dos documentos. 
+	 * Retorna um conjunto contendo os ids dos documentos que foram salvos. 
 	 * 
 	 * @param mapaPalavraDocFreq
 	 * @return
@@ -126,13 +132,18 @@ public class TreinamentoThread extends BaseThread{
 	    
 	    for(int i = 0; i <listaDocumentos.size() ; i++){
 	    	DocumentMTD doc = listaDocumentos.get(i);
-    		//========= escrever docTable ===========
-    		String dadosDoc = doc.getDocId() +" "+doc.getId()+";"+doc.getAreaCNPQ()+";"+doc.getTitulo()+";"+doc.getAreaPrograma();
+    		//========= escrever docTable =========== 
+	    	
+	    	AreaCNPQEnum areaCnpq = mtdFabrica.getAreaCNPQ(doc.getAreaCNPQ());
+	    	
+	    	//como o separador de colunas é ; substituiremos por virgula(,) qualquer ocorrencia dentro dos textos. 
+    		String dadosDoc = doc.getDocId() +";"+doc.getId()+";"+areaCnpq+";"+doc.getTitulo().replace(";", ",")+";"+doc.getAreaPrograma();
     		if(i != listaDocumentos.size() - 1){
     			dadosDoc+="\n";
     		}
     		fosDocs.write(dadosDoc.getBytes());
     		fosDocs.flush();
+    		
     		//========= escrever docTable ===========
 	    }
 	    

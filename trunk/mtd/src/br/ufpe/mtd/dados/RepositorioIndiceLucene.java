@@ -277,6 +277,8 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * e cada valor é uma mapa com todos os documentos associados a o termo
 	 * e a frequencia de ocorrencia no documento
 	 * 
+	 * Recebe como filtro as palavras consideradas relevantes 
+	 * 
 	 * TreeMap<Termo, TreeMap<docId, freq>>
 	 *    
 	 * @param pastaDoIndice
@@ -285,11 +287,12 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * @throws IOException
 	 * 
 	 */
-	public synchronized TreeMap<String, TreeMap<Integer, Integer>> getMapaPalavraDocFreq(String[] campos) throws IOException{
+	public synchronized TreeMap<String, TreeMap<Integer, Integer>> getMapaPalavraDocFreq(String[] campos, List<String> filtro) throws IOException{
 		
 		//mapa de palavras com mapa de doc freq
 		TreeMap<String, TreeMap<Integer, Integer>> mapaPorPalavra = new TreeMap<String, TreeMap<Integer, Integer>>();
 	    DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
+	    
 	    
 	    for(String campo : campos){
 	    	
@@ -303,22 +306,26 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		    	while(bytesRef != null){
 		    		String palavra = termsEnum.term().utf8ToString();
 		    		
-		    		if(!mapaPorPalavra.containsKey(palavra)){
-		    			mapaPorPalavra.put(palavra, new TreeMap<Integer, Integer>());
-		    		}
-		    		TreeMap<Integer, Integer> mapaDocFreq = mapaPorPalavra.get(palavra);
-		    		
-		    		ArrayList<int[]> lista = getListaDocFreq(reader, campo, palavra);
-		    		
-		    		for (int[] is : lista) {
-		    			int docId = is[0];
-		    			if(mapaDocFreq.containsKey(docId)){
-		    				int freq = mapaDocFreq.get(docId) + is[1];
-		    				mapaDocFreq.put(docId, freq);
-		    			}else{
-		    				mapaDocFreq.put(docId, is[1]);
+		    		//filtrar apenas as palavras que foram consideradas relevantes passadas no filtro
+		    		if(filtro.contains(palavra)){
+		    			
+		    			if(!mapaPorPalavra.containsKey(palavra)){
+		    				mapaPorPalavra.put(palavra, new TreeMap<Integer, Integer>());
 		    			}
-					}
+		    			TreeMap<Integer, Integer> mapaDocFreq = mapaPorPalavra.get(palavra);
+		    			
+		    			ArrayList<int[]> lista = getListaDocFreq(reader, campo, palavra);
+		    			
+		    			for (int[] is : lista) {
+		    				int docId = is[0];
+		    				if(mapaDocFreq.containsKey(docId)){
+		    					int freq = mapaDocFreq.get(docId) + is[1];
+		    					mapaDocFreq.put(docId, freq);
+		    				}else{
+		    					mapaDocFreq.put(docId, is[1]);
+		    				}
+		    			}
+		    		}
 		    		
 		    		bytesRef = termsEnum.next();
 		    	}
@@ -327,6 +334,33 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	    
 	    reader.close();
 	    return mapaPorPalavra;
+	}
+	
+	public int getQuantidadeDocumentosNoIndice() throws IOException{
+		DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
+		int qtdDocs = reader.numDocs();
+	    reader.close();
+	    return qtdDocs;
+	}
+	
+	/**
+	 * TODO:
+	 * 
+	 * Buscar o conjunto dos documentos que não tem
+	 * palavras dentre as escolhidas ou seja consideradas relevantes.
+	 * 
+	 * @throws IOException
+	 */
+	public void getIdsTodosDocumentos() throws IOException{
+		DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
+		for (int i=0; i< reader.maxDoc(); i++) {
+		    
+			Document doc = reader.document(i);
+		    String docId = doc.get("docId");
+
+		    // do something with docId here...
+		}
+		reader.close();
 	}
 	
 	/**
@@ -346,11 +380,11 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 */
 	private ArrayList<int[]> getListaDocFreq(DirectoryReader reader, String campo, String termo) throws IOException{
 		ArrayList<int[]> lista = new ArrayList<int[]>();
-	    DocsEnum de = MultiFields.getTermDocsEnum(reader, MultiFields.getLiveDocs(reader), campo, new BytesRef(termo));
-	    if(de != null){
+	    DocsEnum docsEnum = MultiFields.getTermDocsEnum(reader, MultiFields.getLiveDocs(reader), campo, new BytesRef(termo));
+	    if(docsEnum != null){
 	    	int doc;
-	    	while((doc = de.nextDoc()) != DocsEnum.NO_MORE_DOCS) {
-	    		lista.add(new int[]{de.docID(), de.freq()});
+	    	while((doc = docsEnum.nextDoc()) != DocsEnum.NO_MORE_DOCS) {
+	    		lista.add(new int[]{docsEnum.docID(), docsEnum.freq()});
 	    	}
 	    }
 	    return lista;
@@ -360,6 +394,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	public synchronized List<DocumentMTD> getDocumentos(Collection<Integer> ids) throws IOException{
 		ArrayList<DocumentMTD> listaRetorno = new ArrayList<DocumentMTD>();
 		DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
+		
 		IndexSearcher searcher = new IndexSearcher(reader);		
 	    for(int docId: ids){
     		Document documento = searcher.doc(docId);
@@ -374,21 +409,18 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	/**
 	 * Pegar a frequencia para cada campo
 	 * 
-	 * Colocar um filtro para tirar as palavras que aprecem pouco
-	 * e as que aparecem demais.
+	 * Colocar um filtro para tirar as palavras que aaprecem pouco e as que aparecem demais.
 	 * 
-	 * O Ranking ja tira as palavras que aparecem pouco
-	 * porem faz para um unico campo
-	 * deve juntar todas as palavras que aparecem em todos os campo , colocar numa lista so i aplicar o criterio de eliminacao.
+	 * O Ranking ja tira as palavras que aparecem pouco porem faz para um unico campo.
 	 * 
-	 * O criterio poderá ser aplicado tanto para as palavras que aparecem demais quanto para as que aparecem pouco.
+	 * Juntar todas as palavras que aparecem em todos os campo , colocar numa lista so então aplicar o criterio de eliminacao.
 	 * 
 	 * 
 	 * 
 	 * @param campos
 	 * @throws Exception
 	 */
-	public List<String> filtrarPalavrasRelevantes(String[] campos, int maxPalavrasCampo, long minDocFreq, long maxTotalFreq) throws Exception{
+	public List<String> filtroPalavrasRelevantes(String[] campos, int maxPalavrasPorCampo, long minDocFreq, long maxDocFreq) throws Exception{
 		TreeMap<String,long[]> conjuntoPalavras = new TreeMap<String,long[]>();
 		
 		IndexReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
@@ -396,7 +428,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		
 		//guarda todas as palavras em um mapa e soma os valores de docfreq e total freq encontrado por campo
 		for(String campo: campos){
-			TermStats[] stats = HighFreqTerms.getHighFreqTerms(mr, 5000, campo, new HighFreqTerms.DocFreqComparator());
+			TermStats[] stats = HighFreqTerms.getHighFreqTerms(mr, maxPalavrasPorCampo, campo, new HighFreqTerms.DocFreqComparator());
 			
 			for (TermStats termstat : stats) {
 				String palavra = termstat.termtext.utf8ToString();
@@ -415,31 +447,13 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		for(String palavra: conjuntoPalavras.keySet()){
 			long docFreq = conjuntoPalavras.get(palavra)[0];
 			long totalFreq = conjuntoPalavras.get(palavra)[1];
-			if(docFreq > minDocFreq && totalFreq < maxTotalFreq){
+			if(docFreq > minDocFreq && totalFreq < maxDocFreq){
 				listaRetorno.add(palavra);
 				System.out.println(palavra+" doc freq "+conjuntoPalavras.get(palavra)[0]+" total freq "+conjuntoPalavras.get(palavra)[1]);
 			}
 		}
 		
 		return listaRetorno;
-	}
-	
-	public static void main(String[] args) {
-		try {
-			System.out.println("Inicio");
-			((RepositorioIndiceLucene)MTDFactory.getInstancia().getSingleRepositorioIndice()).filtrarPalavrasRelevantes(
-					new String[]{DocumentMTD.RESUMO,DocumentMTD.AREA_CNPQ ,DocumentMTD.KEY_WORD}, 5000, 0,5);
-			
-			System.out.println("Fim");
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 	
 	/**
