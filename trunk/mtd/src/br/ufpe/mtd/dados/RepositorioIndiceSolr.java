@@ -18,8 +18,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
-import br.ufpe.mtd.entidade.BuilderDocumentMTD;
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocumentBuilder;
+import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.util.Log;
 import br.ufpe.mtd.util.MTDFactory;
@@ -45,10 +45,10 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 	}
 	
 	//TODO: termos devem ter local central (classe ou arquivo de confguracao
-	public synchronized ArrayList<DocumentMTD> consultar(String termo, int maxResultado)
+	public synchronized ArrayList<MTDDocument> consultar(String termo, String[] campos, int maxResultado)
 			throws ParseException, CorruptIndexException, IOException, SolrServerException {
 		
-		ArrayList<DocumentMTD> retorno = new ArrayList<DocumentMTD>();
+		ArrayList<MTDDocument> retorno = new ArrayList<MTDDocument>();
 
 		SolrQuery parameters = new SolrQuery();
 		parameters.set("q", "id:552199");
@@ -59,7 +59,7 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 		for (SolrDocument document : list) {
 			
 			
-			DocumentMTD docAtual = new BuilderDocumentMTD().buildDocument(document);
+			MTDDocument docAtual = new MTDDocumentBuilder().buildDocument(document);
 			// docAtual.setNodo(documentoNodo.get(docAtual.getId()+""));
 			retorno.add(docAtual);
 		}
@@ -105,7 +105,7 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 			
 			String strIds = "";
 			for (SolrInputDocument solrInputDocument : listaInserir) {
-				strIds+= solrInputDocument.getFieldValue(DocumentMTD.ID)+",";
+				strIds+= solrInputDocument.getFieldValue(MTDDocument.ID)+",";
 			}
 			
 			log.salvarDadosLog(new MTDException(e, "Falha ao tentar inserir lista : {"+strIds+"}\nIniciando inserção de documentos individualmente..."));
@@ -129,12 +129,12 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 		
 		for (SolrInputDocument iDocument : listaInserir) {
 			try {
-				log.salvarDadosLog("Tentando inserir documento individualmente: "+iDocument.getFieldValue(DocumentMTD.ID));
+				log.salvarDadosLog("Tentando inserir documento individualmente: "+iDocument.getFieldValue(MTDDocument.ID));
 				solrServer.add(iDocument);
 				solrServer.commit();
 				
 			} catch (Exception e) {
-				log.salvarDadosLog(new MTDException(e, "Falha ao tentar inserir : "+iDocument.getFieldValue(DocumentMTD.ID)));
+				log.salvarDadosLog(new MTDException(e, "Falha ao tentar inserir : "+iDocument.getFieldValue(MTDDocument.ID)));
 			}
 		}
 	}
@@ -174,9 +174,9 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 	 * existentes no indice do solr. os dados sao trazidos sob demanda
 	 * durante a navegacao do iterator.
 	 */
-	public MTDIterator<DocumentMTD> iterator() throws Exception{
+	public MTDIterator<MTDDocument> iterator() throws Exception{
 		
-		return new MTDIterator<DocumentMTD>() {
+		return new MTDIterator<MTDDocument>() {
 			long contador;
 			long encontrados;
 			String id = "";
@@ -187,16 +187,16 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 			public void init() throws Exception {
 				
 				parameters = new SolrQuery();
-				parameters.set("q", DocumentMTD.ID+" :[0 TO *]");
+				parameters.set("q", MTDDocument.ID+" :[0 TO *]");
 				QueryResponse resposta = solrServer.query(parameters);
-				parameters.addSort( DocumentMTD.ID, SolrQuery.ORDER.asc );
+				parameters.addSort( MTDDocument.ID, SolrQuery.ORDER.asc );
 				
 				list = resposta.getResults();
 				encontrados = list.getNumFound();
 			}
 			
 			@Override
-			public DocumentMTD next() throws Exception {
+			public MTDDocument next() throws Exception {
 				if(contador >= encontrados){
 					throw new IndexOutOfBoundsException("Valor="+contador);
 				}
@@ -210,14 +210,14 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 					it.remove();
 				}else{
 					
-					parameters.set("q", DocumentMTD.ID+" :["+id+" TO *]");
+					parameters.set("q", MTDDocument.ID+" :["+id+" TO *]");
 					QueryResponse resposta = solrServer.query(parameters);
 					list = resposta.getResults();
 					
 					System.out.println("==============================================");
 					List<SolrDocument> listaRemover = new ArrayList<SolrDocument>();
 					for(SolrDocument aux: list){
-						if(aux.getFieldValue(DocumentMTD.ID).equals(id)){
+						if(aux.getFieldValue(MTDDocument.ID).equals(id)){
 							listaRemover.add(aux);
 						}
 					}
@@ -230,9 +230,9 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 						it.remove();
 					}
 				}
-				DocumentMTD documento = null;
+				MTDDocument documento = null;
 				if(retorno != null){
-					documento = new BuilderDocumentMTD().buildDocument(retorno);
+					documento = new MTDDocumentBuilder().buildDocument(retorno);
 					id = documento.getId();
 				}
 				

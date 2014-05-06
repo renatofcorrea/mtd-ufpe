@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
@@ -44,9 +43,9 @@ import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 
-import br.ufpe.mtd.entidade.BuilderDocumentMTD;
-import br.ufpe.mtd.entidade.DocumentMTD;
-import br.ufpe.mtd.util.MTDFactory;
+import br.ufpe.mtd.entidade.EstatisticaPalavra;
+import br.ufpe.mtd.entidade.MTDDocument;
+import br.ufpe.mtd.entidade.MTDDocumentBuilder;
 import br.ufpe.mtd.util.MTDParametros;
 
 /**
@@ -142,37 +141,29 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * Sistema Operacional 32 Bits
 	 * 
 	 */
-	public synchronized ArrayList<DocumentMTD> consultar(String termo, int maxResultado)
+	public synchronized ArrayList<MTDDocument> consultar(String termo, String[] campos, int maxResultado)
 			throws CorruptIndexException, IOException, ParseException {
-
+		
+		ScoreDoc[] hits = getHits(termo, campos, maxResultado);
+		ArrayList<MTDDocument> listaRetorno = parseHitsToDocumentArray(hits); 
+		
+		return listaRetorno;
+	}
+	
+	public ArrayList<MTDDocument> parseHitsToDocumentArray(ScoreDoc[] hits) throws IOException{
+		ArrayList<MTDDocument> retorno = new ArrayList<MTDDocument>();
+		
 		Directory indexDirectory = getCopiaDiretorioMemoria();		
 		Analyzer analisador = getAnalizerPadrao();
 		IndexReader reader = DirectoryReader.open(indexDirectory);
 		// Cria o acesso ao indice
 		IndexSearcher searcher = new IndexSearcher(reader);
-		
-		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(MATCH_VERSION, DocumentMTD.campos, analisador);
-		mfqp.setPhraseSlop(2);
-		Query q = mfqp.parse(termo);
-
-		// Prepara a colecao de resultado
-		TopScoreDocCollector collector = TopScoreDocCollector.create(maxResultado, true);
-		
-		// Faz a pesquisa
-		searcher.search(q, collector);
-		// Separa os itens mais relevantes para a consulta.
-		
-		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-		ArrayList<DocumentMTD> retorno = new ArrayList<DocumentMTD>();
-		
-		// TODO
-		// HashMap<String, Integer> documentoNodo = LeitorMapa.getMapa().getDocumentoNodo();
 
 		for (int i = 0; i < hits.length; ++i) {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 
-			DocumentMTD docAtual = new BuilderDocumentMTD().buildDocument(d);//TODO: colocar os dados que nao estao no construtor atraves dos sets
+			MTDDocument docAtual = new MTDDocumentBuilder().buildDocument(d);//TODO: colocar os dados que nao estao no construtor atraves dos sets
 //			// docAtual.setNodo(documentoNodo.get(docAtual.getId()+""));
 			retorno.add(docAtual);
 		}
@@ -272,25 +263,22 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		}
 	}
 
+
 	/**
 	 * Retorna uma mapa contendo todos os termos do indice (Cada termos é chave no mapa)
-	 * e cada valor é uma mapa com todos os documentos associados a o termo
-	 * e a frequencia de ocorrencia no documento
+	 * e cada valor é um objeto do tipo EstatisticaPalavra
 	 * 
 	 * Recebe como filtro as palavras consideradas relevantes 
-	 * 
-	 * TreeMap<Termo, TreeMap<docId, freq>>
-	 *    
-	 * @param pastaDoIndice
-	 * 
+
+	 * @param campos
+	 * @param filtro
 	 * @return
 	 * @throws IOException
-	 * 
 	 */
-	public synchronized TreeMap<String, TreeMap<Integer, Integer>> getMapaPalavraDocFreq(String[] campos, List<String> filtro) throws IOException{
+	public synchronized TreeMap<String, EstatisticaPalavra> getMapaPalavraDocFreq(String[] campos, List<EstatisticaPalavra> filtro) throws IOException{
 		
 		//mapa de palavras com mapa de doc freq
-		TreeMap<String, TreeMap<Integer, Integer>> mapaPorPalavra = new TreeMap<String, TreeMap<Integer, Integer>>();
+		TreeMap<String, EstatisticaPalavra> mapaPalavraEstatistica = new TreeMap<String, EstatisticaPalavra>();
 	    DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
 	    
 	    
@@ -305,26 +293,20 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		    	
 		    	while(bytesRef != null){
 		    		String palavra = termsEnum.term().utf8ToString();
+		    		EstatisticaPalavra estatPalavraAux = new EstatisticaPalavra(palavra);
 		    		
 		    		//filtrar apenas as palavras que foram consideradas relevantes passadas no filtro
-		    		if(filtro.contains(palavra)){
+		    		if(filtro.contains(estatPalavraAux)){
 		    			
-		    			if(!mapaPorPalavra.containsKey(palavra)){
-		    				mapaPorPalavra.put(palavra, new TreeMap<Integer, Integer>());
+		    			if(!mapaPalavraEstatistica.containsKey(palavra)){
+		    				int indicePalavra = filtro.indexOf(estatPalavraAux);
+		    				mapaPalavraEstatistica.put(palavra, filtro.get(indicePalavra));
 		    			}
-		    			TreeMap<Integer, Integer> mapaDocFreq = mapaPorPalavra.get(palavra);
 		    			
+		    			EstatisticaPalavra estatisticaPalavra = mapaPalavraEstatistica.get(palavra);
 		    			ArrayList<int[]> lista = getListaDocFreq(reader, campo, palavra);
-		    			
-		    			for (int[] is : lista) {
-		    				int docId = is[0];
-		    				if(mapaDocFreq.containsKey(docId)){
-		    					int freq = mapaDocFreq.get(docId) + is[1];
-		    					mapaDocFreq.put(docId, freq);
-		    				}else{
-		    					mapaDocFreq.put(docId, is[1]);
-		    				}
-		    			}
+		    			estatisticaPalavra.atualizarMapa(lista);
+		    			estatisticaPalavra.gerarEstatistica();
 		    		}
 		    		
 		    		bytesRef = termsEnum.next();
@@ -333,7 +315,8 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	    }
 	    
 	    reader.close();
-	    return mapaPorPalavra;
+	    
+	    return mapaPalavraEstatistica;
 	}
 	
 	public int getQuantidadeDocumentosNoIndice() throws IOException{
@@ -391,14 +374,14 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	}
 	
 	
-	public synchronized List<DocumentMTD> getDocumentos(Collection<Integer> ids) throws IOException{
-		ArrayList<DocumentMTD> listaRetorno = new ArrayList<DocumentMTD>();
+	public synchronized List<MTDDocument> getDocumentos(Collection<Integer> ids) throws IOException{
+		ArrayList<MTDDocument> listaRetorno = new ArrayList<MTDDocument>();
 		DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
 		
 		IndexSearcher searcher = new IndexSearcher(reader);		
 	    for(int docId: ids){
     		Document documento = searcher.doc(docId);
-    		DocumentMTD doc = new BuilderDocumentMTD().buildDocument(documento);
+    		MTDDocument doc = new MTDDocumentBuilder().buildDocument(documento);
     		doc.setDocId(docId);
     		listaRetorno.add(doc);
 	    }
@@ -415,12 +398,20 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * 
 	 * Juntar todas as palavras que aparecem em todos os campo , colocar numa lista so então aplicar o criterio de eliminacao.
 	 * 
+	 * DocFreq - Em quantos documentos a palavra apareceu 
+	 * TotalTermFreq - Quantidade de ococrrencia da palavra nos documentos.
 	 * 
+	 * A acumulacao de doc freq não leva em conta as interesecções de docFreq entre campos distintos.
 	 * 
 	 * @param campos
 	 * @throws Exception
 	 */
-	public List<String> filtroPalavrasRelevantes(String[] campos, int maxPalavrasPorCampo, long minDocFreq, long maxDocFreq) throws Exception{
+	public List<EstatisticaPalavra> getListaPalavrasFiltrado(String[] campos, int maxPalavrasPorCampo, long minDocFreq, long maxDocFreq) throws Exception{
+		
+		EstatisticaPalavra.setTamCorpus(getQuantidadeDocumentosNoIndice());
+		
+		List<EstatisticaPalavra> listaRetorno = new ArrayList<EstatisticaPalavra>();
+		
 		TreeMap<String,long[]> conjuntoPalavras = new TreeMap<String,long[]>();
 		
 		IndexReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
@@ -432,28 +423,67 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 			
 			for (TermStats termstat : stats) {
 				String palavra = termstat.termtext.utf8ToString();
-				if(!conjuntoPalavras.containsKey(palavra)){
-					conjuntoPalavras.put(palavra, new long[2]);
-				}
 				
-				long[] freqs = conjuntoPalavras.get(palavra);
-				freqs[0] += termstat.docFreq;
-				freqs[1] += termstat.totalTermFreq;
+				if(!conjuntoPalavras.containsKey(palavra)){
+					
+//					int docFreq = consultar(palavra, campos, EstatisticaPalavra.getTamCorpus()).size();
+					int docFreq = getHits(palavra, campos, EstatisticaPalavra.getTamCorpus()).length;
+					conjuntoPalavras.put(palavra, new long[]{docFreq,termstat.totalTermFreq});
+					
+//					conjuntoPalavras.put(palavra, new long[]{termstat.docFreq,termstat.totalTermFreq});
+				
+				}else{
+					
+					long[] freqs = conjuntoPalavras.get(palavra);
+//					freqs[0] += termstat.docFreq;
+					freqs[1] += termstat.totalTermFreq;
+				}
 			}
 		}
 		
+		
 		//adiciona na lista de retorno apenas as palavra que atendem ao criterio de filtro
-		List<String> listaRetorno = new ArrayList<String>();
 		for(String palavra: conjuntoPalavras.keySet()){
 			long docFreq = conjuntoPalavras.get(palavra)[0];
 			long totalFreq = conjuntoPalavras.get(palavra)[1];
 			if(docFreq > minDocFreq && totalFreq < maxDocFreq){
-				listaRetorno.add(palavra);
-				System.out.println(palavra+" doc freq "+conjuntoPalavras.get(palavra)[0]+" total freq "+conjuntoPalavras.get(palavra)[1]);
+				EstatisticaPalavra estatisticaPalavra = new EstatisticaPalavra(palavra);
+				estatisticaPalavra.setDocFreq((int)docFreq);
+				estatisticaPalavra.setTotalDocFreq(totalFreq);
+				
+				listaRetorno.add(estatisticaPalavra);
 			}
 		}
 		
+		
 		return listaRetorno;
+	}
+	
+	private ScoreDoc[] getHits(String termo, String[] campos, int maxResultado) throws IOException, ParseException{
+		
+		Directory indexDirectory = getCopiaDiretorioMemoria();		
+		Analyzer analisador = getAnalizerPadrao();
+		IndexReader reader = DirectoryReader.open(indexDirectory);
+		// Cria o acesso ao indice
+		IndexSearcher searcher = new IndexSearcher(reader);
+		
+		MultiFieldQueryParser mfqp = new MultiFieldQueryParser(MATCH_VERSION, campos, analisador);
+		mfqp.setPhraseSlop(2);
+		Query q = mfqp.parse(termo);
+
+		// Prepara a colecao de resultado
+		TopScoreDocCollector collector = TopScoreDocCollector.create(maxResultado, true);
+		
+		// Faz a pesquisa
+		searcher.search(q, collector);
+		// Separa os itens mais relevantes para a consulta.
+		
+		ScoreDoc[] hits = collector.topDocs().scoreDocs;
+		
+		reader.close();
+		analisador.close();
+		
+		return hits;
 	}
 	
 	/**
@@ -489,11 +519,11 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
     }
 	
 	@Override
-	public MTDIterator<DocumentMTD> iterator() throws Exception {
+	public MTDIterator<MTDDocument> iterator() throws Exception {
 		
-		return new MTDIterator<DocumentMTD>() {			
+		return new MTDIterator<MTDDocument>() {			
 			@Override
-			public DocumentMTD next() throws Exception {
+			public MTDDocument next() throws Exception {
 				// TODO Auto-generated method stub
 				return null;
 			}

@@ -9,10 +9,14 @@ import br.ufpe.mtd.util.MTDUtil;
 
 public enum AreaCNPQEnum {
 	
-	CBS(MTDArquivoEnum.CBS_ARQUIVO), CHLA(MTDArquivoEnum.CHLA_ARQUIVO), TCEN(MTDArquivoEnum.TCEN_ARQUIVO), OUTROS(MTDArquivoEnum.OUTROS_ARQUIVO);
+	CBS(MTDArquivoEnum.CBS_ARQUIVO), CHLA(MTDArquivoEnum.CHLA_ARQUIVO), TCEN(MTDArquivoEnum.TCEN_ARQUIVO), OUTROS(MTDArquivoEnum.OUTROS_ARQUIVO), NAO_ENCONTRADO;
 	
 	private String texto = "";
 	
+	
+	private AreaCNPQEnum() {
+		texto = "NAOENCONTRADO";
+	}
 	private AreaCNPQEnum(MTDArquivoEnum arquivoEnum) {
 		File arquivo = arquivoEnum.getArquivo();
 		try {

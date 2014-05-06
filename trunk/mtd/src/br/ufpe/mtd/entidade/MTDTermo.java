@@ -1,6 +1,6 @@
 package br.ufpe.mtd.entidade;
 
-public class TermoMTD {
+public class MTDTermo {
 
 	
 }

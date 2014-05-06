@@ -32,18 +32,17 @@ import org.apache.solr.client.solrj.SolrServerException;
 
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.RepositorioIndiceLucene;
-import br.ufpe.mtd.entidade.BuilderDocumentMTD;
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocumentBuilder;
+import br.ufpe.mtd.entidade.MTDDocument;
+import br.ufpe.mtd.entidade.EstatisticaPalavra;
 import br.ufpe.mtd.negocio.ControleIndice;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDParametros;
 
-public class TesteRecuperarFrequenciaDocs {
+public class TesteTreinarRedeNeural {
 
 	public static void main(String[] args) {
 		try {
-			
-			System.out.println("Inicio");
 			
 			//teste1();
 			
@@ -54,8 +53,6 @@ public class TesteRecuperarFrequenciaDocs {
 			//gerarRNComRepostorio();
 			
 			treinarRedeNeuralComControleIndice();
-			
-			System.out.println("Fim");
 			
 		} catch (Exception e) {
 			e.printStackTrace();	
@@ -88,11 +85,11 @@ public class TesteRecuperarFrequenciaDocs {
 		lista.add("bla");
 		
 		
-		DocumentMTD doc = new BuilderDocumentMTD().buildDocument("computadores","gerador de lero lero", lista, new Date(),
+		MTDDocument doc = new MTDDocumentBuilder().buildDocument("computadores","gerador de lero lero", lista, new Date(),
 				"MIT", "Programa de Tecnologia", "Dr. Fulano", "Instituto de Tecnologia", "id1", "Ciências Exatas");
 		listaDocs.add(doc.toDocument());
 		
-		doc = new BuilderDocumentMTD().buildDocument("Psicologia do lero lero","Os motivos do bla bla bla", 
+		doc = new MTDDocumentBuilder().buildDocument("Psicologia do lero lero","Os motivos do bla bla bla", 
 				lista, new Date(), "DCH", "programa de humanas", "Dr. Ciclano", "Instituto de Humanas", "id2", "Ciências Humanas");
 		listaDocs.add(doc.toDocument());
 		
@@ -108,13 +105,13 @@ public class TesteRecuperarFrequenciaDocs {
 		IRepositorioIndice rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
 		
 		if(rep instanceof RepositorioIndiceLucene){
-			String[] campos = new String[] {DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_CNPQ};
+			String[] campos = new String[] {MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.AREA_CNPQ};
 			RepositorioIndiceLucene repLucene = (RepositorioIndiceLucene)rep;
 			
 			int frequenciaMax = ((RepositorioIndiceLucene) rep).getQuantidadeDocumentosNoIndice() * 80 /100; 
 			
-			List<String> lista = repLucene.filtroPalavrasRelevantes(campos, 5000, 0, frequenciaMax);
-			TreeMap<String, TreeMap<Integer, Integer>> mapa = repLucene.getMapaPalavraDocFreq(campos,lista);
+			List<EstatisticaPalavra> lista = repLucene.getListaPalavrasFiltrado(campos, 5000, 0, frequenciaMax);
+			TreeMap<String, EstatisticaPalavra> mapa = repLucene.getMapaPalavraDocFreq(campos,lista);
 			
 			TreeSet<Integer> mapaDocId = new TreeSet<Integer>();
 			File pastaTabelas = new File(pastaIndice.getParentFile(), "tabelas");
@@ -143,7 +140,7 @@ public class TesteRecuperarFrequenciaDocs {
 		    	fosPalavras.flush();
 		    	//========= escrever wordtable =======
 		    	
-		    	TreeMap<Integer, Integer> mapaDocFreq = mapa.get(palavra);
+		    	TreeMap<Integer, Integer> mapaDocFreq = mapa.get(palavra).getMapaDocFreq();
 		    	Iterator<Integer> iteratorDocFreq = mapaDocFreq.keySet().iterator();
 		    	
 		    	while(iteratorDocFreq.hasNext()){
@@ -164,10 +161,10 @@ public class TesteRecuperarFrequenciaDocs {
 		    
 		    System.out.println("========= Iniciando geração de mapa docs ==================");
 		    
-		    List<DocumentMTD> listaDocumentos = repLucene.getDocumentos(mapaDocId);
+		    List<MTDDocument> listaDocumentos = repLucene.getDocumentos(mapaDocId);
 		    
 		    for(int i = 0; i <listaDocumentos.size() ; i++){
-		    	DocumentMTD doc = listaDocumentos.get(i);
+		    	MTDDocument doc = listaDocumentos.get(i);
 	    		//========= escrever docTable ===========
 	    		String dadosDoc = doc.getDocId() +" "+doc.getId()+";"+doc.getAreaCNPQ()+";"+doc.getTitulo()+";"+doc.getAreaPrograma();
 	    		if(i != listaDocumentos.size() - 1){
@@ -210,7 +207,7 @@ public class TesteRecuperarFrequenciaDocs {
 		MultiReader mr = new MultiReader(directoryReader);
 
 		TermStats[] stats = null;
-		stats = HighFreqTerms.getHighFreqTerms(mr, 100, DocumentMTD.KEY_WORD, new HighFreqTerms.DocFreqComparator());
+		stats = HighFreqTerms.getHighFreqTerms(mr, 100, MTDDocument.KEY_WORD, new HighFreqTerms.DocFreqComparator());
 
 		for (TermStats termstat : stats) {
 			System.out.println("Palavra: "
@@ -250,7 +247,7 @@ public class TesteRecuperarFrequenciaDocs {
 		Directory directory = FSDirectory.open(pastaIndice);  	    
 	    DirectoryReader reader = DirectoryReader.open(directory);
 		IndexSearcher searcher = new IndexSearcher(reader);
-	    String[] campos = new String[] {DocumentMTD.AREA_CNPQ, DocumentMTD.AREA_PROGRAMA, DocumentMTD.TITULO};
+	    String[] campos = new String[] {MTDDocument.AREA_CNPQ, MTDDocument.AREA_PROGRAMA, MTDDocument.TITULO};
 
 		int contador = 0;
 		System.out.println("========= Iniciando geração de mapa palavra e mapa palavraDoc ==================");
@@ -278,7 +275,7 @@ public class TesteRecuperarFrequenciaDocs {
 	    for(int docId: mapaDocId){
     		Document documento = searcher.doc(docId);
     		//========= escrever docTable ===========
-    		String dadosDoc = docId +" "+documento.get(DocumentMTD.ID);
+    		String dadosDoc = docId +" "+documento.get(MTDDocument.ID);
     		for(String campo : campos){
     			dadosDoc+= ";"+ documento.get(campo);
     		}
@@ -304,7 +301,7 @@ public class TesteRecuperarFrequenciaDocs {
 		TreeMap<String, TreeMap<Integer, Integer>> mapaPorPalavra = new TreeMap<String, TreeMap<Integer, Integer>>();
 		Directory directory = FSDirectory.open(pastaDoIndice);  	    
 	    DirectoryReader reader = DirectoryReader.open(directory);
-	    String[] campos = new String[] {DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_CNPQ};
+	    String[] campos = new String[] {MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.AREA_CNPQ};
 	    
 	    for(String campo : campos){
 	    	
@@ -354,7 +351,7 @@ public class TesteRecuperarFrequenciaDocs {
 		Directory directory = FSDirectory.open(pastaDoIndice);  	    
 	    DirectoryReader reader = DirectoryReader.open(directory);
 	    
-	    for(String campo : DocumentMTD.campos){
+	    for(String campo : MTDDocument.campos){
 	    	
 		    Terms termos = MultiFields.getTerms(reader, campo);
 		    TermsEnum termsEnum = null;

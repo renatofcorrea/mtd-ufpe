@@ -14,8 +14,8 @@ import net.sf.jColtrane.annotations.methods.InsideElement;
 import net.sf.jColtrane.annotations.methods.StartElement;
 import net.sf.jColtrane.handler.ContextVariables;
 import net.sf.jColtrane.handler.JColtraneXMLHandler;
-import br.ufpe.mtd.entidade.BuilderDocumentMTD;
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocumentBuilder;
+import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.util.Log;
@@ -35,11 +35,11 @@ import br.ufpe.mtd.util.MTDUtil;
  */
 public class DecodificadorDocumento {
 
-	private DocumentMTD doc;
-	private List<DocumentMTD> documentos;
+	private MTDDocument doc;
+	private List<MTDDocument> documentos;
 
 	public DecodificadorDocumento() {
-		documentos = new ArrayList<DocumentMTD>();
+		documentos = new ArrayList<MTDDocument>();
 	}
 
 	@EndElement(tag = "mtd2-br:Titulo", attributes = @ContainAttribute(value = "pt"))
@@ -139,7 +139,7 @@ public class DecodificadorDocumento {
 
 	@StartElement(tag = "record")
 	public void criarDocumento() {
-		this.doc = new BuilderDocumentMTD().buildDocument();
+		this.doc = new MTDDocumentBuilder().buildDocument();
 	}
 
 	/**
@@ -151,11 +151,11 @@ public class DecodificadorDocumento {
 		this.documentos.add(this.doc);
 	}
 
-	public Iterator<DocumentMTD> getDocIterator() {
+	public Iterator<MTDDocument> getDocIterator() {
 		return this.documentos.iterator();
 	}
 	
-	public List<DocumentMTD> getDocumentos() {
+	public List<MTDDocument> getDocumentos() {
 		return documentos;
 	}
 	

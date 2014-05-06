@@ -134,6 +134,6 @@ public class MTDFactory implements ContentHandlerFactory{
 			}
 		}
 		
-		return AreaCNPQEnum.OUTROS;
+		return AreaCNPQEnum.NAO_ENCONTRADO;
 	}
 }

@@ -7,8 +7,8 @@ import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.OAIPMHDriver;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.thread.BaseThread;
-import br.ufpe.mtd.thread.ThreadBuscaMetadados;
-import br.ufpe.mtd.thread.TreinamentoThread;
+import br.ufpe.mtd.thread.BuscaMetadadosThread;
+import br.ufpe.mtd.thread.treinamento.TreinamentoThread;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
 
@@ -73,7 +73,7 @@ public class ControleIndice {
 	 * @throws InterruptedException 
 	 */
 	private void baixarDocsEsalvar(IRepositorioIndice repositorio, List<Identificador> identificadores,String urlBase,String metaDataPrefix) throws InterruptedException{
-		ThreadBuscaMetadados t = new ThreadBuscaMetadados(repositorio , identificadores,urlBase,metaDataPrefix);
+		BuscaMetadadosThread t = new BuscaMetadadosThread(repositorio , identificadores,urlBase,metaDataPrefix);
 		t.executarNoPool();
 	}
 	

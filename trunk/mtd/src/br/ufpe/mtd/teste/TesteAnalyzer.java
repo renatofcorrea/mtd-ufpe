@@ -10,8 +10,8 @@ import org.apache.lucene.document.Document;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import br.ufpe.mtd.dados.IRepositorioIndice;
-import br.ufpe.mtd.entidade.BuilderDocumentMTD;
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocumentBuilder;
+import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDParametros;
 
@@ -50,11 +50,11 @@ public class TesteAnalyzer {
 		lista.add("H2O");
 		
 		
-		DocumentMTD doc = new BuilderDocumentMTD().buildDocument("o analisador para h2so4","quimica e fisica", 
+		MTDDocument doc = new MTDDocumentBuilder().buildDocument("o analisador para h2so4","quimica e fisica", 
 				lista, new Date(), "Djalma", "QUIMICA", "Norte", "cnpq cnpq", "id1", "Exatas");
 		listaDocs.add(doc.toDocument());
 		
-		doc = new BuilderDocumentMTD().buildDocument("Sobre o Analisador de H2SO4","formula da água", lista, new Date(), 
+		doc = new MTDDocumentBuilder().buildDocument("Sobre o Analisador de H2SO4","formula da água", lista, new Date(), 
 				"djalma", "FISICA", "Búsula", "cnpq cnpq", "id2", "Ciência da Natureza");
 		listaDocs.add(doc.toDocument());
 		
