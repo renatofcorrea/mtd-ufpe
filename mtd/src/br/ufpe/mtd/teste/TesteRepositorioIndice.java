@@ -95,6 +95,7 @@ public class TesteRepositorioIndice {
 			pool.fecharPool();
 			
 			MTDUtil.imprimirConsole("Tempo total : "+ (System.currentTimeMillis() - inicio));
+			System.exit(0);
 		}
 	}
 	
