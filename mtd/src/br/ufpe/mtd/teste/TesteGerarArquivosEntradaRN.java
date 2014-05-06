@@ -24,7 +24,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.MTDIterator;
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDParametros;
 
@@ -68,11 +68,11 @@ public class TesteGerarArquivosEntradaRN {
 		
 		IRepositorioIndice rep = MTDFactory.getInstancia().getSingleRepositorioIndice();
 		
-		MTDIterator<DocumentMTD> resultSet = rep.iterator();
+		MTDIterator<MTDDocument> resultSet = rep.iterator();
 		long contador = 0;
 		while(resultSet.hasNext()){
 			contador ++;
-			DocumentMTD documento = resultSet.next();
+			MTDDocument documento = resultSet.next();
 				
 			String id = documento.getId();
 			System.out.println("Contador : "+contador +" "+id);
@@ -87,9 +87,9 @@ public class TesteGerarArquivosEntradaRN {
 		//---------------------------- Tabela de palavras --------------------------------
 		
 		SolrQuery parameters = new SolrQuery();
-		parameters.set("q", DocumentMTD.ID+" :[0 TO *]");
+		parameters.set("q", MTDDocument.ID+" :[0 TO *]");
 		QueryResponse resposta = solr.query(parameters);
-		parameters.addSort( DocumentMTD.ID, SolrQuery.ORDER.asc );
+		parameters.addSort( MTDDocument.ID, SolrQuery.ORDER.asc );
 		
 		SolrDocumentList list = resposta.getResults();
 		long encontrados = list.getNumFound();
@@ -104,13 +104,13 @@ public class TesteGerarArquivosEntradaRN {
 				contador++;
 				SolrDocument documento = it.next();
 				
-				id = documento.getFieldValue(DocumentMTD.ID).toString();
+				id = documento.getFieldValue(MTDDocument.ID).toString();
 				System.out.println(id);
-				writer.println(contador+";"+id+";" + documento.getFieldValue(DocumentMTD.AREA_CNPQ) +";" + documento.getFieldValue(DocumentMTD.PROGRAMA)+";" + documento.getFieldValue(DocumentMTD.AREA_PROGRAMA));
+				writer.println(contador+";"+id+";" + documento.getFieldValue(MTDDocument.AREA_CNPQ) +";" + documento.getFieldValue(MTDDocument.PROGRAMA)+";" + documento.getFieldValue(MTDDocument.AREA_PROGRAMA));
 			}
 			
 			
-			parameters.set("q", DocumentMTD.ID+" :["+id+" TO *]");
+			parameters.set("q", MTDDocument.ID+" :["+id+" TO *]");
 			resposta = solr.query(parameters);
 			list = resposta.getResults();
 			list.remove(0);
@@ -125,7 +125,7 @@ public class TesteGerarArquivosEntradaRN {
 		
 		Directory directory = FSDirectory.open(pastaDoIndice);  	    
 		DirectoryReader reader = DirectoryReader.open(directory);
-		String[] campos = new String[]{DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_PROGRAMA};
+		String[] campos = new String[]{MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.AREA_PROGRAMA};
 		for(String campo : campos){
 			
 			Terms termos = MultiFields.getTerms(reader, campo);
@@ -154,7 +154,7 @@ public class TesteGerarArquivosEntradaRN {
 		
 		Directory directory = FSDirectory.open(pastaDoIndice);  	    
 	    DirectoryReader reader = DirectoryReader.open(directory);
-	    String[] campos = new String[]{DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_PROGRAMA};
+	    String[] campos = new String[]{MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.AREA_PROGRAMA};
 	    for(String campo : campos){
 	    	
 		    Terms termos = MultiFields.getTerms(reader, campo);
@@ -191,7 +191,7 @@ public class TesteGerarArquivosEntradaRN {
 		
 		Directory directory = FSDirectory.open(pastaDoIndice);  	    
 		DirectoryReader reader = DirectoryReader.open(directory);
-		String[] campos = new String[]{DocumentMTD.TITULO, DocumentMTD.RESUMO, DocumentMTD.AREA_PROGRAMA};
+		String[] campos = new String[]{MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.AREA_PROGRAMA};
 		for(String campo : campos){
 			
 			Terms termos = MultiFields.getTerms(reader, campo);

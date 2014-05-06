@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import org.apache.lucene.document.Document;
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.OAIPMHDriver;
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.excecao.MTDException;
 import br.ufpe.mtd.util.Log;
@@ -25,13 +25,13 @@ import br.ufpe.mtd.xml.DecodificadorDocumento;
  * @author djalma
  *
  */
-public class ThreadBuscaMetadados extends BaseThread{
+public class BuscaMetadadosThread extends BaseThread{
 	private IRepositorioIndice repositorio;
 	private List<Identificador> identificadores;
 	private String urlBase;
 	private String metaDataPrefix;
 	
-	public ThreadBuscaMetadados(IRepositorioIndice repositorio, List<Identificador> identificadores, String urlBase, String metaDataPrefix) {
+	public BuscaMetadadosThread(IRepositorioIndice repositorio, List<Identificador> identificadores, String urlBase, String metaDataPrefix) {
 		this.identificadores = identificadores;
 		this.repositorio = repositorio;
 		this.urlBase = urlBase;
@@ -140,8 +140,8 @@ public class ThreadBuscaMetadados extends BaseThread{
 		
 		ArrayList<Document> docs = new ArrayList<Document>();
 		//tirar os repetidos caso existam
-		TreeSet<DocumentMTD> treeSetDocs = new TreeSet<DocumentMTD>(decodificador.getDocumentos());
-		for (DocumentMTD documento : treeSetDocs) {
+		TreeSet<MTDDocument> treeSetDocs = new TreeSet<MTDDocument>(decodificador.getDocumentos());
+		for (MTDDocument documento : treeSetDocs) {
 			docs.add(documento.toDocument());
 		}
 		

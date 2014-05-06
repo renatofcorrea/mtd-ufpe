@@ -16,12 +16,12 @@ import org.apache.lucene.index.FieldInfo.IndexOptions;
  * A construcao de Objetos desta clase foi delegada a classe
  * BuilderDocumentoMTD.
  * 
- * @see BuilderDocumentMTD
+ * @see MTDDocumentBuilder
  * 
  * @author djalma
  *
  */
-public class DocumentMTD implements Comparable<DocumentMTD>{
+public class MTDDocument implements Comparable<MTDDocument>{
 
 	public static final String[] campos = {"titulo", "resumo","data_defesa","autor","programa", "orientador", "area_cnpq","id", "area_programa","repositorio","url","grau", "keyword"};
 	public static final String VAZIO = "";
@@ -260,7 +260,7 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 	@Override
 	public boolean equals(Object obj) {
 		boolean igual = false;
-		DocumentMTD outro = (DocumentMTD)obj;
+		MTDDocument outro = (MTDDocument)obj;
 		igual = id.equals(outro.id);
 		
 		if(igual){
@@ -275,7 +275,7 @@ public class DocumentMTD implements Comparable<DocumentMTD>{
 	}
 
 	@Override
-	public int compareTo(DocumentMTD outro) {
+	public int compareTo(MTDDocument outro) {
 		
 		int comparacao = id.compareTo(outro.id);
 		

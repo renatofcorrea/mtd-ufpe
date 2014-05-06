@@ -38,8 +38,7 @@ public class BaseThread extends Thread{
 	@Deprecated
 	@Override
 	public final synchronized void start() {
-		// TODO Auto-generated method stub
-		super.start();
+		System.out.println("Metodo deprecado. Use o metodo executar no pool");
 	}
 	
 	public void checarCancelamento() throws MTDException{
@@ -54,6 +53,5 @@ public class BaseThread extends Thread{
 	 */
 	public void executarNoPool(){
 		MTDFactory.getInstancia().getPoolThread().executar(this);
-	}
-	
+	}	
 }

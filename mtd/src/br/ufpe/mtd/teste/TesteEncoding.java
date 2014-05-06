@@ -22,7 +22,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexableField;
 import org.xml.sax.SAXException;
 
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.xml.DecodificadorDocumento;
 
 public class TesteEncoding {
@@ -85,8 +85,8 @@ public class TesteEncoding {
 		}
 		
 			
-			List<DocumentMTD> lista = decodificador.getDocumentos();
-			for (DocumentMTD documentMTD : lista) {
+			List<MTDDocument> lista = decodificador.getDocumentos();
+			for (MTDDocument documentMTD : lista) {
 				Document doc = documentMTD.toDocument();
 				
 				List<IndexableField> campos = doc.getFields();

@@ -9,7 +9,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 import br.ufpe.mtd.dados.IRepositorioIndice;
-import br.ufpe.mtd.entidade.DocumentMTD;
+import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.negocio.ControleIndice;
 import br.ufpe.mtd.thread.MTDThreadPool;
 import br.ufpe.mtd.util.MTDFactory;
@@ -119,8 +119,8 @@ public class TesteRepositorioIndice {
 			try {
 				long leitura ;
 				long inicio = System.currentTimeMillis();
-				ArrayList<DocumentMTD> docs;
-				docs = rep.consultar("futebol", 10000);
+				ArrayList<MTDDocument> docs;
+				docs = rep.consultar("futebol", MTDDocument.campos, 10000);
 				
 				//================consulta===================
 	//			long i = 0;

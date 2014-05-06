@@ -9,13 +9,18 @@ public enum MTDArquivoEnum {
 
 	INDICE_DIR(MTDParametros.getExternalStorageDirectory(),MTDParametros.getMTDProperties().getProperty("indice_dir")),
 	PASTA_TABELAS(MTDParametros.getExternalStorageDirectory(),"tabelas"),
+	PASTA_TREINO(MTDParametros.getExternalStorageDirectory(),"treino"),
 	DOC_TABLE(PASTA_TABELAS.getArquivo(),"doc_table.txt"), 
 	WORD_TABLE(PASTA_TABELAS.getArquivo(),"word_table.txt"), 
 	WORD_DOC_TABLE(PASTA_TABELAS.getArquivo(),"word_doc_table.txt"),
+	TEMPLATE_TREINAMENTO(PASTA_TREINO.getArquivo(),"treinamento_template_vetor.tv"),
+	VECTOR_TREINAMENTO(PASTA_TREINO.getArquivo(),"treinamento_vetor.vec"),
+	PROPERTIES_TREINAMENTO(PASTA_TREINO.getArquivo(),"treinamento.prop"),
 	TCEN_ARQUIVO(MTDParametros.getLocalFile("TCEN.txt")),
 	OUTROS_ARQUIVO(MTDParametros.getLocalFile("OUTROS.txt")),
 	CHLA_ARQUIVO(MTDParametros.getLocalFile("CHLA.txt")),
-	CBS_ARQUIVO(MTDParametros.getLocalFile("CBS.txt"));
+	CBS_ARQUIVO(MTDParametros.getLocalFile("CBS.txt"))
+	;
 	
 	private File arquivo;
 

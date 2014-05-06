@@ -126,9 +126,13 @@ public class Log {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {// trata a excecao fora mas fecha a stream sempre
-				if(printStream!= null){
-					printStream.flush();
-					printStream.close();
+				try {
+					if(printStream!= null){
+						printStream.flush();
+						printStream.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 				try {
 					if(fos != null){
