@@ -1,5 +1,6 @@
 package br.ufpe.mtd.thread.treinamento;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -21,6 +22,7 @@ import br.ufpe.mtd.enumerado.AreaCNPQEnum;
 import br.ufpe.mtd.enumerado.MTDArquivoEnum;
 import br.ufpe.mtd.thread.BaseThread;
 import br.ufpe.mtd.util.MTDFactory;
+import br.ufpe.mtd.util.MTDParametros;
 
 public class TreinamentoThread extends BaseThread{
 	
@@ -39,7 +41,7 @@ public class TreinamentoThread extends BaseThread{
 			System.out.println("Recuperando documentos...");
 			List<MTDDocument> listaDocumentos = getListaDocumentos(mapaEstatisticaPalavra);
 			
-			gerarArquivosEntradaRN(listaDocumentos,mapaEstatisticaPalavra);
+			//gerarArquivosEntradaRN(listaDocumentos,mapaEstatisticaPalavra);
 		    
 			realizarTreinamento(mapaEstatisticaPalavra, listaDocumentos);
 			
@@ -93,6 +95,9 @@ public class TreinamentoThread extends BaseThread{
 	public void gerarArquivosEntradaRN(List<MTDDocument> listaDocumentos, TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra) throws Exception{
 		gerarMapaPalavraEPalavraDoc(mapaEstatisticaPalavra);
 		gerarMapaDocumentos(listaDocumentos);
+		gerarArquivoTemplateVetor(mapaEstatisticaPalavra,listaDocumentos);
+		gerarArquivoVecCls(mapaEstatisticaPalavra,listaDocumentos);
+		
 	}
 	
 	/**
@@ -103,22 +108,14 @@ public class TreinamentoThread extends BaseThread{
 	 * @param listaDocumentos
 	 * @throws IOException 
 	 */
-	public void realizarTreinamento(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra,List<MTDDocument> listaDocumentos) throws IOException{
-		
+	public void realizarTreinamento(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra,List<MTDDocument> listaDocumentos) throws IOException{		
 		File arquivoProp = MTDArquivoEnum.PROPERTIES_TREINAMENTO.getArquivo(); 
-		String[] cmdLine = new String[]{"--numberWinners",""+(NUM_CICLOS * listaDocumentos.size()),"--cpus",""+Runtime.getRuntime().availableProcessors(), arquivoProp.getAbsolutePath()};
+		String[] cmdLine = new String[]{"--numberWinners",new Integer(NUM_CICLOS * listaDocumentos.size()).toString(),
+										"--cpus", MTDParametros.getNumMaxThreads().toString(), arquivoProp.getAbsolutePath()};
 		gerarArquivoProperties(cmdLine,arquivoProp, listaDocumentos.size());
 		
-		gerarArquivoTemplateVetor(mapaEstatisticaPalavra,listaDocumentos);
-		gerarArquivoVetorEntradas(mapaEstatisticaPalavra,listaDocumentos);
-		
-		GrowingSOM.main(cmdLine);
-		
+		GrowingSOM.main(cmdLine);		
 	}
-	
-	public void iniciarTreinamento() {
-        
-    }
 	
 	/**
 	 * Gera os aquivos de mapa de palavra e mapa palavra documento
@@ -173,6 +170,14 @@ public class TreinamentoThread extends BaseThread{
 	    fosPalavras.close();
 	}
 	
+	/**
+	 * Recupera todos os ids de documentos
+	 * Representa o corpus
+	 * 
+	 * @param mapaEstatisticaPalavra
+	 * @return
+	 * @throws IOException
+	 */
 	private TreeSet<Integer> getDocIdSet(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra) throws IOException{
 		
 		TreeSet<Integer> mapaDocId = new TreeSet<Integer>();
@@ -192,6 +197,64 @@ public class TreinamentoThread extends BaseThread{
 		}
 		
 		return mapaDocId;
+	}
+	/**
+	 * Recupera todos os ids de documentos
+	 * Representa o corpus
+	 * 
+	 * @param mapaEstatisticaPalavra
+	 * @return
+	 * @throws IOException
+	 */
+	private TreeMap<Integer, Double> getMapaDocsNormalizado(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra) throws IOException{
+		
+		TreeMap<Integer, Double> mapaDocFreqNorm = new TreeMap<Integer, Double>(); 
+		
+		TreeMap<Integer, TreeMap<String, Integer>> mapaDocs = new TreeMap<Integer, TreeMap<String, Integer>>();
+		
+		Iterator<String> iterator = mapaEstatisticaPalavra.keySet().iterator();
+		
+		while(iterator.hasNext()){
+			String palavra = iterator.next();
+			
+			EstatisticaPalavra estatisticaPalavra = mapaEstatisticaPalavra.get(palavra);
+			TreeMap<Integer, Integer> mapaDocFreq = estatisticaPalavra.getMapaDocFreq();
+			
+			Iterator<Integer> iteratorDocFreq = mapaDocFreq.keySet().iterator();
+			
+			while(iteratorDocFreq.hasNext()){
+				Integer docId = iteratorDocFreq.next();
+				//cria o mapa na primeira vez
+				if(!mapaDocs.containsKey(docId)){
+					mapaDocs.put(docId, new TreeMap<String, Integer>());
+				}
+				
+				TreeMap<String,Integer> mapa = mapaDocs.get(docId);
+				
+				if(!mapa.containsKey(palavra)){
+					mapa.put(palavra, mapaDocFreq.get(docId) * mapaDocFreq.get(docId));
+					
+				}else{
+					Integer freqAcum = mapa.get(docId) + mapaDocFreq.get(docId * mapaDocFreq.get(docId));
+					mapa.put(palavra, freqAcum);
+					
+				}
+			}
+		}
+				
+		for(Integer docId: mapaDocs.keySet()){
+			Integer norma = 0;
+			TreeMap<String,Integer> mapa = mapaDocs.get(docId);
+			
+			for(String palavra: mapa.keySet()){
+				norma += mapa.get(palavra);
+			}
+			
+			mapaDocFreqNorm.put(docId, Math.sqrt(norma));
+		}
+		
+		
+		return mapaDocFreqNorm;
 	}
 	
 	/**
@@ -230,7 +293,7 @@ public class TreinamentoThread extends BaseThread{
 	}
 	
 	public void gerarArquivoTemplateVetor(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos) throws IOException{
-		System.out.println("Gerando template ovector...");
+		System.out.println("Gerando template vector...");
 	    
 		FileOutputStream fos = MTDFactory.getInstancia().getTreinamentoStream(MTDArquivoEnum.TEMPLATE_TREINAMENTO);
 	    StringBuilder strBuilder = new StringBuilder();
@@ -262,12 +325,27 @@ public class TreinamentoThread extends BaseThread{
 	    fos.close();
 	}
 	
-	public void gerarArquivoVetorEntradas(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos) throws IOException{
-		System.out.println("Gerando vector de entradas...");
-		
-		FileOutputStream fos = MTDFactory.getInstancia().getTreinamentoStream(MTDArquivoEnum.VECTOR_TREINAMENTO);
+	/**
+	 * Gera o arquivo de vetor de entradas .vec
+	 * E os arquivos de visualizacao .cls
+	 * 
+	 * @param mapaEstatisticaPalavra
+	 * @param listaDocumentos
+	 * @throws IOException
+	 */
+	public void gerarArquivoVecCls(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos) throws IOException{
+		System.out.println("Gerando vector de entradas e arquivos cls...");
+		TreeMap<Integer, Double> mapaNormas = getMapaDocsNormalizado(mapaEstatisticaPalavra);
+		MTDFactory fabrica = MTDFactory.getInstancia();
+		FileOutputStream fosVec = fabrica.getTreinamentoStream(MTDArquivoEnum.VECTOR_TREINAMENTO);
+		FileOutputStream fosVecNorm = fabrica.getTreinamentoStream(MTDArquivoEnum.VECTOR_TREINAMENTO_NORM);
+		FileOutputStream fosClsAreaP = fabrica.getTreinamentoStream(MTDArquivoEnum.CLS_AREA_PROGRAMA);
+		FileOutputStream fosClsProg = fabrica.getTreinamentoStream(MTDArquivoEnum.CLS_PROGRAMA);
+		FileOutputStream fosClsAreaCnpq = fabrica.getTreinamentoStream(MTDArquivoEnum.CLS_AREA_CNPQ);
+		FileOutputStream fosClsGranArea = fabrica.getTreinamentoStream(MTDArquivoEnum.CLS_GRANDE_AREA);
 		
 		try {
+			// ======================= cabecalho =======================
 			StringBuilder strBuilder = new StringBuilder();
 			
 			strBuilder.append("$TYPE vector\n");
@@ -275,11 +353,21 @@ public class TreinamentoThread extends BaseThread{
 			strBuilder.append("$YDIM 1\n");
 			strBuilder.append("$VEC_DIM " + mapaEstatisticaPalavra.size()+"\n");
 			
-			fos.write(strBuilder.toString().getBytes());
-			fos.flush();
+			fosVec.write(strBuilder.toString().getBytes());
+			fosVec.flush();
+			
+			fosVecNorm.write(strBuilder.toString().getBytes());
+			fosVecNorm.flush();
+			// ======================= cabecalho =======================
+			
 			
 			StringBuilder strLinha = new StringBuilder();
+			StringBuilder strLinhaNorm = new StringBuilder();
+			
 			for(MTDDocument doc : listaDocumentos){
+				
+				// ======================= formatar linha arquivos vec ==============
+				Double norma = mapaNormas.get(doc.getDocId());
 				Iterator<String> it = mapaEstatisticaPalavra.keySet().iterator();
 				
 				while (it.hasNext()) {
@@ -288,18 +376,47 @@ public class TreinamentoThread extends BaseThread{
 					
 					if(mapaDocIdFreq.containsKey(doc.getDocId())){
 						strLinha.append(mapaDocIdFreq.get(doc.getDocId()));
+						strLinhaNorm.append(mapaDocIdFreq.get(doc.getDocId())/norma);//valor divido pela norma
+						
 					}else{
 						strLinha.append("0");
+						strLinhaNorm.append("0");
 					}
+					
 					strLinha.append(" ");
+					strLinhaNorm.append(" ");
 				}
 				
-				strLinha.append(" "+doc.getDocId());
+				// ======================= formatar linha arquivos vec ==============
 				
-				fos.write(strLinha.toString().getBytes());
-				fos.write("\n".getBytes());
-				fos.flush();
+				strLinha.append(" "+doc.getDocId());
+				strLinhaNorm.append(" "+doc.getDocId());
+				
+				//=============== enviando os dados para os arquivos ================
+				fosVec.write(strLinha.toString().getBytes());
+				fosVec.write("\n".getBytes());
+				fosVec.flush();
+				
+				fosVecNorm.write(strLinhaNorm.toString().getBytes());
+				fosVecNorm.write("\n".getBytes());
+				fosVecNorm.flush();
+				
+				fosClsAreaCnpq.write((doc.getDocId()+"\t"+doc.getAreaCNPQ()+"\n").getBytes());
+				fosClsAreaCnpq.flush();
+				
+				fosClsAreaP.write((doc.getDocId()+"\t"+doc.getAreaPrograma()+"\n").getBytes());
+				fosClsAreaP.flush();
+				
+				fosClsProg.write((doc.getDocId()+"\t"+doc.getPrograma()+"\n").getBytes());
+				fosClsProg.flush();
+				
+				fosClsGranArea.write((doc.getDocId()+"\t"+fabrica.getAreaCNPQ(doc.getAreaCNPQ())+"\n").getBytes());
+				fosClsGranArea.flush();
+				//=============== enviando os dados para os arquivos ================
+				
+				//============================ nova linha ===========================
 				strLinha = new StringBuilder();
+				strLinhaNorm = new StringBuilder();
 			}
 
 			
@@ -307,12 +424,16 @@ public class TreinamentoThread extends BaseThread{
 			throw e;
 			
 		}finally{
-			try {
-				if(fos != null){
-					fos.close();
+			//tenta fechar todas as Streams
+			FileOutputStream[] streams = new FileOutputStream[]{fosVec, fosVecNorm, fosClsAreaCnpq, fosClsAreaP, fosClsProg, fosClsGranArea};  
+			for (FileOutputStream fileOutputStream : streams) {
+				try {
+					if(fileOutputStream != null){
+						fileOutputStream.close();
+					}
+				} catch (Exception e2) {
+					//
 				}
-			} catch (Exception e2) {
-				//
 			}
 		}
 	}
@@ -332,10 +453,10 @@ public class TreinamentoThread extends BaseThread{
 		properties.setProperty("sparseData", "yes");
 		properties.setProperty("isNormalized", "no");//falta normalizar
 		
-		properties.setProperty("xSize", "10");
+		properties.setProperty("xSize", "12");
 		properties.setProperty("ySize", "10");
 		properties.setProperty("learnrate", "0.7");
-		properties.setProperty("sigma", "1.0");
+		properties.setProperty("sigma", "8.0");
 		
 		properties.setProperty("templateFileName", MTDArquivoEnum.TEMPLATE_TREINAMENTO.getArquivo().getAbsolutePath());
 		properties.setProperty("randomSeed", randoSeed.toString());

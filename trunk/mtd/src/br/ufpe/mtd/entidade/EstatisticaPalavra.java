@@ -13,6 +13,7 @@ import java.util.TreeMap;
  */
 public class EstatisticaPalavra implements Comparable<EstatisticaPalavra>{
 
+	private boolean mapaNormalizado;
 	private static int tamCorpus;
 	private TreeMap<Integer, Integer> mapaDocFreq;
 	private Integer docFreq;
@@ -51,11 +52,11 @@ public class EstatisticaPalavra implements Comparable<EstatisticaPalavra>{
 			Integer frequencia = mapaDocFreq.get(docId);
 			
 			if(freqMin == null || freqMin.intValue() > frequencia.intValue()){
-				freqMin = frequencia;
+				freqMin = frequencia ;
 			}
 			
 			if(freqMax == null || freqMax.intValue() < frequencia.intValue()){
-				freqMax = frequencia;
+				freqMax = frequencia ;
 			}
 			
 			freqAcumulada += frequencia;
@@ -69,18 +70,17 @@ public class EstatisticaPalavra implements Comparable<EstatisticaPalavra>{
 		this.freqMax = freqMax;
 		this.freqMin = freqMin;
 		
-		Double d = (new Double(freqAcumulada) / mapaDocFreq.size());
+		Double d = (mapaDocFreq.size() == 0 ? 0: new Double(freqAcumulada) / mapaDocFreq.size());
 		BigDecimal bd = new BigDecimal(d);
 		this.freqMediaLocal = bd.setScale(16, BigDecimal.ROUND_HALF_DOWN).doubleValue();
 		
-		d = (new Double(freqAcumulada) / tamCorpus);
+		d = (tamCorpus == 0 ? 0 : new Double(freqAcumulada) / tamCorpus);
 		bd = new BigDecimal(d);
 		this.freqMediaGlobal = bd.setScale(16, BigDecimal.ROUND_HALF_DOWN).doubleValue();
 	}
 	
 	
 	public void atualizarMapa(ArrayList<int[]> lista){
-		
 		for (int[] arrayDocFreq : lista) {
 			int docId = arrayDocFreq[0];
 			if(mapaDocFreq.containsKey(docId)){
@@ -90,6 +90,7 @@ public class EstatisticaPalavra implements Comparable<EstatisticaPalavra>{
 				mapaDocFreq.put(docId, arrayDocFreq[1]);
 			}
 		}
+		
 	}
 	
 	/**
