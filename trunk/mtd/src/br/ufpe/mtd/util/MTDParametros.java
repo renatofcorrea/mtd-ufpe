@@ -8,7 +8,6 @@ import java.util.Properties;
 
 public class MTDParametros {
 	
-	private final static int NUM_MAX_THREADS = 10;
 	private final static int NUM_MAX_RETENTATIVAS = 5;
 	public final static String STOP_WORDS = "bdtdstopwords.txt";
 	private static Properties properties;
@@ -101,28 +100,15 @@ public class MTDParametros {
 	
 	/**
 	 * Retorna o numero maximo de threads dentro de um pool do sistema.
+	 * Que é calculado baseado na quantidade de processadores disponiveis no
+	 * computador onde o sistema esta executando.
 	 * 
-	 * Retorna valor configurado no arquivo de propoerties pela
-	 * chave max_concorrencia ou valor padrao  definido pela constante NUM_MAX_THREADS
-	 * se o properties não tiver a chave configurada.
+	 * Threads = 2 *  Qtd_CPUS
 	 * 
-	 * A quantidade maxima de Threads sera 100 e a minima 1
 	 * @return
 	 */
-	public static int getNumMaxThreads(){
-		String strMaxThreads = getMTDProperties().getProperty("max_concorrencia");
-		if(strMaxThreads!= null){
-			try {
-				Integer qtd = Integer.parseInt(strMaxThreads);
-				
-				if(qtd.intValue() > 0 && qtd.intValue() <=100){
-					return qtd;
-				}				
-			} catch (Exception e) {
-				//sera retornado o valor padrao do metodo
-			}
-		}
-		return NUM_MAX_THREADS;
+	public static Integer getNumMaxThreads(){
+		return new Integer(Runtime.getRuntime().availableProcessors() * 2);
 	}
 	
 	/**
