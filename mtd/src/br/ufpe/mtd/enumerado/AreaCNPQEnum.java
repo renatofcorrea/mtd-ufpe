@@ -17,6 +17,7 @@ public enum AreaCNPQEnum {
 	private AreaCNPQEnum() {
 		texto = "NAOENCONTRADO";
 	}
+	
 	private AreaCNPQEnum(MTDArquivoEnum arquivoEnum) {
 		File arquivo = arquivoEnum.getArquivo();
 		try {

@@ -145,3 +145,57 @@ a classe  RepositorioIndice.java que com a mudança passou a se chamar Repositori
 Semana: 13/01/2014 a 17/01/2014
 
 
+
+Semana: 03/02/2014 a 07/02/2014
+
+- Atualização do projeto para incluir as novas funcionalidades da versão 4.6 do Lucene.
+Para que o projeto possa funcionar usando a mesma base de dados e que possa ser acessada tanto pelo repositorio pronto para Lucene quanto para Solr é
+preciso realizar esta atualização.
+ 
+- Aprofundamento da base teórica no tocante a recuperação de informação: Leitura do livro
+	Introdução aos Modelos Computacionais de Recuperação de Informação
+	Edberto Ferneda
+	Editora Ciência Moderna , 2012.
+
+Semana: 14/02/2014 a 14/02/2014
+	Continuar estudando o livro da semana anterior.  
+	Geração dos arquivos de entrada para o treinamento da rede neural (word_table, word_doc_table, doc_table).
+	  
+Semana: 16/02/2014 a 21/02/2014
+Geração dos arquivos de entrada para o treinamento da rede neural (word_table, word_doc_table, doc_table). 
+Limpar o resultado dos termos colocados no indice adicionando o analisador TextAnalyzer implementado no projeto MTD.
+  
+Semana: 24/02/2014 a 28/02/2014 
+- buscar uma forma de colocar um analisador que respeite palavras que contenham numero e que fique em minuscula (encontrado o ArabicAnalyzer)
+- Passar o analisador para o Solr ou Ver se o Solr tem um analisador melhor que o TextAnalyzer do MTD (ver se tem como setar o ArabicAnalyser)
+- Passar a lista de stop words para o Solr.
+- Criar um teste simples para ver se está sendo indexado corretamente e se os arquivos de entrada da RN estão corretos. (Poucos arquivos dos com poucas palavras)(concluido)
+- Permitir implementar a regra de relevância das palavras para o treinamento.
+  
+ 
+ 03/03/2014 a 07/03/2014
+ 
+ - Conseguir a frequencia acumulada da palavra para os campos considerados relevantes. (TF Terms frequency) 
+ - Saber se a palavra existe ou não no documento (DF Doc Freq) 0 não 1 sim Em quantos docs aparece a palavra.
+ 
+ - Criar um filtro para a busca dos dados do mapa doc frequencia.
+ - ver o metodo teste1() que esta no repositorio do lucene.
+ 
+ 
+ urls: http://www.liber.ufpe.br:8080/MTDWeb/
+ http://www.liber.ufpe.br:8080/MTDWeb_NB/
+ 
+ 17/03/2014 a 21/03/2014
+ 
+ - Ver Capitulo Sobre Lucene: Como Criar um Analizador de Texto.
+ - Como se comporta na criação do Indice do Lucene.
+ - O Nosso analizador é que colocará no índice Sintágmas nominais e não palavras isoladas.
+ - Buscar os docs vazios.
+ 
+ 
+ 24/03/2014 a 28/03/2014
+ 
+ 
+ - Colocar no arquivo de entrada para treinamento da rede neural a quantidade de documentos quer a palavra ocorre, a frequencia acumulada.
+ - Colocar retentaivas na hora de baixar os metadados para cada identificador.
+ - Colocar dados das areas baseado em arquivos com areas de conhecimento. Colocado no DropBox. tac-cnpq (tabela de area de conhecimento - cnpq)
