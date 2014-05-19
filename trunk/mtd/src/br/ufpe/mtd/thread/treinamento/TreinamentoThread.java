@@ -449,9 +449,9 @@ public class TreinamentoThread extends BaseThread{
 		
 		properties.setProperty("tau", "1.0");
 		properties.setProperty("namePrefix", "Treino");
-		properties.setProperty("vectorFileName", MTDArquivoEnum.VECTOR_TREINAMENTO.getArquivo().getAbsolutePath());
+		properties.setProperty("vectorFileName", MTDArquivoEnum.VECTOR_TREINAMENTO_NORM.getArquivo().getAbsolutePath());
 		properties.setProperty("sparseData", "yes");
-		properties.setProperty("isNormalized", "no");//falta normalizar
+		properties.setProperty("isNormalized", "yes");//falta normalizar
 		
 		properties.setProperty("xSize", "12");
 		properties.setProperty("ySize", "10");

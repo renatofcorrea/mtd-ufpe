@@ -108,7 +108,7 @@ public class MTDParametros {
 	 * @return
 	 */
 	public static Integer getNumMaxThreads(){
-		return new Integer(Runtime.getRuntime().availableProcessors() * 2);
+		return new Integer(Runtime.getRuntime().availableProcessors() * 3);
 	}
 	
 	/**
