@@ -41,7 +41,7 @@ public class TreinamentoThread extends BaseThread{
 			System.out.println("Recuperando documentos...");
 			List<MTDDocument> listaDocumentos = getListaDocumentos(mapaEstatisticaPalavra);
 			
-			//gerarArquivosEntradaRN(listaDocumentos,mapaEstatisticaPalavra);
+			gerarArquivosEntradaRN(listaDocumentos,mapaEstatisticaPalavra);
 		    
 			realizarTreinamento(mapaEstatisticaPalavra, listaDocumentos);
 			
@@ -87,9 +87,9 @@ public class TreinamentoThread extends BaseThread{
 	 * Gera os arquivos de entrada para o treinamento da rede neural
 	 * do MTD.
 	 * 3 arquivos sao gerados
-	 * word_table - que contem uma tabela textual com as informacoes das palvras no formato (id_palavra palavra) sendo espaço o separador das colunas.
-	 * doc_table - que contem uma tabela textual com as informacoes das dos documentos no formato (id_documento doc_identifier;area_cnpq;titulo;area_programa) sendo espaço o separador das colunas.
-	 * word_doc_table - que contem uma tabela textual com as informacoes das palvras-documentos-frequencia da palavra no doc,  no formato (idpalavra id_documento frequencia) sendo espaço o separador das colunas.
+	 * word_table - que contem uma tabela textual com as informacoes das palvras no formato (id_palavra palavra) sendo espaÃ§o o separador das colunas.
+	 * doc_table - que contem uma tabela textual com as informacoes das dos documentos no formato (id_documento doc_identifier;area_cnpq;titulo;area_programa) sendo espaÃ§o o separador das colunas.
+	 * word_doc_table - que contem uma tabela textual com as informacoes das palvras-documentos-frequencia da palavra no doc,  no formato (idpalavra id_documento frequencia) sendo espaÃ§o o separador das colunas.
 	 * @throws Exception 
 	 */
 	public void gerarArquivosEntradaRN(List<MTDDocument> listaDocumentos, TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra) throws Exception{
@@ -259,7 +259,7 @@ public class TreinamentoThread extends BaseThread{
 	
 	/**
 	 * Escreve no arquivo os dados relativos ao mapa de documentos
-	 * que é representado pelo id do doc e dados adicionais formados por seus atributos
+	 * que Ã© representado pelo id do doc e dados adicionais formados por seus atributos
 	 * 
 	 * onde cada linha do arquivo segue a formatacao a seguir (id atributo;atributo;atributo)
 	 *  
@@ -278,7 +278,7 @@ public class TreinamentoThread extends BaseThread{
 	    	
 	    	AreaCNPQEnum areaCnpq = mtdFabrica.getAreaCNPQ(doc.getAreaCNPQ());
 	    	
-	    	//como o separador de colunas é ; substituiremos por virgula(,) qualquer ocorrencia dentro dos textos.
+	    	//como o separador de colunas Ã© ; substituiremos por virgula(,) qualquer ocorrencia dentro dos textos.
     		String dadosDoc = doc.getDocId() +";"+doc.getId()+";"+areaCnpq+";"+doc.getAreaPrograma()+";"+doc.getPrograma()+";"+doc.getTitulo().replace(";", ",");
     		if(i != listaDocumentos.size() - 1){
     			dadosDoc+="\n";
