@@ -14,6 +14,7 @@ public enum MTDArquivoEnum {
 	WORD_TABLE(PASTA_TABELAS.getArquivo(),"word_table.txt"), 
 	WORD_DOC_TABLE(PASTA_TABELAS.getArquivo(),"word_doc_table.txt"),
 	TEMPLATE_TREINAMENTO(PASTA_TREINO.getArquivo(),"treinamento_template_vetor.tv"),
+	TEMPLATE_TREINAMENTO_NORM(PASTA_TREINO.getArquivo(),"treinamento_template_vetor_norm.tv"),
 	VECTOR_TREINAMENTO(PASTA_TREINO.getArquivo(),"treinamento_vetor.vec"),
 	VECTOR_TREINAMENTO_NORM(PASTA_TREINO.getArquivo(),"treinamento_vetor_norm.vec"),
 	CLS_AREA_PROGRAMA(PASTA_TREINO.getArquivo(),"area_programa.cls"),
