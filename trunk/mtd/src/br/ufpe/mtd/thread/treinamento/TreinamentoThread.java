@@ -1,7 +1,9 @@
 package br.ufpe.mtd.thread.treinamento;
 
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,7 +13,15 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
+import at.tuwien.ifs.somtoolbox.data.InputData;
+import at.tuwien.ifs.somtoolbox.data.InputDataFactory;
+import at.tuwien.ifs.somtoolbox.input.SOMLibDataWinnerMapping;
+import at.tuwien.ifs.somtoolbox.input.SOMLibFileFormatException;
+import at.tuwien.ifs.somtoolbox.input.SOMLibFormatInputReader;
+import at.tuwien.ifs.somtoolbox.layers.GrowingLayer;
+import at.tuwien.ifs.somtoolbox.layers.quality.QualityMeasure;
 import at.tuwien.ifs.somtoolbox.models.GrowingSOM;
 import at.tuwien.ifs.somtoolbox.util.StringUtils;
 import br.ufpe.mtd.dados.IRepositorioIndice;
@@ -32,18 +42,21 @@ public class TreinamentoThread extends BaseThread{
 	public void run() {
 		super.run();
 		try {
+			
 			long inicio = System.currentTimeMillis();
 			System.out.println(" ---- iniciando treinamento da rede neural-----");
 			
-			System.out.println("Processando termos...");
-			TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra = getMapaEstatisticaPalavra();
+//			System.out.println("Processando termos...");
+//			TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra = getMapaEstatisticaPalavra();
+//			
+//			System.out.println("Recuperando documentos...");
+//			List<MTDDocument> listaDocumentos = getListaDocumentos(mapaEstatisticaPalavra);
+//			
+//			gerarArquivosEntradaRN(listaDocumentos,mapaEstatisticaPalavra);
+//		    
+//			realizarTreinamento(mapaEstatisticaPalavra, listaDocumentos);
 			
-			System.out.println("Recuperando documentos...");
-			List<MTDDocument> listaDocumentos = getListaDocumentos(mapaEstatisticaPalavra);
-			
-			gerarArquivosEntradaRN(listaDocumentos,mapaEstatisticaPalavra);
-		    
-			realizarTreinamento(mapaEstatisticaPalavra, listaDocumentos);
+			calcularQualidadeMapa();
 			
 			System.out.println(" ---- fim do treinamento da rede neural-----");
 			
@@ -95,8 +108,9 @@ public class TreinamentoThread extends BaseThread{
 	public void gerarArquivosEntradaRN(List<MTDDocument> listaDocumentos, TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra) throws Exception{
 		gerarMapaPalavraEPalavraDoc(mapaEstatisticaPalavra);
 		gerarMapaDocumentos(listaDocumentos);
-		gerarArquivoTemplateVetor(mapaEstatisticaPalavra,listaDocumentos);
-		gerarArquivoVecCls(mapaEstatisticaPalavra,listaDocumentos);
+		TreeMap<Integer, Double> mapaNormas = getMapaDocsNormalizado(mapaEstatisticaPalavra);
+		gerarArquivoTemplateVetor(mapaEstatisticaPalavra,listaDocumentos, mapaNormas);
+		gerarArquivoVecCls(mapaEstatisticaPalavra,listaDocumentos, mapaNormas);
 		
 	}
 	
@@ -292,37 +306,55 @@ public class TreinamentoThread extends BaseThread{
 	    fosDocs.close();
 	}
 	
-	public void gerarArquivoTemplateVetor(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos) throws IOException{
+	public void gerarArquivoTemplateVetor(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos, TreeMap<Integer, Double> mapaNormas) throws IOException{
 		System.out.println("Gerando template vector...");
 	    
 		FileOutputStream fos = MTDFactory.getInstancia().getTreinamentoStream(MTDArquivoEnum.TEMPLATE_TREINAMENTO);
-	    StringBuilder strBuilder = new StringBuilder();
+		FileOutputStream fosNorm = MTDFactory.getInstancia().getTreinamentoStream(MTDArquivoEnum.TEMPLATE_TREINAMENTO_NORM);
+	    
+		StringBuilder strBuilder = new StringBuilder();
+		StringBuilder strBuilderNorm = new StringBuilder();
 	    
 	    strBuilder.append("$TYPE template\n");
 	    strBuilder.append("$XDIM 7\n");
 	    strBuilder.append("$YDIM " + listaDocumentos.size()+"\n");
 	    strBuilder.append("$VEC_DIM " + mapaEstatisticaPalavra.size()+"\n");
 	    
+	    strBuilderNorm.append(strBuilder.toString());
 	    
 	    Iterator<String> it = mapaEstatisticaPalavra.keySet().iterator();
 	    int i = 0;
 	    while(it.hasNext()){
 	    	String palavra = it.next();
+	    	
 	    	EstatisticaPalavra estatisticaPalavra = mapaEstatisticaPalavra.get(palavra);
+	    	estatisticaPalavra.normalizarMapa(mapaNormas);
+	    	estatisticaPalavra.gerarEstatisticaNorm();
+	    	
 	    	String linha = i +" " + palavra + " " +estatisticaPalavra.getDocFreq() + " " +estatisticaPalavra.getTotalDocFreq() + 
 	    			" " +estatisticaPalavra.getFreqMin() + " " + estatisticaPalavra.getFreqMax() + " " +estatisticaPalavra.getFreqMediaGlobal();
 	    	
+	    	String linhaNorm = i +" " + palavra + " " +estatisticaPalavra.getDocFreq() + " " +estatisticaPalavra.getTotalDocFreq() + 
+	    			" " + estatisticaPalavra.getFreqMinNorm().longValue() + " " + Double.valueOf(Math.ceil(estatisticaPalavra.getFreqMaxNorm())).longValue() + " " +estatisticaPalavra.getFreqMediaGlobalNorm();
+	    	
 	    	strBuilder.append(linha);
+	    	strBuilderNorm.append(linhaNorm);
 	    	
 	    	if(it.hasNext()){
 	    		strBuilder.append("\n");
+	    		strBuilderNorm.append("\n");
 	    	}
 	    	i++;
 	    }
 	    
 	    fos.write(strBuilder.toString().getBytes());
 	    fos.flush();
+	    
+	    fosNorm.write(strBuilderNorm.toString().getBytes());
+	    fosNorm.flush();
+	    
 	    fos.close();
+	    fosNorm.close();
 	}
 	
 	/**
@@ -333,9 +365,8 @@ public class TreinamentoThread extends BaseThread{
 	 * @param listaDocumentos
 	 * @throws IOException
 	 */
-	public void gerarArquivoVecCls(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos) throws IOException{
+	public void gerarArquivoVecCls(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos, TreeMap<Integer, Double> mapaNormas) throws IOException{
 		System.out.println("Gerando vector de entradas e arquivos cls...");
-		TreeMap<Integer, Double> mapaNormas = getMapaDocsNormalizado(mapaEstatisticaPalavra);
 		MTDFactory fabrica = MTDFactory.getInstancia();
 		FileOutputStream fosVec = fabrica.getTreinamentoStream(MTDArquivoEnum.VECTOR_TREINAMENTO);
 		FileOutputStream fosVecNorm = fabrica.getTreinamentoStream(MTDArquivoEnum.VECTOR_TREINAMENTO_NORM);
@@ -456,9 +487,9 @@ public class TreinamentoThread extends BaseThread{
 		properties.setProperty("xSize", "12");
 		properties.setProperty("ySize", "10");
 		properties.setProperty("learnrate", "0.7");
-		properties.setProperty("sigma", "8.0");
+		properties.setProperty("sigma", "9.0");
 		
-		properties.setProperty("templateFileName", MTDArquivoEnum.TEMPLATE_TREINAMENTO.getArquivo().getAbsolutePath());
+		properties.setProperty("templateFileName", MTDArquivoEnum.TEMPLATE_TREINAMENTO_NORM.getArquivo().getAbsolutePath());
 		properties.setProperty("randomSeed", randoSeed.toString());
 
 		properties.setProperty("numCycles", NUM_CICLOS.toString());
@@ -472,4 +503,125 @@ public class TreinamentoThread extends BaseThread{
         properties.store(writer, StringUtils.wrap(header, 80, "#   "));
         writer.close();
 	}
+	
+	
+	public static void calcularQualidadeMapa() throws FileNotFoundException, SOMLibFileFormatException {
+        GrowingSOM gsom = null;
+        InputData data = null;
+
+        String pastaTreino = MTDArquivoEnum.PASTA_TREINO.getArquivo().getAbsolutePath();
+        
+        String weightFileName = pastaTreino+File.separator+"Treino.wgt";
+        String mapDescFileName = pastaTreino+File.separator+"Treino.map";
+        String unitDescFileName = pastaTreino+File.separator+"Treino.unit";
+        String inputVectorFileName = MTDArquivoEnum.VECTOR_TREINAMENTO_NORM.getArquivo().getAbsolutePath();
+        String dataWinnerMappingFile = pastaTreino+File.separator+"Treino.dwm";
+        String qualityMeasureClass = "q_te";
+        String qualityMeasureVariant = "TE8_Map";
+        // String k = config.getString("k", "5");
+        String outputfile = "D:\\ErroTopografico\\Err_Topog_TE8_Map.txt";
+
+        SOMLibDataWinnerMapping dataWinnerMapping = new SOMLibDataWinnerMapping(dataWinnerMappingFile);
+        data = InputDataFactory.open(inputVectorFileName);
+
+        try {
+            gsom = new GrowingSOM(new SOMLibFormatInputReader(weightFileName, unitDescFileName, mapDescFileName));
+        } catch (Exception e) {
+            Logger.getLogger("at.tuwien.ifs.somtoolbox").severe(e.getMessage() + " Aborting.");
+            System.exit(-1);
+        }
+        try {
+            GrowingLayer layer = gsom.getLayer();
+            QualityMeasure medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.TopographicError(layer, data);
+            QualityMeasure medQuaQuantizacao = new at.tuwien.ifs.somtoolbox.layers.quality.QuantizationError(layer, data);
+            at.tuwien.ifs.somtoolbox.layers.quality.TopographicFunction q5_tf = null;
+
+            //medidas
+//            if (qualityMeasureClass.equals("q_te")) {
+//                medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.TopographicError(layer, data);
+//            } else if (qualityMeasureClass.equals("q_qe")) {
+//                medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.QuantizationError(layer, data);
+//            } else if (qualityMeasureClass.equals("q_id")) {
+//                medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.IntrinsicDistance(layer, data);
+//            } else if (qualityMeasureClass.equals("q_tp")) {
+//                medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.TopographicProduct(layer, data);
+//            } else if (qualityMeasureClass.equals("q_tf")) {
+//                q5_tf = new at.tuwien.ifs.somtoolbox.layers.quality.TopographicFunction(layer, data);
+//            } else if (qualityMeasureClass.equals("q_tw")) {
+//                medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.Trustworthiness_NeighborhoodPreservation(layer,
+//                        data);
+//            } else if (qualityMeasureClass.equals("q_np")) {
+//                medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.Trustworthiness_NeighborhoodPreservation(layer,
+//                        data);
+//            } else if (qualityMeasureClass.equals("q_dist")) {
+//                medQuaTopografica = new at.tuwien.ifs.somtoolbox.layers.quality.SOMDistortion(layer, data);
+//            } else {
+//                throw new Exception("Quality measure class " + qualityMeasureClass + " is unknown.");
+//            }
+            
+            //Erro topologico
+            System.out.println("TE_Map "+medQuaTopografica.getMapQuality("TE_Map"));
+            System.out.println("TE8_Map "+medQuaTopografica.getMapQuality("TE8_Map"));
+            
+            //Erro de quantizacao
+            System.out.println("QE_Map "+medQuaQuantizacao.getMapQuality("mqe"));
+            System.out.println("MQE_Map "+medQuaQuantizacao.getMapQuality("mmqe"));
+
+            //Intrinsic Distance
+//            System.out.println("ID_Map "+medQuaQuantizacao.getMapQuality("ID_Map"));
+            
+            //Topographic Product
+            //System.out.println("TP_Map "+medQuaQuantizacao.getMapQuality("TP_Map"));
+            
+            //Topographic Funtion
+            //System.out.println("TP_Map "+medQuaQuantizacao.getMapQuality("TP_Map"));
+            
+            System.out.println("terminou!");
+            /*            
+
+                        
+                         * @ 5. Topographic Funtion_____________________
+                         
+                        else if (qualityMeasureClass.equals("q_tf")) {
+                            printFunctionValues(q5_tf.getFunctionValues(Integer.parseInt(k)), Integer.parseInt(k) * 2 + 1,
+                                    outputfile);
+                        }
+
+                        
+                         * @ 6. Trustworthiness and 7. Neighborhood Preservation_____________________
+                         
+                        else if (qualityMeasureVariant.equals("TW_Unit")) {
+                            String trickydick = qualityMeasureVariant + "|" + k;
+                            printDoubles(inzrqm.getUnitQualities(trickydick), layer.getXSize(), layer.getYSize(), outputfile);
+                        } else if (qualityMeasureVariant.equals("TW_Map")) {
+                            String trickydick = qualityMeasureVariant + "|" + k;
+                            printDouble(inzrqm.getMapQuality(trickydick), outputfile);
+                        }
+
+                        else if (qualityMeasureVariant.equals("NP_Unit")) {
+                            String trickydick = qualityMeasureVariant + "|" + k;
+                            printDoubles(inzrqm.getUnitQualities(trickydick), layer.getXSize(), layer.getYSize(), outputfile);
+                        } else if (qualityMeasureVariant.equals("NP_Map")) {
+                            String trickydick = qualityMeasureVariant + "|" + k;
+                            printDouble(inzrqm.getMapQuality(trickydick), outputfile);
+                        }
+
+                        
+                         * @ 8. SOM Distortion Measure_____________________
+                         
+                        else if (qualityMeasureVariant.equals("Dist_UnitTotal")) {
+                            printDoubles(inzrqm.getUnitQualities(qualityMeasureVariant), layer.getXSize(), layer.getYSize(),
+                                    outputfile);
+                        } else if (qualityMeasureVariant.equals("Dist_UnitAvg")) {
+                            printDoubles(inzrqm.getUnitQualities(qualityMeasureVariant), layer.getXSize(), layer.getYSize(),
+                                    outputfile);
+                        } else if (qualityMeasureVariant.equals("Dist_Map")) {
+                            printDouble(inzrqm.getMapQuality(qualityMeasureVariant), outputfile);
+                        }
+            */
+        } catch (Exception ex) {
+            System.out.println("Exception:" + ex.getMessage() + "\n\n");
+            ex.printStackTrace();
+        }
+    }
 }
