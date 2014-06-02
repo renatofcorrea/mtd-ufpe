@@ -1,9 +1,20 @@
 package br.ufpe.mtd.util;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * Classe utilitaria do sistema.
@@ -98,5 +109,42 @@ public class MTDUtil {
 	    }
 		
 		return strEntrada;
+	}
+	
+	public static void main(String[] args) {
+		File file;
+		try {
+			file = new File("C:\\Temp\\Treino.unit.gz");
+			File saida = new File(file.getAbsolutePath().replace(".gz", ""));
+			descompactarGZFile(file, saida);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Descompacta arquivos zip
+	 * @param zipFile
+	 * @throws IOException
+	 */
+	@SuppressWarnings("rawtypes")
+	public static final void descompactarGZFile(File zipFile, File saida) throws IOException {
+		if(!saida.exists()){
+			saida.createNewFile();
+		}
+		FileInputStream fis = new FileInputStream(zipFile);			
+		GZIPInputStream is = new GZIPInputStream(fis);
+		FileOutputStream fos = new FileOutputStream(saida);		
+		copyInputStream(is, fos);
+	}
+	  
+	public static final void copyInputStream(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int len;
+		while ((len = in.read(buffer)) >= 0) {
+			out.write(buffer, 0, len);
+		}
+		in.close();
+		out.close();
 	}
 }

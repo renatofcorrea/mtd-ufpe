@@ -21,6 +21,7 @@ public class Mapa implements Serializable{
     private HashMap<String, Integer> documentoNodo = null;
     private Vector<String> areas = new Vector<String>();
     private ArrayList<Integer> idsDocsPesquisa;
+    
     private static final long serialVersionUID = 501;  
 
     public Mapa() {
@@ -73,7 +74,4 @@ public class Mapa implements Serializable{
     public void setIdsDocsPesquisa(ArrayList<Integer> idsDocsPesquisa) {
         this.idsDocsPesquisa = idsDocsPesquisa;
     }
-    
-    
-    
 }
