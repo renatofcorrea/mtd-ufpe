@@ -10,6 +10,11 @@ public enum MTDArquivoEnum {
 	INDICE_DIR(MTDParametros.getExternalStorageDirectory(),MTDParametros.getMTDProperties().getProperty("indice_dir")),
 	PASTA_TABELAS(MTDParametros.getExternalStorageDirectory(),"tabelas"),
 	PASTA_TREINO(MTDParametros.getExternalStorageDirectory(),"treino"),
+	TREINO_WGT(PASTA_TREINO.getArquivo(),"Treino.wgt.gz"),
+	TREINO_MAP(PASTA_TREINO.getArquivo(),"Treino.map"),
+	TREINO_UNIT(PASTA_TREINO.getArquivo(),"Treino.unit.gz"),
+	TREINO_DWM(PASTA_TREINO.getArquivo(),"Treino.dwm.gz"),
+	TREINO_MAPA_DATA(PASTA_TREINO.getArquivo(),"mapa.data"),
 	DOC_TABLE(PASTA_TABELAS.getArquivo(),"doc_table.txt"), 
 	WORD_TABLE(PASTA_TABELAS.getArquivo(),"word_table.txt"), 
 	WORD_DOC_TABLE(PASTA_TABELAS.getArquivo(),"word_doc_table.txt"),
@@ -40,7 +45,7 @@ public enum MTDArquivoEnum {
 		
 		if(arquivo.isDirectory() && !arquivo.exists()){
 			arquivo.mkdirs();
-		}else if(arquivo.isFile() && !arquivo.exists()){
+		}else if(!arquivo.isDirectory() && !arquivo.exists()){
 			try {
 				arquivo.createNewFile();
 			} catch (Exception e) {
@@ -48,7 +53,6 @@ public enum MTDArquivoEnum {
 			}
 		}
 	}
-
 	
 	private MTDArquivoEnum(File arquivoLocal){
 		arquivo = arquivoLocal;
@@ -65,5 +69,9 @@ public enum MTDArquivoEnum {
 
 	public File getArquivo() {
 		return arquivo;
+	}
+	
+	public String getNomeArquivo(){
+		return arquivo.getName().substring(0, arquivo.getName().lastIndexOf("."));
 	}
 }
