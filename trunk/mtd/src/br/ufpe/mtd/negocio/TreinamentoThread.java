@@ -1,4 +1,4 @@
-package br.ufpe.mtd.thread.treinamento;
+package br.ufpe.mtd.negocio;
 
 
 import java.io.File;
@@ -29,7 +29,6 @@ import br.ufpe.mtd.entidade.EstatisticaPalavra;
 import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.enumerado.AreaCNPQEnum;
 import br.ufpe.mtd.enumerado.MTDArquivoEnum;
-import br.ufpe.mtd.negocio.MapaHelper;
 import br.ufpe.mtd.thread.BaseThread;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDParametros;
@@ -58,7 +57,7 @@ public class TreinamentoThread extends BaseThread{
 			
 			calcularQualidadeMapa();
 			
-			new MapaHelper().treinarMapa();
+			new MapaTreinamentoHelper().treinarMapa();
 			
 			System.out.println(" ---- fim do treinamento da rede neural-----");
 			
