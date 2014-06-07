@@ -33,7 +33,7 @@ import br.ufpe.mtd.util.MTDUtil;
  * 
  * @author Bruno
  */
-public class MapaHelper {
+public class MapaTreinamentoHelper {
 
 	private HashMap<Integer, Vector<String>> nodoDocumento = null;
 	private HashMap<Integer, PalavrasNodo> hashNodoPalavras = null;

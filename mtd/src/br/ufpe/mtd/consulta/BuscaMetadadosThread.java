@@ -1,15 +1,18 @@
-package br.ufpe.mtd.thread;
+package br.ufpe.mtd.consulta;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
+
 import org.apache.lucene.document.Document;
+
 import br.ufpe.mtd.dados.IRepositorioIndice;
 import br.ufpe.mtd.dados.OAIPMHDriver;
 import br.ufpe.mtd.entidade.MTDDocument;
 import br.ufpe.mtd.entidade.Identificador;
 import br.ufpe.mtd.excecao.MTDException;
+import br.ufpe.mtd.thread.BaseThread;
 import br.ufpe.mtd.util.Log;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDParametros;
