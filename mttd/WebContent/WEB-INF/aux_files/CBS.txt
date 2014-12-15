@@ -1,0 +1,339 @@
+2.00.00.00-6 	Ciências Biológicas
+2.01.00.00-0 	Biologia Geral
+2.02.00.00-5 	Genética
+2.02.01.00-1 	Genética Quantitativa
+2.02.02.00-8 	Genética Molecular e de Microorganismos
+2.02.03.00-4 	Genética Vegetal
+2.02.04.00-0 	Genética Animal
+2.02.05.00-7 	Genética Humana e Médica
+2.02.06.00-3 	Mutagênese
+2.03.00.00-0 	Botânica
+2.03.01.00-6 	Paleobotânica
+2.03.02.00-2 	Morfologia Vegetal
+2.03.02.01-0 	Morfologia Externa
+2.03.02.02-9 	Citologia Vegetal
+2.03.02.03-7 	Anatomia Vegetal
+2.03.02.04-5 	Palinologia
+2.03.03.00-9 	Fisiologia Vegetal
+2.03.03.01-7 	Nutrição e Crescimento Vegetal
+2.03.03.02-5 	Reprodução Vegetal
+2.03.03.03-3 	Ecofisiologia Vegetal
+2.03.04.00-5 	Taxonomia Vegetal
+2.03.04.01-3 	Taxonomia de Criptógamos
+2.03.04.02-1 	Taxonomia de Fanerógamos
+2.03.05.00-1 	Fitogeografia
+2.03.06.00-8 	Botânica Aplicada
+2.04.00.00-4 	Zoologia
+2.04.01.00-0 	Paleozoologia
+2.04.02.00-7 	Morfologia dos Grupos Recentes
+2.04.03.00-3 	Fisiologia dos Grupos Recentes
+2.04.04.00-0 	Comportamento Animal
+2.04.05.00-6 	Taxonomia dos Grupos Recentes
+2.04.06.00-2 	Zoologia Aplicada
+2.04.06.01-0 	Conservação das Espécies Animais
+2.04.06.02-9 	Utilização dos Animais
+2.04.06.03-7 	Controle Populacional de Animais
+2.05.00.00-9 	Ecologia
+2.05.01.00-5 	Ecologia Teórica
+2.05.02.00-1 	Ecologia de Ecossistemas
+2.05.03.00-8 	Ecologia Aplicada
+2.06.00.00-3 	Morfologia
+2.06.01.00-0 	Citologia e Biologia Celular
+2.06.02.00-6 	Embriologia
+2.06.03.00-2 	Histologia
+2.06.04.00-9 	Anatomia
+2.06.04.01-7 	Anatomia Humana
+2.06.04.02-5 	Anatomia Animal
+2.07.00.00-8 	Fisiologia
+2.07.01.00-4 	Fisiologia Geral
+2.07.02.00-0 	Fisiologia de Órgaos e Sistemas
+2.07.02.01-9 	Neurofisiologia
+2.07.02.02-7 	Fisiologia Cardiovascular
+2.07.02.03-5 	Fisiologia da Respiração
+2.07.02.04-3 	Fisiologia Renal
+2.07.02.05-1 	Fisiologia Endocrina
+2.07.02.06-0 	Fisiologia da Digestão
+2.07.02.07-8 	Cinesiologia
+2.07.03.00-7 	Fisiologia do Esforço
+2.07.04.00-3 	Fisiologia Comparada
+2.08.00.00-2 	Bioquímica
+2.08.01.00-9 	Química de Macromoléculas
+2.08.01.01-7 	Proteínas
+2.08.01.02-5 	Lipídeos
+2.08.01.03-3 	Glicídeos
+2.08.02.00-5 	Bioquímica dos Microorganismos
+2.08.03.00-1 	Metabolismo e Bioenergética
+2.08.04.00-8 	Biologia Molecular
+2.08.05.00-4 	Enzimologia
+2.09.00.00-7 	Biofísica
+2.09.01.00-3 	Biofísica Molecular
+2.09.02.00-0 	Biofísica Celular
+2.09.03.00-6 	Biofísica de Processos e Sistemas
+2.09.04.00-2 	Radiologia e Fotobiologia
+2.10.00.00-0 	Farmacologia
+2.10.01.00-6 	Farmacologia Geral
+2.10.01.01-4 	Farmacocinética
+2.10.01.02-2 	Biodisponibilidade
+2.10.02.00-2 	Farmacologia Autonômica
+2.10.03.00-9 	Neuropsicofarmacologia
+2.10.04.00-5 	Farmacologia Cardiorenal
+2.10.05.00-1 	Farmacologia Bioquímica e Molecular
+2.10.06.00-8 	Etnofarmacologia
+2.10.07.00-4 	Toxicologia
+2.10.08.00-0 	Farmacologia Clínica
+2.11.00.00-4 	Imunologia
+2.11.01.00-0 	Imunoquímica
+2.11.02.00-7 	Imunologia Celular
+2.11.03.00-3 	Imunogenética
+2.11.04.00-0 	Imunologia Aplicada
+2.12.00.00-9 	Microbiologia
+2.12.01.00-5 	Biologia e Fisiologia dos Microorganismos
+2.12.01.01-3 	Virologia
+2.12.01.02-1 	Bacterologia
+2.12.01.03-0 	Micologia
+2.12.02.00-1 	Microbiologia Aplicada
+2.12.02.01-0 	Microbiologia Médica
+2.12.02.02-8 	Microbiologia Industrial e de Fermentação
+2.13.00.00-3 	Parasitologia
+2.13.01.00-0 	Protozoologia de Parasitos
+2.13.01.01-8 	Protozoologia Parasitária Humana
+2.13.01.02-6 	Protozoologia Parasitária Animal
+2.13.02.00-6 	Helmintologia de Parasitos
+2.13.02.01-4 	Helmintologia Humana
+2.13.02.02-2 	Helmintologia Animal
+2.13.03.00-2 	Entomologia e Malacologia de Parasitos e Vetores 
+
+4.00.00.00 1 Ciências da Saúde 
+4.01.00.00-6 Medicina 
+4.01.01.00-2 Clínica Médica 
+4.01.01.01-0 Angiologia 
+4.01.01.02-9 Dermatologia 
+4.01.01.03-7 Alergologia e Imunologia Clínica 
+4.01.01.04-5 Cancerologia 
+4.01.01.05-3 Hematologia 
+4.01.01.06-1 Endocrinologia 
+4.01.01.07-0 Neurologia 
+4.01.01.08-8 Pediatria 
+4.01.01.09-6 Doenças Infecciosas e Parasitárias 
+4.01.01.10-0 Cardiologia 
+4.01.01.11-8 Gastroenterologia 
+4.01.01.12-6 Pneumologia 
+4.01.01.13-4 Nefrologia 
+4.01.01.14-2 Reumatologia 
+4.01.01.15-0 Ginecologia e Obstetrícia 
+4.01.01.16-9 Fisiatria 
+4.01.01.17-7 Oftalmologia 
+4.01.01.18-6 Ortopedia 
+4.01.02.00-9 Cirurgia 
+4.01.02.01-7 Cirurgia Plástica e Restauradora 
+4.01.02.02-5 Cirurgia Otorrinolaringológica 
+4.01.02.03-3 Cirurgia Oftalmológica 
+4.01.02.04-1 Cirurgia Cardiovascular 
+4.01.02.05-0 Cirurgia Toráxica 
+4.01.02.06-8 Cirurgia Gastroenterologia 
+4.01.02.07-6 Cirurgia Pediátrica 
+4.01.02.08-4 Neurocirurgia 
+4.01.02.09-2 Cirurgia Urológica 
+4.01.02.10-6 Cirurgia Proctológica 
+4.01.02.11-4 Cirurgia Ortopédica 
+4.01.02.12-2 Cirurgia Traumatológica 
+4.01.02.13-0 Anestesiologia 
+4.01.02.14-9 Cirurgia Experimental 
+4.01.03.00-5 Saúde Materno-Infantil 
+4.01.04.00-1 Psiquiatria 
+4.01.05.00-8 Anatomia Patológica e Patologia Clínica 
+4.01.06.00-4 Radiologia Médica 
+4.01.07.00-0 Medicina Legal e Deontologia 
+4.02.00.00-0 Odontologia 
+4.02.01.00-7 Clínica Odontológica 
+4.02.02.00-3 Cirurgia Buco-Maxilo-Facial 
+4.02.03.00-0 Ortodontia 
+4.02.04.00-6 Odontopediatria 
+4.02.05.00-2 Periodontia 
+4.02.06.00-9 Endodontia 
+4.02.07.00-5 Radiologia Odontológica 
+4.02.08.00-1 Odontologia Social e Preventiva 
+4.02.09.00-8 Materiais Odontológicos 
+4.03.00.00-5 Farmácia 
+4.03.01.00-1 Farmacotecnia 
+4.03.02.00-8 Farmacognosia 
+4.03.03.00-4 Análise Toxicológica 
+4.03.04.00-0 Análise e Controle e Medicamentos 
+4.03.05.00-7 Bromatologia 
+4.04.00.00-0 Enfermagem 
+4.04.01.00-6 Enfermagem Médico-Cirúrgica 
+4.04.02.00-2 Enfermagem Obstétrica 
+4.04.03.00-9 Enfermagem Pediátrica 
+4.04.04.00-5 Enfermagem Psiquiátrica 
+4.04.05.00-1 Enfermagem de Doenças Contagiosas 
+4.04.06.00-8 Enfermagem de Saúde Pública 
+4.05.00.00-4 Nutrição 
+4.05.01.00-0 Bioquímica da Nutrição 
+4.05.02.00-7 Dietética 
+4.05.03.00-3 Análise Nutricional de População 
+4.05.04.00-0 Desnutrição e Desenvolvimento Fisiológico 
+4.06.00.00-9 Saúde Coletiva 
+4.06.01.00-5 Epidemiologia 
+4.06.02.00-1 Saúde Publica 
+4.06.03.00-8 Medicina Preventiva 
+4.07.00.00-3 Fonoaudiologia 
+4.08.00.00-8 Fisioterapia e Terapia Ocupacional 
+4.09.00.00-2 Educação Física 
+
+5.00.00.00 4 Ciências Agrárias 
+5.01.00.00-9 Agronomia 
+5.01.01.00-5 Ciência do Solo 
+5.01.01.01-3 Genese, Morfologia e Classificação dos Solos 
+5.01.01.02-1 Física do Solo 
+5.01.01.03-0 Química do Solo 
+5.01.01.04-8 Microbiologia e Bioquímica do Solo 
+5.01.01.05-6 Fertilidade do Solo e Adubação 
+5.01.01.06-4 Manejo e Conservação do Solo 
+5.01.02.00-1 Fitossanidade 
+5.01.02.01-0 Fitopatologia 
+5.01.02.02-8 Entomologia Agrícola 
+5.01.02.03-6 Parasitologia Agrícola 
+5.01.02.04-4 Microbiologia Agrícola 
+5.01.02.05-2 Defesa Fitossanitária 
+5.01.03.00-8 Fitotecnia Fitotecnia 
+5.01.03.01-6 Manejo e Tratos Culturais 
+5.01.03.02-4 Mecanização Agrícola 
+5.01.03.03-2 Produção e Beneficiamento de Sementes 
+5.01.03.04-0 Produção de Mudas 
+5.01.03.05-9 Melhoramento Vegetal 
+5.01.03.06-7 Fisiologia de Plantas Cultivadas 
+5.01.03.07-5 Matologia 
+5.01.04.00-4 Floricultura, Parques e Jardins 
+5.01.04.01-2 Floricultura 
+5.01.04.02-0 Parques e Jardins 
+5.01.04.03-9 Arborização de Vias Públicas 
+5.01.05.00-0 Agrometeorologia 
+5.01.06.00-7 Extensão Rural 
+5.02.00.00-3 Recursos Florestais e Engenharia Florestal 
+5.02.01.00-0 Silvicultura 
+5.02.01.01-8 Dendrologia 
+5.02.01.02-6 Florestamento e Reflorestamento 
+5.02.01.03-4 Genética e Melhoramento Florestal 
+5.02.01.04-2 Sementes Florestais 
+5.02.01.05-0 Nutrição Florestal 
+5.02.01.06-9 Fisiologia Florestal 
+5.02.01.07-7 Solos Florestais 
+5.02.01.08-5 Proteção Florestal 
+5.02.02.00-6 Manejo Florestal 
+5.02.02.01-4 Economia Florestal 
+5.02.02.02-2 Politica e Legislação Florestal 
+5.02.02.03-0 Administração Florestal 
+5.02.02.04-9 Dendrometria e Inventário Florestal 
+5.02.02.05-7 Fotointerpretação Florestal 
+5.02.02.06-5 Ordenamento Florestal 
+5.02.03.00-2 Técnicas e Operações Florestais 
+5.02.03.01-0 Exploração Florestal 
+5.02.03.02-9 Mecanização Florestal 
+5.02.04.00-9 Tecnologia e Utilização de Produtos Florestais 
+5.02.04.01-7 Anatomia e Identificação de Produtos Florestais 
+5.02.04.02-5 Propriedades Físico-Mecânicas da Madeira 
+5.02.04.03-3 Relações Água-Madeira e Secagem 
+5.02.04.04-1 Tratamento da Madeira 
+5.02.04.05-0 Processamento Mecânico da Madeira 
+5.02.04.06-8 Química da Madeira 
+5.02.04.07-6 Resinas de Madeiras 
+5.02.04.08-4 Tecnologia de Celulose e Papel 
+5.02.04.09-2 Tecnologia de Chapas 
+5.02.05.00-5 Conservação da Natureza 
+5.02.05.01-3 Hidrologia Florestal 
+5.02.05.02-1 Conservação de Áreas Silvestres 
+5.02.05.03-0 Conservação de Bacias Hidrográficas 
+5.02.05.04-8 Recuperação de Áreas Degradadas 
+5.02.06.00-1 Energia de Biomassa Florestal 
+5.03.00.00-8 Engenharia Agrícola 
+5.03.01.00-4 Máquinas e Implementos Agrícolas 
+5.03.02.00-0 Engenharia de Água e Solo 
+5.03.02.01-9 Irrigação e Drenagem 
+5.03.02.02-7 Conservação de Solo e Água 
+5.03.03.00-7 Engenharia de Processamento de Produtos Agrícolas 
+5.03.03.01-5 Pré-Processamento de Produtos Agrícolas 
+5.03.03.02-3 Armazenamento de Produtos Agrícolas 
+5.03.03.03-1 Transferência de Produtos Agrícolas 
+5.03.04.00-3 Construções Rurais e Ambiência 
+5.03.04.01-1 Assentamento Rural 
+5.03.04.02-0 Engenharia de Construções Rurais 
+5.03.04.03-8 Saneamento Rural 
+5.03.05.00-0 Energização Rural 
+5.04.00.00-2 Zootecnia 
+5.04.01.00-9 Ecologia dos Animais Domésticos e Etologia 
+5.04.02.00-5 Genética e Melhoramento dos Animais Domésticos 
+5.04.03.00-1 Nutrição e Alimentação Animal 
+5.04.03.01-0 Exigências Nutricionais dos Animais 
+5.04.03.02-8 Avaliação de Alimentos para Animais 
+5.04.03.03-6 Conservação de Alimentos para Animais 
+5.04.04.00-8 Pastagem e Forragicultura 
+5.04.04.01-6 Avaliação, Produção e Conservação de Forragens 
+5.04.04.02-4 Manejo e Conservação de Pastagens 
+5.04.04.03-2 Fisiologia de Plantas Forrageiras 
+5.04.04.04-0 Melhoramento de Plantas Forrageiras e Produção de Sementes 
+5.04.04.05-9 Toxicologia e Plantas Tóxicas 
+5.04.05.00-4 Produção Animal 
+5.04.05.01-2 Criação de Animais 
+5.04.05.02-0 Manejo de Animais 
+5.04.05.03-9 Instalações para Produção Animal 
+5.05.00.00-7 Medicina Veterinária 
+5.05.01.00-3 Clínica e Cirurgia Animal 
+5.05.01.01-1 Anestesiologia Animal 
+5.05.01.02-0 Técnica Cirúrgica Animal 
+5.05.01.03-8 Radiologia de Animais 
+5.05.01.04-6 Farmacologia e Terapêutica Animal 
+5.05.01.05-4 Obstetrícia Animal 
+5.05.01.06-2 Clínica Veterinária 
+5.05.01.07-0 Clínica Cirúrgica Animal 
+5.05.01.08-9 Toxicologia Animal 
+5.05.02.00-0 Medicina Veterinária Preventiva 
+5.05.02.01-8 Epidemiologia Animal 
+5.05.02.02-6 Saneamento Aplicado à Saúde do Homem 
+5.05.02.03-4 Doenças Infecciosas de Animais 
+5.05.02.04-2 Doenças Parasitárias de Animais 
+5.05.02.05-0 Saúde Animal (Programas Sanitários) 
+5.05.03.00-6 Patologia Animal 
+5.05.03.01-4 Patologia Aviária 
+5.05.03.02-2 Anatomia Patologia Animal 
+5.05.03.03-0 Patologia Clínica Animal 
+5.05.04.00-2 Reprodução Animal 
+5.05.04.01-0 Ginecologia e Andrologia Animal 
+5.05.04.02-9 Inseminação Artificial Animal 
+5.05.04.03-7 Fisiopatologia da Reprodução Animal 
+5.05.05.00-9 Inspeção de Produtos de Origem Animal 
+5.06.00.00-1 Recursos Pesqueiros e Engenharia de Pesca 
+5.06.01.00-8 Recursos Pesqueiros Marinhos 
+5.06.01.01-6 Fatores Abióticos do Mar 
+5.06.01.02-4 Avaliação de Estoques Pesqueiros Marinhos 
+5.06.01.03-2 Exploração Pesqueira Marinha 
+5.06.01.04-0 Manejo e Conservação de Recursos Pesqueiros Marinhos 
+5.06.02.00-4 Recursos Pesqueiros de Águas Interiores 
+5.06.02.01-2 Fatores Abióticos de Águas Interiores 
+5.06.02.02-0 Avaliação de Estoques Pesqueiros de Águas Interiores 
+5.06.02.03-9 Explotação Pesqueira de Águas Interiores 
+5.06.02.04-7 Manejo e Conservação de Recursos Pesqueiros de Águas Interiores 
+5.06.03.00-0 Aqüicultura 
+5.06.03.01-9 Maricultura 
+5.06.03.02-7 Carcinocultura 
+5.06.03.03-5 Ostreicultura 
+5.06.03.04-3 Piscicultura 
+5.06.04.00-7 Engenharia de Pesca 
+5.07.00.00-6 Ciência e Tecnologia de Alimentos 
+5.07.01.00-2 Ciência de Alimentos 
+5.07.01.01-0 Valor Nutritivo de Alimentos 
+5.07.01.02-9 Química, Física, Físico-Química e Bioquímica dos Alim. e das Mat.-Primas Alimentares 
+5.07.01.03-7 Microbiologia de Alimentos 
+5.07.01.04-5 Fisiologia Pós-Colheita 
+5.07.01.05-3 Toxicidade e Resíduos de Pesticidas em Alimentos 
+5.07.01.06-1 Avaliação e Controle de Qualidade de Alimentos 
+5.07.01.07-0 Padrões, Legislação e Fiscalização de Alimentos 
+5.07.02.00-9 Tecnologia de Alimentos 
+5.07.02.01-7 Tecnologia de Produtos de Origem Animal 
+5.07.02.02-5 Tecnologia de Produtos de Origem Vegetal 
+5.07.02.03-3 Tecnologia das Bebidas 
+5.07.02.04-1 Tecnologia de Alimentos Dietéticos e Nutricionais 
+5.07.02.05-0 Aproveitamento de Subprodutos 
+5.07.02.06-8 Embalagens de Produtos Alimentares 
+5.07.03.00-5 Engenharia de Alimentos 
+5.07.03.01-3 Instalações Industriais de Produção de Alimentos 
+5.07.03.02-1 Armazenamento de Alimentos 

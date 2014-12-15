@@ -1,0 +1,406 @@
+6.00.00.00 7 Ciências Sociais Aplicadas 
+6.01.00.00-1 Direito 
+6.01.01.00-8 Teoria do Direito 
+6.01.01.01-6 Teoria Geral do Direito 
+6.01.01.02-4 Teoria Geral do Processo 
+6.01.01.03-2 Teoria do Estado 
+6.01.01.04-0 História do Direito 
+6.01.01.05-9 Filosofia do Direito 
+6.01.01.06-7 Lógica Jurídica 
+6.01.01.07-5 Sociologia Jurídica 
+6.01.01.08-3 Antropologia Jurídica 
+6.01.02.00-4 Direito Público 
+6.01.02.01-2 Direito Tributário 
+6.01.02.02-0 Direito Penal 
+6.01.02.03-9 Direito Processual Penal 
+6.01.02.04-7 Direito Processual Civil 
+6.01.02.05-5 Direito Constitucional 
+6.01.02.06-3 Direito Administrativo 
+6.01.02.07-1 Direito Internacional Público 
+6.01.03.00-0 Direito Privado 
+6.01.03.01-9 Direito Civil 
+6.01.03.02-7 Direito Comercial 
+6.01.03.03-5 Direito do Trabalho 
+6.01.03.04-3 Direito Internacional Privado 
+6.01.04.00-7 Direitos Especiais 
+6.02.00.00-6 Administração 
+6.02.01.00-2 Administração de Empresas 
+6.02.01.01-0 Administração da Produção 
+6.02.01.02-9 Administração Financeira 
+6.02.01.03-7 Mercadologia 
+6.02.01.04-5 Negócios Internacionais 
+6.02.01.05-3 Administração de Recursos Humanos 
+6.02.02.00-9 Administração Pública 
+6.02.02.01-7 Contabilidade e Financas Públicas 
+6.02.02.02-5 Organizações Públicas 
+6.02.02.03-3 Política e Planejamento Governamentais 
+6.02.02.04-1 Administração de Pessoal 
+6.02.03.00-5 Administração de Setores Específicos 
+6.02.04.00-1 Ciências Contábeis 
+6.03.00.00-0 Economia 
+6.03.01.00-7 Teoria Econômica 
+6.03.01.01-5 Economia Geral 
+6.03.01.02-3 Teoria Geral da Economia 
+6.03.01.03-1 História do Pensamento Econômico 
+6.03.01.04-0 História Econômica 
+6.03.01.05-8 Sistemas Econômicos 
+6.03.02.00-3 Métodos Quantitativos em Economia 
+6.03.02.01-1 Métodos e Modelos Matemáticos, Econométricos e Estatísticos 
+6.03.02.02-0 Estatística Sócio-Econômica 
+6.03.02.03-8 Contabilidade Nacional 
+6.03.02.04-6 Economia Matemática 
+6.03.03.00-0 Economia Monetária e Fiscal 
+6.03.03.01-8 Teoria Monetária e Financeira 
+6.03.03.02-6 Instituições Monetárias e Financeiras do Brasil 
+6.03.03.03-4 Financas Públicas Internas 
+6.03.03.04-2 Política Fiscal do Brasil 
+6.03.04.00-6 Crescimento, Flutuações e Planejamento Econômico 
+6.03.04.01-4 Crescimento e Desenvolvimento Econômico 
+6.03.04.02-2 Teoria e Política de Planejamento Econômico 
+6.03.04.03-0 Flutuações Cíclicas e Projeções Econômicas 
+6.03.04.04-9 Inflação 
+6.03.05.00-2 Economia Internacional 
+6.03.05.01-0 Teoria do Comércio Internacional 
+6.03.05.02-9 Relações do Comércio; Política Comercial; Integração Econômica 
+6.03.05.03-7 Balanço de Pagamentos; Financas Internacionais 
+6.03.05.04-5 Investimentos Internacionais e Ajuda Externa 
+6.03.06.00-9 Economia dos Recursos Humanos 
+6.03.06.01-7 Treinamento e Alocação de Mão-de-Obra; Oferta de Mão-de-Obra e Força de Trabalho 
+6.03.06.02-5 Mercado de Trabalho; Política do Governo 
+6.03.06.03-3 Sindicatos, Dissídios Coletivos, Relações de Emprego (Empregador/Empregado) 
+6.03.06.04-1 Capital Humano 
+6.03.06.05-0 Demografia Econômica 
+6.03.07.00-5 Economia Industrial 
+6.03.07.01-3 Organização Industrial e Estudos Industriais 
+6.03.07.02-1 Mudança Tecnologica 
+6.03.08.00-1 Economia do Bem-Estar Social 
+6.03.08.01-0 Economia dos Programas de Bem-Estar Social 
+6.03.08.02-8 Economia do Consumidor 
+6.03.09.00-8 Economia Regional e Urbana 
+6.03.09.01-6 Economia Regional 
+6.03.09.02-4 Economia Urbana 
+6.03.09.03-2 Renda e Tributação 
+6.03.10.00-6 Economias Agrária e dos Recursos Naturais 
+6.03.10.01-4 Economia Agrária 
+6.03.10.02-2 Economia dos Recursos Naturais 
+6.04.00.00-5 Arquitetura e Urbanismo 
+6.04.01.00-1 Fundamentos de Arquitetura e Urbanismo 
+6.04.01.01-0 História da Arquitetura e Urbanismo 
+6.04.01.02-8 Teoria da Arquitetura 
+6.04.01.03-6 História do Urbanismo 
+6.04.01.04-4 Teoria do Urbanismo 
+6.04.02.00-8 Projeto de Arquitetuta e Urbanismo 
+6.04.02.01-6 Planejamento e Projetos da Edificação 
+6.04.02.02-4 Planejamento e Projeto do Espaço Urbano 
+6.04.02.03-2 Planejamento e Projeto do Equipamento 
+6.04.03.00-4 Tecnologia de Arquitetura e Urbanismo 
+6.04.03.01-2 Adequação Ambiental 
+6.04.04.00-0 Paisagismo 
+6.04.04.01-9 Desenvolvimento Histórico do Paisagismo 
+6.04.04.02-7 Conceituação de Paisagismo e Metodologia do Paisagismo 
+6.04.04.03-5 Estudos de Organização do Espaço Exterior 
+6.04.04.04-3 Projetos de Espaços Livres Urbanos 
+6.05.00.00-0 Planejamento Urbano e Regional 
+6.05.01.00-6 Fundamentos do Planejamento Urbano e Regional 
+6.05.01.01-4 Teoria do Planejamento Urbano e Regional 
+6.05.01.02-2 Teoria da Urbanização 
+6.05.01.03-0 Política Urbana 
+6.05.01.04-9 História Urbana 
+6.05.02.00-2 Métodos e Técnicas do Planejamento Urbano e Regional 
+6.05.02.01-0 Informação, Cadastro e Mapeamento 
+6.05.02.02-9 Técnica de Previsão Urbana e Regional 
+6.05.02.03-7 Técnicas de Análise e Avaliação Urbana e Regional 
+6.05.02.04-5 Técnicas de Planejamento e Projeto Urbanos e Regionais 
+6.05.03.00-9 Serviços Urbanos e Regionais 
+6.05.03.01-7 Administração Municipal e Urbana 
+6.05.03.02-5 Estudos da Habitação 
+6.05.03.03-3 Aspectos Sociais do Planejamento Urbano e Regional 
+6.05.03.04-1 Aspectos Econômicos do Planejamento Urbano e Regional 
+6.05.03.05-0 Aspectos Físico-Ambientais do Planejamento Urbano e Regional 
+6.05.03.06-8 Serviços Comunitários 
+6.05.03.07-6 Infra-Estruturas Urbanas e Regionais 
+6.05.03.08-4 Transporte e Tráfego Urbano e Regional 
+6.05.03.09-2 Legislação Urbana e Regional 
+6.06.00.00-4 Demografia 
+6.06.01.00-0 Distribuição Espacial 
+6.06.01.01-9 Distribuição Espacial Geral 
+6.06.01.02-7 Distribuição Espacial Urbana 
+6.06.01.03-5 Distribuição Espacial Rural 
+6.06.02.00-7 Tendência Populacional 
+6.06.02.01-5 Tendências Passadas 
+6.06.02.02-3 Taxas e Estimativas Correntes 
+6.06.02.03-1 Projeções 
+6.06.03.00-3 Componentes da Dinâmica Demográfica 
+6.06.03.01-1 Fecundidade 
+6.06.03.02-0 Mortalidade 
+6.06.03.03-8 Migração 
+6.06.04.00-0 Nupcialidade e Família 
+6.06.04.01-8 Casamento e Divórcio 
+6.06.04.02-6 Família e Reprodução 
+6.06.05.00-6 Demografia Histórica 
+6.06.05.01-4 Distribuição Espacial 
+6.06.05.02-2 Natalidade, Mortalidade, Migração 
+6.06.05.03-0 Nupcialidade e Família 
+6.06.05.04-9 Métodos e Técnicas de Demografia Histórica 
+6.06.06.00-2 Política Pública e População 
+6.06.06.01-0 Política Populacional 
+6.06.06.02-9 Políticas de Redistribuição de População 
+6.06.06.03-7 Políticas de Planejamento Familiar 
+6.06.07.00-9 Fontes de Dados Demográficos 
+6.07.00.00-9 Ciência da Informação 
+6.07.01.00-5 Teoria da Informação 
+6.07.01.01-3 Teoria Geral da Informação 
+6.07.01.02-1 Processos da Comunicação 
+6.07.01.03-0 Representação da Informação 
+6.07.02.00-1 Biblioteconomia 
+6.07.02.01-0 Teoria da Classificação 
+6.07.02.02-8 Métodos Quantitativos. Bibliometria 
+6.07.02.03-6 Técnicas de Recuperação de Informação 
+6.07.02.04-4 Processos de Disseminação da Informação 
+6.07.03.00-8 Arquivologia 
+6.07.03.01-6 Organização de Arquivos 
+6.08.00.00-3 Museologia 
+6.09.00.00-8 Comunicação 
+6.09.01.00-4 Teoria da Comunicação 
+6.09.02.00-0 Jornalismo e Editoração 
+6.09.02.01-9 Teoria e Ética do Jornalismo 
+6.09.02.02-7 Organização Editorial de Jornais 
+6.09.02.03-5 Organização Comercial de Jornais 
+6.09.02.04-3 Jornalismo Especializado (Comunitário, Rural, Empresarial, Científico) 
+6.09.03.00-7 Rádio e Televisão 
+6.09.03.01-5 Radiodifusão 
+6.09.03.02-3 Videodifusão 
+6.09.04.00-3 Relações Públicas e Propaganda 
+6.09.05.00-0 Comunicação Visual 
+6.10.00.00-0 Serviço Social 
+6.10.01.00-7 Fundamentos do Serviço Social 
+6.10.02.00-3 Serviço Social Aplicado 
+6.10.02.01-1 Serviço Social do Trabalho 
+6.10.02.02-0 Serviço Social da Educação 
+6.10.02.03-8 Serviço Social do Menor 
+6.10.02.04-6 Serviço Social da Saúde 
+6.10.02.05-4 Serviço Social da Habitação 
+6.11.00.00-5 Economia Doméstica 
+6.12.00.00-0 Desenho Industrial 
+6.12.01.00-6 Programação Visual 
+6.12.02.00-2 Desenho de Produto 
+6.13.00.00-4 Turismo 
+
+7.00.00.00 0 Ciências Humanas 
+7.01.00.00-4 Filosofia 
+7.01.01.00-0 História da Filosofia 
+7.01.02.00-7 Metafísica 
+7.01.03.00-3 Lógica 
+7.01.04.00-0 Ética 
+7.01.05.00-6 Epistemologia 
+7.01.06.00-2 Filosofia Brasileira 
+7.02.00.00-9 Sociologia 
+7.02.01.00-5 Fundamentos da Sociologia 
+7.02.01.01-3 Teoria Sociológica 
+7.02.01.02-1 História da Sociologia 
+7.02.02.00-1 Sociologia do Conhecimento 
+7.02.03.00-8 Sociologia do Desenvolvimento 
+7.02.04.00-4 Sociologia Urbana 
+7.02.05.00-0 Sociologia Rural 
+7.02.06.00-7 Sociologia da Saúde 
+7.02.07.00-3 Outras Sociologias Específicas 
+7.03.00.00-3 Antropologia 
+7.03.01.00-0 Teoria Antropológica 
+7.03.02.00-6 Etnologia Indígena 
+7.03.03.00-2 Antropologia Urbana 
+7.03.04.00-9 Antropologia Rural 
+7.03.05.00-5 Antropologia das Populações Afro-Brasileiras 
+7.04.00.00-8 Arqueologia 
+7.04.01.00-4 Teoria e Método em Arqueologia 
+7.04.02.00-0 Arqueologia Pré-Histórica 
+7.04.03.00-7 Arqueologia Histórica 
+7.05.00.00-2 História 
+7.05.01.00-9 Teoria e Filosofia da História 
+7.05.02.00-5 História Antiga e Medieval 
+7.05.03.00-1 História Moderna e Contemporânea 
+7.05.04.00-8 História da América 
+7.05.04.01-6 História dos Estados Unidos 
+7.05.04.02-4 História Latino-Americana 
+7.05.05.00-4 História do Brasil 
+7.05.05.01-2 História do Brasil Colônia 
+7.05.05.02-0 História do Brasil Império 
+7.05.05.03-9 História do Brasil República 
+7.05.05.04-7 História Regional do Brasil 
+7.05.06.00-0 História das Ciências 
+7.06.00.00-7 Geografia 
+7.06.01.00-3 Geografia Humana 
+7.06.01.01-1 Geografia da População 
+7.06.01.02-0 Geografia Agrária 
+7.06.01.03-8 Geografia Urbana 
+7.06.01.04-6 Geografia Econômica 
+7.06.01.05-4 Geografia Política 
+7.06.02.00-0 Geografia Regional 
+7.06.02.01-8 Teoria do Desenvolvimento Regional 
+7.06.02.02-6 Regionalização 
+7.06.02.03-4 Análise Regional 
+7.07.00.00-1 Psicologia 
+7.07.01.00-8 Fundamentos e Medidas da Psicologia 
+7.07.01.01-6 História, Teorias e Sistemas em Psicologia 
+7.07.01.02-4 Metodologia, Instrumentação e Equipamento em Psicologia 
+7.07.01.03-2 Construção e Validade de Testes, Escalas e Outras Medidas Psicológicas 
+7.07.01.04-0 Técnicas de Processamento Estatístico, Matemático e Computacional em Psicologia 
+7.07.02.00-4 Psicologia Experimental 
+7.07.02.01-2 Processos Perceptuais e Motores 
+7.07.02.02-0 Processos de Aprendizagem, Memória e Motivação 
+7.07.02.03-9 Processos Cognitivos e Atencionais 
+7.07.02.04-7 Estados Subjetivos e Emoção 
+7.07.03.00-0 Psicologia Fisiológica 
+7.07.03.01-9 Neurologia, Eletrofisiologia e Comportamento 
+7.07.03.02-7 Processos Psico-Fisiológicos 
+7.07.03.03-5 Estimulação Elétrica e com Drogas; Comportamento 
+7.07.03.04-3 Psicobiologia 
+7.07.04.00-7 Psicologia Comparativa 
+7.07.04.01-5 Estudos Naturalísticos do Comportamento Animal 
+7.07.04.02-3 Mecanismos Instintivos e Processos Sociais em Animais 
+7.07.05.00-3 Psicologia Social 
+7.07.05.01-1 Relações Interpessoais 
+7.07.05.02-0 Processos Grupais e de Comunicação 
+7.07.05.03-8 Papéis e Estruturas Sociais; Indivíduo 
+7.07.06.00-0 Psicologia Cognitiva 
+7.07.07.00-6 Psicologia do Desenvolvimento Humano 
+7.07.07.01-4 Processos Perceptuais e Cognitivos; Desenvolvimento 
+7.07.07.02-2 Desenvolvimento Social e da Personalidade 
+7.07.08.00-2 Psicologia do Ensino e da Aprendizagem 
+7.07.08.01-0 Planejamento Institucional 
+7.07.08.02-9 Programação de Condições de Ensino 
+7.07.08.03-7 Treinamento de Pessoal 
+7.07.08.04-5 Aprendizagem e Desempenho Acadêmicos 
+7.07.08.05-3 Ensino e Aprendizagem na Sala de Aula 
+7.07.09.00-9 Psicologia do Trabalho e Organizacional 
+7.07.09.01-7 Análise Institucional 
+7.07.09.02-5 Recrutamento e Seleção de Pessoal 
+7.07.09.03-3 Treinamento e Avaliação 
+7.07.09.04-1 Fatores Humanos no Trabalho 
+7.07.09.05-0 Planejamento Ambiental e Comportamento Humano 
+7.07.10.00-7 Tratamento e Prevenção Psicológica 
+7.07.10.01-5 Intervenção Terapêutica 
+7.07.10.02-3 Programas de Atendimento Comunitário 
+7.07.10.03-1 Treinamento e Reabilitação 
+7.07.10.04-0 Desvios da Conduta 
+7.07.10.05-8 Distúrbios da Linguagem 
+7.07.10.06-6 Distúrbios Psicossomáticos 
+7.08.00.00-6 Educação 
+7.08.01.00-2 Fundamentos da Educação 
+7.08.01.01-0 Filosofia da Educação 
+7.08.01.02-9 História da Educação 
+7.08.01.03-7 Sociologia da Educação 
+7.08.01.04-5 Antropologia Educacional 
+7.08.01.05-3 Economia da Educação 
+7.08.01.06-1 Psicologia Educacional 
+7.08.02.00-9 Administração Educacional 
+7.08.02.01-7 Administração de Sistemas Educacionais 
+7.08.02.02-5 Administração de Unidades Educativas 
+7.08.03.00-5 Planejamento e Avaliação Educacional 
+7.08.03.01-3 Política Educacional 
+7.08.03.02-1 Planejamento Educacional 
+7.08.03.03-0 Avaliação de Sistemas, Instituições, Planos e Programas Educacionais 
+7.08.04.00-1 Ensino-Aprendizagem 
+7.08.04.01-0 Teorias da Instrução 
+7.08.04.02-8 Métodos e Técnicas de Ensino 
+7.08.04.03-6 Tecnologia Educacional 
+7.08.04.04-4 Avaliação da Aprendizagem 
+7.08.05.00-8 Currículo 
+7.08.05.01-6 Teoria Geral de Planejamento e Desenvolvimento Curricular 
+7.08.05.02-4 Currículos Específicos para Níveis e Tipos de Educação 
+7.08.06.00-4 Orientação e Aconselhamento 
+7.08.06.01-2 Orientação Educacional 
+7.08.06.02-0 Orientação Vocacional 
+7.08.07.00-0 Tópicos Específicos de Educação 
+7.08.07.01-9 Educação de Adultos 
+7.08.07.02-7 Educação Permanente 
+7.08.07.03-5 Educação Rural 
+7.08.07.04-3 Educação em Periferias Urbanas 
+7.08.07.05-1 Educação Especial 
+7.08.07.06-0 Educação Pré-Escolar 
+7.08.07.07-8 Ensino Profissionalizante 
+7.09.00.00-0 Ciência Política 
+7.09.01.00-7 Teoria Política 
+7.09.01.01-5 Teoria Política Clássica 
+7.09.01.02-3 Teoria Política Medieval 
+7.09.01.03-1 Teoria Política Moderna 
+7.09.01.04-0 Teoria Política Contemporânea 
+7.09.02.00-3 Estado e Governo 
+7.09.02.01-1 Estrutura e Transformação do Estado 
+7.09.02.02-0 Sistemas Governamentais Comparados 
+7.09.02.03-8 Relações Intergovernamentais 
+7.09.02.04-6 Estudos do Poder Local 
+7.09.02.05-4 Instituições Governamentais Específicas 
+7.09.03.00-0 Comportamento Político 
+7.09.03.01-8 Estudos Eleitorais e Partidos Políticos 
+7.09.03.02-6 Atitude e Ideologias Políticas 
+7.09.03.03-4 Conflitos e Coalizões Políticas 
+7.09.03.04-2 Comportamento Legislativo 
+7.09.03.05-0 Classes Sociais e Grupos de Interesse 
+7.09.04.00-6 Políticas Públicas 
+7.09.04.01-4 Análise do Processo Decisório 
+7.09.04.02-2 Análise Institucional 
+7.09.04.03-0 Técnicas de Antecipação 
+7.09.05.00-2 Política Internacional 
+7.09.05.01-0 Política Externa do Brasil 
+7.09.05.02-9 Organizações Internacionais 
+7.09.05.03-7 Integração Internacional, Conflito, Guerra e Paz 
+7.09.05.04-5 Relações Internacionais, Bilaterais e Multilaterais 
+7.10.00.00-3 Teologia 
+7.10.01.00-0 História da Teologia 
+7.10.02.00-6 Teologia Moral 
+7.10.03.00-2 Teologia Sistemática 
+7.10.04.00-9 Teologia Pastoral 
+
+8.00.00.00-2 Lingüística, Letras e Artes 
+8.01.00.00-7 Lingüística 
+8.01.01.00-3 Teoria e Análise Lingüística 
+8.01.02.00-0 Fisiologia da Linguagem 
+8.01.03.00-6 Lingüística Histórica 
+8.01.04.00-2 Sociolingüística e Dialetologia 
+8.01.05.00-9 Psicolingüística 
+8.01.06.00-5 Lingüística Aplicada  
+8.02.00.00-1 Letras 
+8.02.01.00-8 Língua Portuguesa 
+8.02.02.00-4 Línguas Estrangeiras Modernas 
+8.02.03.00-0 Línguas Clássicas 
+8.02.04.00-7 Línguas Indígenas 
+8.02.05.00-3 Teoria Literária 
+8.02.06.00-0 Literatura Brasileira 
+8.02.07.00-6 Outras Literaturas Vernáculas 
+8.02.08.00-2 Literaturas Estrangeiras Modernas 
+8.02.09.00-9 Literaturas Clássicas 
+8.02.10.00-7 Literatura Comparada 
+8.03.00.00-6 Artes 
+8.03.01.00-2 Fundamentos e Crítica das Artes 
+8.03.01.01-0 Teoria da Arte 
+8.03.01.02-9 História da Arte 
+8.03.01.03-7 Crítica da Arte 
+8.03.02.00-9 Artes Plásticas 
+8.03.02.01-7 Pintura 
+8.03.02.02-5 Desenho 
+8.03.02.03-3 Gravura 
+8.03.02.04-1 Escultura 
+8.03.02.05-0 Cerâmica 
+8.03.02.06-8 Tecelagem 
+8.03.03.00-5 Música 
+8.03.03.01-3 Regência 
+8.03.03.02-1 Instrumentação Musical 
+8.03.03.03-0 Composição Musical 
+8.03.03.04-8 Canto 
+8.03.04.00-1 Dança 
+8.03.04.01-0 Execução da Dança 
+8.03.04.02-8 Coreografia 
+8.03.05.00-8 Teatro 
+8.03.05.01-6 Dramaturgia 
+8.03.05.02-4 Direção Teatral 
+8.03.05.03-2 Cenografia 
+8.03.05.04-0 Interpretação Teatral 
+8.03.06.00-4 Ópera 
+8.03.07.00-0 Fotografia 
+8.03.08.00-7 Cinema 
+8.03.08.01-5 Administração e Produção de Filmes 
+8.03.08.02-3 Roteiro e Direção Cinematográficos 
+8.03.08.03-1 Técnicas de Registro e Processamento de Filmes 
+8.03.08.04-0 Interpretação Cinematográfica 
+8.03.09.00-3 Artes do Vídeo 
+8.03.10.00-1 Educação Artística 
