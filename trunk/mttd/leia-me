@@ -1,0 +1,6 @@
+#Colocar a permissao abaixo dentro do catalina.policy do tom cat para permitir
+#que o somtoolbox possa trabalhar adequadamente dentro da pasta treino. 
+#ajustar o caminho para o ambiente de producao.
+grant codeBase "jar:file:${catalina.base}/wtpwebapps/mtd-ufpe-web/WEB-INF/lib/somtoolbox.jar!/-" {
+	permission java.io.FilePermission "${catalina.base}/wtpwebapps/mtd-ufpe-web/WEB-INF/data/treino/-","read,write,delete";
+ };

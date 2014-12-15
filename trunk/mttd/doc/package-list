@@ -1,0 +1,13 @@
+br.ufpe.mtd.dados.arquivo
+br.ufpe.mtd.dados.drive
+br.ufpe.mtd.dados.indice
+br.ufpe.mtd.negocio
+br.ufpe.mtd.negocio.decodificacao
+br.ufpe.mtd.negocio.entidade
+br.ufpe.mtd.negocio.thread
+br.ufpe.mtd.teste
+br.ufpe.mtd.util
+br.ufpe.mtd.util.analizers
+br.ufpe.mtd.util.enumerado
+br.ufpe.mtd.util.log
+br.ufpe.mtd.view

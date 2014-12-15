@@ -1,0 +1,37 @@
+9.00.00.00 5 Outros 
+9.01.00.00-0 Administração Hospitalar 
+9.02.00.00-4 Administração Rural 
+9.03.00.00-9 Carreira Militar 
+9.04.00.00-3 Carreira Religiosa 
+9.05.00.00-8 Ciências 
+9.06.00.00-2 Biomedicina 
+9.07.00.00-7 Ciências Atuariais 
+9.08.00.00-1 Ciências Sociais 
+9.09.00.00-6 Decoração 
+9.10.00.00-9 Desenho de Moda 
+9.11.00.00-3 Desenho de Projetos 
+9.12.00.00-8 Diplomacia 
+9.13.00.00-2 Engenharia de Agrimensura 
+9.14.00.00-7 Engenharia Cartográfica 
+9.15.00.00-1 Engenharia de Armamentos 
+9.16.00.00-6 Engenharia Mecatrônica 
+9.17.00.00-0 Engenharia Têxtil 
+9.18.00.00-5 Estudos Sociais 
+9.19.00.00-0 História Natural 
+9.20.00.00-2 Química Industrial 
+9.21.00.00-7 Relações Internacionais 
+9.22.00.00-1 Relações Publicas 
+9.23.00.00-6 Secretariado Executivo 
+Desenho de Projetos 
+9.12.00.00-8 Diplomacia 
+9.13.00.00-2 Engenharia de Agrimensura 
+9.14.00.00-7 Engenharia Cartográfica 
+9.15.00.00-1 Engenharia de Armamentos 
+9.16.00.00-6 Engenharia Mecatrônica 
+9.17.00.00-0 Engenharia Têxtil 
+9.18.00.00-5 Estudos Sociais 
+9.19.00.00-0 História Natural 
+9.20.00.00-2 Química Industrial 
+9.21.00.00-7 Relações Internacionais 
+9.22.00.00-1 Relações Publicas 
+9.23.00.00-6 Secretariado Executivo 

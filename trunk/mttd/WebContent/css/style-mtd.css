@@ -1,0 +1,404 @@
+html{
+	left:0px;
+	top:0px;
+	margin:0px;
+	width: 100%;
+	height: 100%;
+	float: left;
+	position: relative;
+}
+
+body{
+	top:0px;
+	width: 100%;
+	background: white;
+	position: relative;
+	float: left;
+	margin:0px;
+	font-family: "Trebuchet MS", Arial, sans-serif; 
+	font-size: 14px; 	
+	background-color: #EEE9BF;
+	overflow: auto;
+}
+
+h1{
+	color: black;
+}
+
+.botao{
+	border-radius: 3px;
+	width: 80px;
+	height: 25px;
+	background-color: white;
+	border: 1px solid gray;
+}
+
+
+.corpo{
+	width: 100%;
+	position:relative;
+	cursor: default;
+	float: left;
+	margin: 0px;
+	background-color: #F5F5DC;
+	z-index: 9000;
+}
+
+#cabecalho{
+	top:0px;
+	width: 100%;
+	font-size: 0.95em;
+	left:0;
+	position:relative;
+	color:white;
+	float: left;
+	margin:0px;
+	padding: 0px;
+}
+
+#menu-cabecalho-abas{
+	position: relative;
+	float: right;
+	right: 10px;
+	margin:0px;
+	font-size: medium;
+	width: 505px;
+}
+
+#menu-cabecalho-abas ul{
+	position:relative;
+	float: inherit;
+	margin:0px;
+}
+
+#menu-cabecalho-abas ul li{ 
+	display: inline; 
+	margin:0px;
+}
+
+.menu-cabecalho-link{
+	text-align: center;
+	display: inline-block;
+	background-color: white;	
+	color: gray;
+	width: 150px;
+	height: 50px;
+	position:relative;
+	float: left;
+	margin:0px;
+	margin-left: 5px;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	cursor: pointer;
+	text-decoration:none;
+	margin-top: 5px;
+}
+
+#menu-cabecalho-titulo{ 
+	top: 0px;
+	float: left;
+	position: relative;
+	left: 10px;
+	margin-top:-10px;
+	margin-right: 20px;
+	height: 50px;
+	vertical-align: middle;
+}
+	
+#menu-cabecalho-form{ 
+	top: -5px;
+	position:relative;
+	background-color: #CDAF95;	
+	width: 570px;
+	color: gray;
+	height: 45px;
+	border-radius: 0.5em;	
+	float: left;
+	left: 10px;
+	margin:0px;	
+	margin-top: 10px;
+}
+
+#menu-cabecalho-informacoes{ 
+	background-color: #CDAF95;
+	top: 0px;
+	position:relative;
+	height: 35px;
+	border-radius: 0.5em;	
+	float: left;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+.item-menu-cabecalho{ 
+	top: 0px;
+	position:relative;
+	float: left;
+	margin-top:2px;
+	margin-left: 5px;
+}
+
+.item-menu-cabecalho img{
+	cursor: pointer;
+	margin-top: 5px;
+	width: 15px;
+	height: 15px;
+	position:relative;
+	float:left;
+	top: 0px;
+	margin-right: 5px;
+}
+
+.menu-selecionado{
+	background-color:#8B4726;
+	color: white;
+}
+
+#linha-inferior-cabecalho{
+	top:0px;
+	margin-left:0px;
+	position:relative;
+	background-color:#8B4726;	
+	width: 100%;
+	height: 4px;
+	float: left;
+	
+}
+
+#linha-superior-rodape{
+	width: 100%;
+	position:relative;
+	background-color:#8B4726;
+	height: 4px;
+	margin-bottom: 10px;
+	float: left;
+}
+
+/*
+	Rodape
+*/
+#msg-copyrigth{
+	width: 100%;
+	color: black;
+}
+
+#tabela{
+	width:100%;
+	position:relative;
+	left:0px;
+	top:0px;
+	border:0px; 
+	padding: 0;
+	border-spacing: 0;
+	border-collapse: collapse;
+	float: left;
+	margin:0px;
+}
+
+.tabela-consulta{
+	width: 100%;
+	border: 1px solid #666;
+	border-radius:0.15cm;
+	margin:0px;	
+}
+
+.tabela-consulta td, th, tr{
+	border: 1px solid #666;
+	border-radius:0.1cm;
+}
+
+.mapa{
+	position:relative;
+	float: left;
+	margin:0px;
+}
+
+.areas{
+	height: 20px;
+	margin:0px;
+	margin-top: 5px;
+}
+
+.celula-afastamento{
+	position:inherit;
+	margin-right:10px;
+	margin-left:10px;
+	margin-bottom:5px;
+	float:left;
+	width: 200px;
+	overflow:hidden;
+}
+
+.celula-destacado{
+	border: 3px yellow;
+	color: black;
+	text-align: center;
+	font-size: 0.95em;
+	border-style: dashed;
+	margin: -3px;
+}
+
+.celula-vermelha{
+	color: black;
+	background-color: #EE6363;
+	text-align: center;
+	font-size: 0.95em;
+	border-radius: 0.25em;
+}
+
+.celula-verde{
+	color: black;
+	background-color: #3CB371;
+	text-align: center;
+	font-size: 0.95em;
+	border-radius: 0.25em;
+}
+
+.celula-azul{
+	color: black;
+	background-color: #4F94CD;
+	text-align: center;
+	font-size: 0.95em;
+	border-radius: 0.25em;
+}
+
+.celula-amarelo{
+	color: black;
+	background-color: #FFB90F;
+	text-align: center;
+	font-size: 0.95em;
+	border-radius: 0.25em;
+}
+
+.celula-cinza{
+	color: black;
+	background-color: #B4CDCD;
+	text-align: center;
+	font-size: 0.95em;
+	border-radius: 0.25em;
+}
+
+.celula-sem-classificacao{
+	color: black;
+	background-color: white;
+	text-align: center;
+	font-size: 0.95em;
+	border-radius: 0.25em;
+}
+
+#tabela table{
+	width: 100%;
+	border-spacing: 0px;
+}
+
+#tabela td {
+	width: 8%;
+	overflow:hidden;
+}
+
+.quebra-linha{
+	clear: both;
+}
+
+.poppup{ 
+	color: black;
+    width:130px; 
+    height:150px;  
+    overflow: auto;
+	border: 1px solid #666;
+    box-shadow: black 0.5em 0.5em 0.3em;
+	border-radius: 1em;
+	background-color: #ccc;
+	padding: 8px;
+    position:absolute; 
+    display: none;
+    margin-left: 50px;
+    margin-top:20px;
+    z-index: 9000;
+}
+
+.quadrante2{
+    margin-top:-120px;
+}
+
+.quadrante3{
+	margin-left: -80px;
+}
+
+.quadrante4{
+	margin-left: -80px;
+	margin-top:-120px;
+}
+
+.celula-fim-de-tabela{
+    margin-top:-300px;
+}
+
+.invisivel{
+	display: none;
+}
+.visivel{
+	display: block;
+}
+
+.marcador{
+	width: 8px; 
+	height: 8px;
+	border-radius:5px;
+	margin: 2px;
+}
+
+.marcador img{
+	width: 15px;
+	height: 15px;
+}
+
+.amarelo{
+	background-color: #FFF68F;
+}
+
+.vermelho{
+	background-color: #FF0000;
+}
+
+.entry-popup{
+	left:15%; 
+	width: 65%; 
+	height: 200px;
+}
+
+.ajuda-contato-popup{
+	z-index: 20001; 
+	width: 90%;
+	height: 100%;
+	left: 0px;
+	box-shadow: black 0.0em 0.0em 0.0em;;
+}
+
+.fim-tabela{
+	height: 300px;
+}
+
+#mascara_site{
+	
+	width: 600%; 
+	height: 600%; 
+	position: absolute;
+	left: 0; 
+	top: 0; 
+	background-color:black; 
+	z-index: 20000;
+	opacity:0.6; 
+	display: none;
+	
+}
+
+#sugestao{
+	position: absolute; 
+	background-color:white; 
+	margin-left:2px;
+	z-index: 10000;
+	font-size: 0.95em; 
+	color: black; 
+	box-shadow: #CFCFCF 0.1em 0.1em 0.1em;
+}
