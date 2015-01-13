@@ -1760,9 +1760,89 @@ public class JOgma {
 		return resultados;
 
 	}
+	
+	//Utilizado por SNTokenizer e indiretamente por SNAnalyzer
+		public static List<SNData>  extraiSNIdentificadoIndiceOrdenado(String texto, String textoMarcado){
+			String resultado = textoMarcado;
+			List<SNData>  resultados = new Vector<SNData>();
+			String SN = new String("");
+			resultado = substituiContracoes(resultado);//só substituirá contrações dentro dos sintagmas nominais ou ct
+			String[] palavras = resultado.split(" ");
+			//String[] palavraso = texto.split(" ");
+			String palavra = null;
+			int indice = 0;
+			int temp = 0;
+			for(int i=0; i < palavras.length; i++)//foreach (String palavra in palavras)
+			{
+				palavra = palavras[i];
+				String[] PC = palavra.split("/");
+				if (PC.length>1) if (PC[1].equals("SN")) {
+					//				// Volta com contrações básicas
+					//String original = new String(PC[0]);
+					PC[0]= substituiContracoes(PC[0]);
+					SN = " "+PC[0].replace("_"," ").replace("="," ")+" ";
+					SN = SN.trim();
+					SN = SN.replaceAll("[ ]{2,}", " ");//excesso de espaço em branco
+					
+					//if (!(resultados.contains(SN)))
+					//{
+					//indice = resultado.indexOf(original,indice) - i * 3;//barra mais 2 caracteres da tag sn ou ct anteriores
+					temp = texto.indexOf(SN,indice);
+					if(temp >= indice)
+						indice = temp+SN.length();
+					else{
+						String sub = texto.substring(indice, indice+SN.length());
+						String[] ss = SN.split(" ");
+						int [] iss = new int[ss.length];
+						int indexend = indice;
+						for(int j=0; j< ss.length; j++){
+							iss[j] = sub.indexOf(ss[j]);
+							if(ss[j].length() > 2 &&  iss[j]>=0)
+							indexend = iss[j] + ss[j].length()-1;
+							else{
+								iss[j]=-1;
+								indexend +=  ss[j].length();
+							}
+						}
+						int indexfirst = -1;
+						for(int k=0; k< ss.length; k++){
+							if(iss[k] < 0){
+								if(k > 1 && iss[k-1] >=0)
+									iss[k] = sub.indexOf(ss[k], iss[k-1]+ss[k-1].length());
+								else if(k < (iss.length-1) && iss[k+1] >=0){
+									iss[k] = sub.indexOf(ss[k], iss[k+1]-ss[k].length());
+									if(iss[k] >= iss[k+1])
+										iss[k] = -1;
+								}
+							}
+						}
+						int count = 0;
+						int indexe =-1;
+						for(int k=0; k< ss.length; k++){
+							if(iss[k] >= 0){
+								if(indexfirst < 0)
+									indexfirst = k;
+								if(indexe < k)
+									indexe=k;
+							}else
+								count++;
+						}
+						if(indexfirst == 0 && indexe==(ss.length-1)){
+							indice = indice+iss[indexfirst];
+						}
+							
+					}
+					resultados.add(new SNData(SN,indice)); //ops hashmap não permite duplicatas na lista, ops indice impreciso devido a contracoes fora de ct ou sn
+					//}
+				}
+			}
+			return resultados;
+		}
+
 
 //Utilizado por SNTokenizer e indiretamente por SNAnalyzer
-	private static List<SNData>  extraiSNIdentificadoIndiceOrdenado(String resultado){
+	public static List<SNData>  extraiSNIdentificadoIndiceOrdenado(String textoMarcado){
+		String resultado = textoMarcado;
 		List<SNData>  resultados = new Vector<SNData>();
 		String SN = new String("");
 		resultado = substituiContracoes(resultado);//só substituirá contrações dentro dos sintagmas nominais ou ct
@@ -1796,6 +1876,8 @@ public class JOgma {
 	 */
 	public static String substituiContracoes(String PC) {
 		PC = PC.replace("=", "_");
+		PC = PC.replace("_a_a_", "_à_");
+		PC = PC.replace("_a_as_", "_às_");
 		PC = PC.replace("_de_os_", "_dos_");
 		PC = PC.replace("_de_o_", "_do_");
 		PC = PC.replace("_de_as_", "_das_");
