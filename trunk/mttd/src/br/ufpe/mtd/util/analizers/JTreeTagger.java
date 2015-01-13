@@ -146,7 +146,11 @@ public class JTreeTagger implements TaggerInterface {
     				return token.toLowerCase()+"/VB";
     			else if(token.length() >= 3 && "num numa nuns numas".contains(token.toLowerCase())){
     				int i = token.indexOf("u");
-    				return "em/PR "+token.substring(i)+"/AI";
+    				if(i >=0){
+    					return "em/PR "+token.substring(i)+"/AI";
+    				}else{
+    					return token+"/ct";
+    				}
 				}
     			else if(token.length() >= 2 && "no na nos nas".contains(token.toLowerCase())){
     				int i = token.indexOf("o");
