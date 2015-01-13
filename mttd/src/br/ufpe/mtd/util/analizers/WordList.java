@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
 
 public class WordList {
@@ -187,11 +188,15 @@ public class WordList {
 	 }
 	 
 	 public static void main(String[] args){
+		 
 		 String stopFile = MTDArquivoEnum.PASTA_ARQUIVOS_AUXILIARES.getArquivo().getAbsolutePath()+"\\JOgma\\sn_stoplist.txt";
+		 stopFile = "WebContent/WEB-INF/aux_files/"+"JOgma/sn_stoplist.txt";
 		 WordList gramatica = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-GRAMATICA-sort.csv");
 		 WordList nomes = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-NOMES-sort.csv");
 		 WordList verbos = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-VERBOS-sort.csv");
+		 WordList stp = new WordList(stopFile);
 		 //verbos.writeCVS("WebContent/WEB-INF/aux_files/JOgma/Ogma-VERBOS-sort2.csv");
+		 System.out.println(stp.BuscaPalavra("é"));
 		 System.out.println(verbos.BuscaPalavra("é"));	
 		 System.out.println(verbos.BuscaPalavra("há"));
 		 //gramatica.writeCVS("WebContent/WEB-INF/aux_files/JOgma/Ogma-GRAMATICA-sort2.csv");

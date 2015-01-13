@@ -84,17 +84,18 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 	 * @return
 	 */
 	void tokenize(String aContext){ //define as tokens, o método a alterar é este
-		System.out.println("sub tokenize");
-		
-	    
+		System.out.println("SNTokenizerWithAtributes");
 		try{
 			//O metodo etiquetar chama  o etiquetador parametrizado em Analyzer através
 			// da chamada ao método setTagger de Tokenizer
 			//-----Etiquetando o texto
 			String res2 = etiquetar(aContext);
 			System.out.println(res2);
+			String resultado  = JOgma.identificaSNTextoEtiquetado(res2);
+			System.out.println(resultado);
 			//----Extraindo os sintagmas nominais do texto etiquetado
-			List<SNData> lsns = JOgma.extraiSNOrdenadoTextoEtiquetado(res2);
+			//List<SNData> lsns = JOgma.extraiSNOrdenadoTextoEtiquetado(res2);
+			List<SNData> lsns = JOgma.extraiSNIdentificadoIndiceOrdenado(aContext,resultado);
 //			Vector<String> sns =new Vector<String>(hm.keySet());
 //			Vector<Integer> snsind =new Vector<Integer>(hm.values());
 //			List<SNData> lsns = new ArrayList<SNData>(SNData.converttoSNDataMap(hm).values());
@@ -116,7 +117,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 			int iaprox = -1;
 			for(SNData sni: lsns){
 				String tempWord = sni.getSN().toLowerCase();
-				if(tempWord.length()<=1 && this.punc.indexOf(tempWord)>=0)//if there is a letter or punc, break.
+				if(tempWord.length()<=1 && this.punc.indexOf(tempWord)>=0)//if there is a letter or punc, pull.
 					continue;
 				//if(!this.stopWords.contains(tempWord) && this.openTag.get(chunks2[1])!=null && !Util.isNumber(tempWord)){
 				//because we will use phrase filter, so we don't need to filter it here now.
@@ -212,7 +213,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 									}
 									indexfirst = 0;
 									int tempi = aContext.indexOf(ss[indexfirst],s);
-									if(s != tempi && tempi >= 0 && tempi < iss[1])
+									if(s != tempi && tempi >= 0 && tempi < iss[indexend])
 										s = aContext.indexOf(ss[indexfirst],s);
 								
 								}
@@ -235,7 +236,8 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 								}
 								
 								s = (s>=0)?s:(e-sni.getSN().length());
-								e = (e<aContext.length() && e > 0)?e:Math.min(aContext.length()-1, s+sni.getSN().length());
+								e = (e<aContext.length() && e > 0 && e > s)?e:Math.min(aContext.length()-1, s+sni.getSN().length());
+								
 								
 						String subs = aContext.substring(s,e+1);//*****StringIndexOutOfBounds
 							int d = StringUtils.indexOfDifference(subs,tempWord);
@@ -243,7 +245,11 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 							if (StringUtils.getLevenshteinDistance(subs, tempWord) <= 6){//espaços antes do sinal de pontuação tb
 								delta =  sni.getIndiceInicio() - s; 
 								index = s;
+								if(index < 0)
+									index = 0;
 								endOffset = e;
+								if(endOffset - subs.length() < 0)
+									endOffset = subs.length()-1;
 								resultTags.add("SN");
 								resultOffsets.add(endOffset);
 								index = endOffset;
@@ -268,7 +274,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 			addToFinalToken(resultTokens, tags, offsets);
 
 		}catch(Exception e){
-			System.out.println("ERROR SNTokenizerWithAtributes.tokenize content:"+aContext);
+			System.out.println("ERROR SNTokenizerWithAtributes.tokenize content:"+aContext+"\n"+e.getMessage());
 			throw e;
 		}
 

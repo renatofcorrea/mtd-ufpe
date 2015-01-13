@@ -1,19 +1,23 @@
 package br.ufpe.mtd.util.analizers;
 
+import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
+
 public class JOgmaEtiquetador {
 	private static JOgmaEtiquetador myInstance = null;
 	private WordList gramatica = null;
 	private WordList nomes = null;
 	private WordList verbos = null;
+	private String path = null;
 	
 	
 	private JOgmaEtiquetador(){
-		
-		gramatica = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-GRAMATICA-sort.csv");
-		nomes = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-NOMES-sort.csv");
-		verbos = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-VERBOS-sort.csv");
-		
-		
+		path = MTDArquivoEnum.PASTA_ARQUIVOS_AUXILIARES.getPathSemExtensao();
+		if(path == null)
+			path = "WebContent/WEB-INF/aux_files";
+		gramatica = new WordList(path + "/JOgma/Ogma-GRAMATICA-sort.csv");
+		nomes = new WordList(path + "/JOgma/Ogma-NOMES-sort.csv");
+		verbos = new WordList(path + "/JOgma/Ogma-VERBOS-sort.csv");
+
 	}
 	public static JOgmaEtiquetador getInstance() {   
 	      if (myInstance == null) {   
