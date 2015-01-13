@@ -23,7 +23,7 @@ public class JTreeTagger implements TaggerInterface {
 	private String textoTags=null;
 
 	public static JTreeTagger getInstance() {  
-		int indexModel = 1; //default model mac-morpho
+		int indexModel = 1; //default model mac-morpho nilc
 	      if (myInstance == null) {  
 	    	  myModel = models[indexModel];
 	    	  myInstance = new JTreeTagger(myModel);   
@@ -42,8 +42,14 @@ public class JTreeTagger implements TaggerInterface {
 	      return myInstance; 
     }
 	
-	private JTreeTagger(String model){
-		System.setProperty("treetagger.home", ttHome);//aqui.....
+	private JTreeTagger(String model) {
+		if(ttHome == null)
+			ttHome = "WebContent\\WEB-INF\\aux_files\\Tagger\\TreeTagger";
+		String isdone = System.setProperty("treetagger.home", ttHome);//aqui.....
+		if(isdone == null){
+			System.out.println("Fail setting treetagger.home property with JTreeTagger path");
+			model = ttHome + "\\models\\"+model;
+		}
 		tt = new TreeTaggerWrapper<String>();
 		textoEtiquetado = new String();
 		textoLemas = new String();
@@ -65,13 +71,19 @@ public class JTreeTagger implements TaggerInterface {
 		        	 textoTags = textoTags +pos+ "/";
 		         }
 		     });
-		 } catch (IOException e) {
+		    String sexe = tt.getExecutableProvider().getExecutable();
+			System.out.println("JTreeTagger.etiquetar() executable: "+sexe);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
 			e.printStackTrace();
-		} 
-		 finally {
+		}catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}   finally {
 		     //tt.destroy();
-		 }
+		}
 	}
 	
 	 public static String[] getModels() {
@@ -95,14 +107,20 @@ public class JTreeTagger implements TaggerInterface {
 			}else if(pos.equalsIgnoreCase("N")||pos.startsWith("N|")|| pos.contains("NPROP")|| pos.contains("PROP")){
 //    			return token+"/NP*";
 //    		}else if(){
-			if( JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).contains("VP") && token.matches(".*(i|a)(d|t)(o|a)[s]?")){	
+			if(token.equals("é")){
+				return token+"/VB";
+			}
+			else if( JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).contains("VP") && token.matches(".*(i|a)(d|t)(o|a)[s]?")){	
 				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
 				return token+"/VP";
+			
+			}else if( JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).contains("VB") && JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() && (token.matches(".*(i|e|a|o)[r]")||token.matches(".*(i|e|a|o)(nd)(o|a)"))){		
+				return token+"/VB";
 			
 			}else if(lemma.contains("@card@")||pos.contains("@card@")||token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
 					return token + "/NC";
 				
-			else if("de do da dos das".contains(token.toLowerCase())){
+			else if(token.length() >= 2 && "de do da dos das".contains(token.toLowerCase())){
     				int i = token.indexOf("o");
     				int j = token.indexOf("a");
     				if(i >=0)
@@ -117,20 +135,20 @@ public class JTreeTagger implements TaggerInterface {
 					return token.toLowerCase()+"/PR";
     			else if (token.equalsIgnoreCase("se"))
     				return token.toLowerCase()+"/ct";
-    			else if("nesse nisso nessa neste nisto nesta nesses nessas nestes nestas deste disto desta desse disso dessa dessas desses destes destas".contains(token.toLowerCase())){
+    			else if(token.length() >= 5 && "nesse nisso nessa neste nisto nesta nesses nessas nestes nestas deste disto desta desse disso dessa dessas desses destes destas".contains(token.toLowerCase())){
 					return token + "/PD";
 				}
-				else if("dele dela deles delas".contains(token.toLowerCase()))
+				else if(token.length() >= 4 && "dele dela deles delas".contains(token.toLowerCase()))
 					return token + "/ct";
-				else if("lhe lhes".contains(token.toLowerCase()))
+				else if(token.length() >= 3 && "lhe lhes".contains(token.toLowerCase()))
 					return token + "/ct";
     			else if (token.split("-").length > 1 && "lhe lhes lo la los las o a os as se nos vos".contains(token.split("-")[1]))
     				return token.toLowerCase()+"/VB";
-    			else if("num numa nuns numas".contains(token.toLowerCase())){
+    			else if(token.length() >= 3 && "num numa nuns numas".contains(token.toLowerCase())){
     				int i = token.indexOf("u");
     				return "em/PR "+token.substring(i)+"/AI";
 				}
-    			else if("no na nos nas".contains(token.toLowerCase())){
+    			else if(token.length() >= 2 && "no na nos nas".contains(token.toLowerCase())){
     				int i = token.indexOf("o");
     				int j = token.indexOf("a");
     				if(i >=0)
@@ -139,9 +157,9 @@ public class JTreeTagger implements TaggerInterface {
     					return "em/PR "+token.substring(j)+"/AD";
     				else
     					return token+"/NP";
-    			}else if("pelo pela pelos pelas".contains(token.toLowerCase()))
+    			}else if(token.length() >= 4 && "pelo pela pelos pelas".contains(token.toLowerCase()))
     					return token+"/PR";
-    			else if("ao aos".contains(token.toLowerCase())){
+    			else if(token.length() >= 2 && "ao aos".contains(token.toLowerCase())){
     				int i = token.indexOf("o");
     				return "a/PR "+token.substring(i)+"/AD";
     			}else if("à às".contains(token.toLowerCase())){
@@ -196,7 +214,7 @@ public class JTreeTagger implements TaggerInterface {
 		}else if(pos.contains("KC")|| pos.contains("KS")){//CONJUNÇÃO SUBORDINATIVA (KS) //CONJUNÇÃO COORDENATIVA (KC) || pos.equalsIgnoreCase("KS")
 			if("e em".contains(token.toLowerCase()))
 				return token+"/CJ";
-			else if("no na nos nas do da dos das".contains(token.toLowerCase())){
+			else if(token.length() >= 2 && "no na nos nas do da dos das".contains(token.toLowerCase())){
 				int i = token.indexOf("o");
 				int j = token.indexOf("a");
 				if(token.indexOf("n") == 0){
@@ -214,7 +232,7 @@ public class JTreeTagger implements TaggerInterface {
 					else
 						return token+"/CJ";
 				} 
-			}else if("pelo pela pelos pelas".contains(token.toLowerCase()))
+			}else if(token.length() >= 4 && "pelo pela pelos pelas".contains(token.toLowerCase()))
 				return token+"/PR";
 			else
 				return token+"/ct";
@@ -341,15 +359,19 @@ public class JTreeTagger implements TaggerInterface {
 		String [] words = texto.split(" ");
 		
 		try{
+			
 			tt.process(Arrays.asList(words));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}catch (NullPointerException e) {
 			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		} catch (TreeTaggerException e) {
 			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		} 
 		 finally {
@@ -394,7 +416,7 @@ public class JTreeTagger implements TaggerInterface {
 		JTreeTagger jt = JTreeTagger.getInstance(JTreeTagger.getModels()[1]);
 		System.out.println(jt.etiquetar("Isto é um teste."));
 		String fr1= new String("Eu comi minha maçã hoje.");
-		String fr2= new String("Meu carro quebrou.");
+		String fr2= new String("O presente trabalho objetiva analisar a roda.");
 		String sent = new String("O novo cálculo das aposentadorias resulta em valores menores do que os atuais para quem perde o benefício com menos tempo de contribuição e idade.");
 		System.out.println(JTreeTagger.getInstance().etiquetar(fr1));
 		System.out.println(JTreeTagger.getInstance().etiquetar(fr2));
