@@ -7,17 +7,12 @@ public class JOgmaEtiquetador {
 	private WordList gramatica = null;
 	private WordList nomes = null;
 	private WordList verbos = null;
-	private String path = null;
 	
 	
 	private JOgmaEtiquetador(){
-		path = MTDArquivoEnum.PASTA_ARQUIVOS_AUXILIARES.getPathSemExtensao();
-		if(path == null)
-			path = "WebContent/WEB-INF/aux_files";
-		gramatica = new WordList(path + "/JOgma/Ogma-GRAMATICA-sort.csv");
-		nomes = new WordList(path + "/JOgma/Ogma-NOMES-sort.csv");
-		verbos = new WordList(path + "/JOgma/Ogma-VERBOS-sort.csv");
-
+		gramatica = new WordList(MTDArquivoEnum.J_OGMA_GRAMATICA.getArquivo().getAbsolutePath());
+		nomes = new WordList(MTDArquivoEnum.J_OGMA_NOMES.getArquivo().getAbsolutePath());
+		verbos = new WordList(MTDArquivoEnum.J_OGMA_VERBOS.getArquivo().getAbsolutePath());
 	}
 	public static JOgmaEtiquetador getInstance() {   
 	      if (myInstance == null) {   

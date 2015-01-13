@@ -1791,7 +1791,9 @@ public class JOgma {
 					if(temp >= indice)
 						indice = temp+SN.length();
 					else{
-						String sub = texto.substring(indice, indice+SN.length());
+						int ifinal = indice+SN.length();
+						ifinal = ifinal>(texto.length()-1)?(texto.length()-1):ifinal;
+						String sub = texto.substring(indice, ifinal);
 						String[] ss = SN.split(" ");
 						int [] iss = new int[ss.length];
 						int indexend = indice;
