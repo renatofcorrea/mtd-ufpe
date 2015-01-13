@@ -11,6 +11,7 @@ import java.io.IOException;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDIterator;
 import br.ufpe.mtd.util.MTDParametros;
+import br.ufpe.mtd.util.analizers.WordList;
 
 /**
  * Enumerdo que representra todos os arquivos que precisarao ser manipulados pelo
@@ -32,6 +33,9 @@ public enum MTDArquivoEnum {
 	PASTA_ARQUIVOS_AUXILIARES(MTDParametros.getLocalFolder(),"aux_files", true),
 	PASTA_J_OGMA(MTDParametros.getLocalFolder(),"JOgma", true),
 	J_OGMA_STOP_LIST(MTDParametros.getLocalFolder(),"sn_stoplist.txt", false),
+	J_OGMA_GRAMATICA(MTDParametros.getLocalFolder(),"Ogma-GRAMATICA-sort.csv", false),
+	J_OGMA_NOMES(MTDParametros.getLocalFolder(),"Ogma-NOMES-sort.csv", false),
+	J_OGMA_VERBOS(MTDParametros.getLocalFolder(),"Ogma-VERBOS-sort.csv", false),
 	PASTA_TAGGER(PASTA_ARQUIVOS_AUXILIARES.getArquivo(),"Tagger", true),
 	PASTA_TREE_TAGGER(PASTA_TAGGER.getArquivo(),"TreeTagger", true),
 	TREINO(PASTA_TREINO.getArquivo(),"Treino.gz", false),

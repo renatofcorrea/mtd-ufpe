@@ -72,22 +72,22 @@ public class MTDTask extends TimerTask {
 	}
 	
 	private void executar(){
-		agendarIndexacao();
-		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
-		
-		agendarTreino();
-		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
-		
-		agendarAvaliacaoQualidadeTreino();
-		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
-		
-		try {
-			if(MTDFacede.isSistemaTreinado()){
-				MTDFacede.resetarRepositorios();
-			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+//		agendarIndexacao();
+//		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
+//		
+//		agendarTreino();
+//		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
+//		
+//		agendarAvaliacaoQualidadeTreino();
+//		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
+//		
+//		try {
+//			if(MTDFacede.isSistemaTreinado()){
+//				MTDFacede.resetarRepositorios();
+//			}
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
 		
 		try {
 			if(MTDFacede.isSistemaTreinado() && !MTDFacede.isSintagmasConcluidos()){
