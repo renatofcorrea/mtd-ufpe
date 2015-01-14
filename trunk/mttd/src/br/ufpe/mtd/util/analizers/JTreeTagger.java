@@ -165,7 +165,10 @@ public class JTreeTagger implements TaggerInterface {
     					return token+"/PR";
     			else if(token.length() >= 2 && "ao aos".contains(token.toLowerCase())){
     				int i = token.indexOf("o");
+    				if(i>=0)
     				return "a/PR "+token.substring(i)+"/AD";
+    				else
+    					return token+"/AD";
     			}else if("à às".contains(token.toLowerCase())){
     				if(token.toLowerCase().equals("à"))
 					return "a/PR "+"a/AD";
