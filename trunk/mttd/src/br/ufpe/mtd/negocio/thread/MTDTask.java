@@ -175,7 +175,7 @@ public class MTDTask extends TimerTask {
 				} catch (Exception e) {
 					fabrica.getLog().salvarDadosLog(e);
 					//adicionado para retornar a geração de sintagmas
-					agendarGeracaoSintagmas();
+					agendarGeracaoSintagmas();//TODO: ainda muito lento chamando daqui!!!
 				}
 				fabrica.getLog().salvarDadosLog("Task geração sintagmas finalisada!!!");
 			};
