@@ -71,6 +71,7 @@ public class MTDTask extends TimerTask {
 		return executar;
 	}
 	
+	//Controle do sistema mttd
 	private void executar(){
 		agendarIndexacao();
 		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
