@@ -114,7 +114,7 @@ public class JTreeTagger implements TaggerInterface {
 				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
 				return token+"/VP";
 			
-			}else if( JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).contains("VB") && JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() && (token.matches(".*(i|e|a|o)[r]")||token.matches(".*(i|e|a|o)(nd)(o|a)"))){		
+			}else if( JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).contains("VB") && JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() ){//&& (token.matches(".*(i|e|a|o)[r]")||token.matches(".*(i|e|a|o)(nd)(o|a)"))){		
 				return token+"/VB";
 			
 			}else if(lemma.contains("@card@")||pos.contains("@card@")||token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
