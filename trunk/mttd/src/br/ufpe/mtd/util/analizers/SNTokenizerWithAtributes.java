@@ -63,8 +63,9 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 			String pattern = (String)result.get(i);
 			String type = (String)gramType.get(pattern);
 			int offset = (Integer)gramOffset.get(pattern);
-			//Token temp = new Token(pattern,offset-pattern.length(), offset, type); //the field name here doesn't matter, it will follow the one in Document.add
-			Token temp = new Token(pattern.toCharArray(),0,pattern.length(),offset-pattern.length(),offset); //offset-pattern.length()+1
+			//***java.lang.IllegalArgumentException: startOffset must be non-negative, and endOffset must be >= startOffset, startOffset=-1,endOffset=40
+			Token temp = new Token(pattern,offset-pattern.length(), offset, type); //the field name here doesn't matter, it will follow the one in Document.add
+			//Token temp = new Token(pattern.toCharArray(),0,pattern.length(),offset-pattern.length(),offset); //offset-pattern.length()+1
 			temp.setType("SN");
 			temp.setPositionIncrement(1);
 			//Token temp = new Token(pattern+"\t"+type+"\t"+offset,i, i+1,fieldname); //the field name here doesn't matter, it will follow the one in Document.add
@@ -139,6 +140,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 						}
 
 						if(indexW >=0 && indexW < aContext.length()){
+							//***java.lang.IllegalArgumentException: startOffset must be non-negative, and endOffset must be >= startOffset, startOffset=-1,endOffset=40
 							resultTokens.add(tempWord);
 							resultTags.add("SN");
 							index = indexW;
@@ -250,6 +252,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 								endOffset = e;
 								if(endOffset - subs.length() < 0)
 									endOffset = subs.length()-1;
+								//java.lang.IllegalArgumentException: startOffset must be non-negative, and endOffset must be >= startOffset, startOffset=-1,endOffset=40
 								resultTags.add("SN");
 								resultOffsets.add(endOffset);
 								index = endOffset;
