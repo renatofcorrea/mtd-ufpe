@@ -1,0 +1,11 @@
+20/01/2014
+
+Realizar commits das mudanças relativas ao tratamento de encoding (retirada da resposta do DriverMTD de String para InputStream)
+
+Tirar o metodo de parse dos Ids de dentro do Driver e colocar na classe que esta processando os IDs assim como para os docs.
+
+
+Tratar recuperação de dados que falharam (retentar envio de dados , persistir falha e tentar posteriormente)
+
+Realizar consulta lista de ids salvos para permitir não consulta-los novamente na busca de metadados. (Verificar se esta é a melhor estrategia).
+

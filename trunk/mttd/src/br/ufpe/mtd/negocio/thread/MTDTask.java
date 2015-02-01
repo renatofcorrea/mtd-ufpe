@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimerTask;
 
-import br.ufpe.mtd.negocio.MTDFacede;
+import br.ufpe.mtd.negocio.controle.MTDFacede;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDParametros;
 
@@ -71,7 +71,6 @@ public class MTDTask extends TimerTask {
 		return executar;
 	}
 	
-	//Controle do sistema mttd
 	private void executar(){
 		agendarIndexacao();
 		fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
@@ -96,7 +95,7 @@ public class MTDTask extends TimerTask {
 				fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
 			}else{
 				fabrica.getLog().salvarDadosLog("Treinamento do sistema precisa ser refeito. Reagendando...");
-				fabrica.agendarTreino();
+				fabrica.agendarTarefas();
 			}
 		} catch (Exception e) {
 			fabrica.getLog().salvarDadosLog(e);
@@ -174,8 +173,6 @@ public class MTDTask extends TimerTask {
 					
 				} catch (Exception e) {
 					fabrica.getLog().salvarDadosLog(e);
-					//adicionado para retornar a geração de sintagmas
-					agendarGeracaoSintagmas();//TODO: ainda muito lento chamando daqui!!!
 				}
 				fabrica.getLog().salvarDadosLog("Task geração sintagmas finalisada!!!");
 			};

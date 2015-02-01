@@ -9,9 +9,9 @@ import br.ufpe.mtd.dados.arquivo.RepositorioMapa;
 import br.ufpe.mtd.dados.indice.IRepositorioIndice;
 import br.ufpe.mtd.dados.indice.RepositorioIndiceLucene;
 import br.ufpe.mtd.dados.indice.RepositorioIndiceSolr;
-import br.ufpe.mtd.negocio.IndiceControle;
-import br.ufpe.mtd.negocio.MapaControle;
-import br.ufpe.mtd.negocio.RedeNeuralControle;
+import br.ufpe.mtd.negocio.controle.IndiceControle;
+import br.ufpe.mtd.negocio.controle.MapaControle;
+import br.ufpe.mtd.negocio.controle.RedeNeuralControle;
 import br.ufpe.mtd.negocio.thread.MTDTask;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
 import br.ufpe.mtd.util.enumerado.MimeTypeEnum;
@@ -50,7 +50,7 @@ public class MTDFactory implements ContentHandlerFactory{
 			carregarRepositorios();
 			
 			if(MTDParametros.isAmbienteWeb()){
-				agendarTreino();
+				agendarTarefas();
 			}
 			
 		} catch (Exception e) {
@@ -77,7 +77,7 @@ public class MTDFactory implements ContentHandlerFactory{
 		carregarRepositorios();
 	}
 	
-	public boolean agendarTreino(){
+	public boolean agendarTarefas(){
 		if(timer == null){
 			timer = new Timer();
 		}else{

@@ -1,0 +1,16 @@
+Urls de leitura para aprendizado:
+
+http://www.ibm.com/developerworks/br/java/library/os-apache-lucenesearch/
+
+http://www.lucenetutorial.com/lucene-in-5-minutes.html
+
+http://faladede.opportunitas.com.br/lucene-facil-indexando-conteudo-forma-simples-direta/
+
+http://vitorpamplona.com/wiki/Introdu%C3%A7%C3%A3o%20ao%20Apache%20Lucene
+
+
+Mudando a senha svn
+
+C:\Users\[username]\AppData\Roaming\Subversion\auth\svn.simple
+
+Deletar o arquivo , depois disso o eclipse vai pedir a senha novamente.

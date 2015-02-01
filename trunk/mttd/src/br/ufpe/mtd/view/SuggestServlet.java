@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import br.ufpe.mtd.negocio.MTDFacede;
+import br.ufpe.mtd.negocio.controle.MTDFacede;
 import br.ufpe.mtd.util.MTDException;
 import br.ufpe.mtd.util.MTDFactory;
 

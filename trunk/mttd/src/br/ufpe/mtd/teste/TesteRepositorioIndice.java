@@ -9,7 +9,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 import br.ufpe.mtd.dados.indice.IRepositorioIndice;
-import br.ufpe.mtd.negocio.IndiceControle;
+import br.ufpe.mtd.negocio.controle.IndiceControle;
 import br.ufpe.mtd.negocio.entidade.MTDDocument;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;

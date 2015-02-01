@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import br.ufpe.mtd.negocio.MTDFacede;
+import br.ufpe.mtd.negocio.controle.MTDFacede;
 
 public class TesteMTTD {
 
