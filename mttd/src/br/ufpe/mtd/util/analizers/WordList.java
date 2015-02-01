@@ -79,7 +79,7 @@ public class WordList {
 
 	}
 	
-	//despreza a primeira linha
+	//despreza a primeira linha de cabecalho, carrega valores em duas colunas separadas por vírgula
 	private void loadCVS(String fin) {
 		try{
 			String encoding = "ISO-8859-1"; //"UTF-8"
@@ -189,16 +189,20 @@ public class WordList {
 	 
 	 public static void main(String[] args){
 		 
-		 String stopFile = MTDArquivoEnum.PASTA_ARQUIVOS_AUXILIARES.getArquivo().getAbsolutePath()+"\\JOgma\\sn_stoplist.txt";
-		 stopFile = "WebContent/WEB-INF/aux_files/"+"JOgma/sn_stoplist.txt";
+//		 String stopFile = MTDArquivoEnum.PASTA_ARQUIVOS_AUXILIARES.getArquivo().getAbsolutePath()+"\\JOgma\\sn_stoplist.txt";
+		 
+//		 WordList gramatica = new WordList(MTDArquivoEnum.J_OGMA_GRAMATICA.getArquivo().getAbsolutePath());
+//		 WordList nomes = new WordList(MTDArquivoEnum.J_OGMA_NOMES.getArquivo().getAbsolutePath());
+//		 WordList verbos = new WordList(MTDArquivoEnum.J_OGMA_VERBOS.getArquivo().getAbsolutePath());
 		 WordList gramatica = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-GRAMATICA-sort.csv");
 		 WordList nomes = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-NOMES-sort.csv");
 		 WordList verbos = new WordList("WebContent/WEB-INF/aux_files/JOgma/Ogma-VERBOS-sort.csv");
-		 WordList stp = new WordList(stopFile);
-		 //verbos.writeCVS("WebContent/WEB-INF/aux_files/JOgma/Ogma-VERBOS-sort2.csv");
-		 System.out.println(stp.BuscaPalavra("é"));
-		 System.out.println(verbos.BuscaPalavra("é"));	
+		 String stopFile = "WebContent/WEB-INF/aux_files/"+"JOgma/sn_stoplist.txt";
+		 WordList stp = new WordList(stopFile);//vai dar erro, esperado duas colunas
+//		 WordList stp = new WordList(MTDArquivoEnum.J_OGMA_STOP_LIST.getArquivo().getAbsolutePath());	
 		 System.out.println(verbos.BuscaPalavra("há"));
+		 System.out.println(verbos.BuscaPalavra("é"));
+		 System.out.println(verbos.BuscaPalavra("trocam"));
 		 //gramatica.writeCVS("WebContent/WEB-INF/aux_files/JOgma/Ogma-GRAMATICA-sort2.csv");
 		 //nomes.writeCVS("WebContent/WEB-INF/aux_files/JOgma/Ogma-NOMES-sort2.csv");
 		 
