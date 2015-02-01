@@ -1,6 +1,6 @@
 package br.ufpe.mtd.teste;
 
-import br.ufpe.mtd.negocio.IndiceControle;
+import br.ufpe.mtd.negocio.controle.IndiceControle;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDThreadPool;
 import br.ufpe.mtd.util.MTDUtil;

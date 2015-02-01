@@ -13,7 +13,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import br.ufpe.mtd.dados.indice.RepositorioIndiceLucene;
-import br.ufpe.mtd.negocio.MTDFacede;
+import br.ufpe.mtd.negocio.controle.MTDFacede;
 import br.ufpe.mtd.negocio.entidade.MTDDocument;
 import br.ufpe.mtd.negocio.entidade.Mapa;
 import br.ufpe.mtd.negocio.entidade.Nodo;

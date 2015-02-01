@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import br.ufpe.mtd.negocio.SuggesterControle;
+import br.ufpe.mtd.negocio.controle.SuggesterControle;
 import br.ufpe.mtd.util.MTDFactory;
 
 public class TesteAutoSuggest {
