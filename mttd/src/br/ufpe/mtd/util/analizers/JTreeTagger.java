@@ -100,27 +100,35 @@ public class JTreeTagger implements TaggerInterface {
 	}
 
 	public static String getOgmaFormat(String token, String pos, String lemma){
+		String temp = JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null);
+		String temp2 = JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "nomes", null);
+		boolean isverb = temp.contains("VB") && temp2.isEmpty();
+		boolean isvp = temp.contains("VP") && token.matches(".*(i|a)(d|t)(o|a)[s]?") && temp2.isEmpty();
+		boolean isnom = temp2.contains("SU") && temp.isEmpty();
 		
 		if(myModel.equals(models[1])){//nilc mac-morpho http://www.nilc.icmc.usp.br/macmorpho/macmorpho-manual.pdf
-			if(lemma.contains("@card@")||pos.equalsIgnoreCase("CARD")||pos.equalsIgnoreCase("NUM")||pos.equalsIgnoreCase("SENT")||pos.equalsIgnoreCase("CUR")){
-				return token+"/NC";
-			}else if(pos.equalsIgnoreCase("N")||pos.startsWith("N|")|| pos.contains("NPROP")|| pos.contains("PROP")){
-//    			return token+"/NP*";
-//    		}else if(){
-			if(token.equals("é")){
+			if(isverb && (pos.startsWith("V")||pos.startsWith("VAUX"))){
+				return token+"/VB";
+			}else if(isverb && token.matches(".*(i|a|e|o)(r)$")){
+				return token+"/VB";
+			}else if(token.equals("é")){
 				return token+"/VB";
 			}
-			else if( JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).contains("VP") && token.matches(".*(i|a)(d|t)(o|a)[s]?")){	
+			else if( pos.equalsIgnoreCase("PCP") && isvp){	
 				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
 				return token+"/VP";
+			}else if(isvp)
+				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
+				return token+"/VP";
+			else
+			if(lemma.contains("@card@")||pos.equalsIgnoreCase("CARD")||pos.equalsIgnoreCase("NUM")||pos.equalsIgnoreCase("SENT")||pos.equalsIgnoreCase("CUR")){
+				return token+"/NC";
+			}else if(pos.contains("@card@")||token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
+				return token + "/NC";
+			else if(pos.equalsIgnoreCase("N")||pos.startsWith("N|")|| pos.contains("NPROP")|| pos.contains("PROP")){
+//    			return token+"/NP";
 			
-			}else if( JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).contains("VB") && JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() ){//&& (token.matches(".*(i|e|a|o)[r]")||token.matches(".*(i|e|a|o)(nd)(o|a)"))){		
-				return token+"/VB";
-			
-			}else if(lemma.contains("@card@")||pos.contains("@card@")||token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
-					return token + "/NC";
-				
-			else if(token.length() >= 2 && "de do da dos das".contains(token.toLowerCase())){
+			if(token.length() >= 2 && "de do da dos das".contains(token.toLowerCase())){
     				int i = token.indexOf("o");
     				int j = token.indexOf("a");
     				if(i >=0)
@@ -185,14 +193,14 @@ public class JTreeTagger implements TaggerInterface {
 				return token.toLowerCase()+"/VB";
 			else if(token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
 				return token + "/NC";
-			else if(JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).isEmpty())
+			else if(isnom)
 				return token+"/NP";
 			else
 				return token+"/VB";
 		}else if(pos.equalsIgnoreCase("PCP")){
 //			if(token.endsWith("ida")||token.endsWith("ido")||token.endsWith("ada")||token.endsWith("ado")||token.endsWith("idas")||token.endsWith("idos")||token.endsWith("adas")||token.endsWith("ados"))
 //			return token+"/VP"; //contempla VP - verbo participio
-			if(!(JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null).isEmpty()) || token.matches(".*(i|í|a)(d|t)(o|a)[s]?"))				
+			if(!(temp.isEmpty()) || token.matches(".*(i|í|a)(d|t)(o|a)[s]?"))				
 				return token+"/VP";
 			else				
 			return token+"/NP";
@@ -422,7 +430,7 @@ public class JTreeTagger implements TaggerInterface {
 		 }*/
 		JTreeTagger jt = JTreeTagger.getInstance(JTreeTagger.getModels()[1]);
 		System.out.println(jt.etiquetar("Isto é um teste."));
-		String fr1= new String("Eu comi minha maçã hoje.");
+		String fr1= new String("Eu comi minha maçã hoje para auxiliar a digestão");
 		String fr2= new String("O presente trabalho objetiva analisar a roda.");
 		String sent = new String("O novo cálculo das aposentadorias resulta em valores menores do que os atuais para quem perde o benefício com menos tempo de contribuição e idade.");
 		System.out.println(JTreeTagger.getInstance().etiquetar(fr1));
