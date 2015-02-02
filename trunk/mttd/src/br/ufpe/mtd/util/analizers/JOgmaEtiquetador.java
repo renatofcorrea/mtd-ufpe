@@ -24,10 +24,10 @@ public class JOgmaEtiquetador {
 	 public String buscaPalavra(String palavra, String tabela,
 				String oleDb) {
 		    
-			if(tabela.equals("Gramatica"))
+			if(tabela.equalsIgnoreCase("Gramatica"))
 				return gramatica.BuscaPalavra(palavra);
 			else{
-				if(tabela.equals("Nomes")){
+				if(tabela.equalsIgnoreCase("Nomes")){
 					return nomes.BuscaPalavra(palavra);
 				}
 			else	return verbos.BuscaPalavra(palavra);
