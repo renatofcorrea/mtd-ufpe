@@ -82,6 +82,7 @@ public class WordList {
 	//despreza a primeira linha de cabecalho, carrega valores em duas colunas separadas por vírgula
 	private void loadCVS(String fin) {
 		try{
+			System.out.println("WordList loading "+fin);
 			String encoding = "ISO-8859-1"; //"UTF-8"
 		    //FileReader f = new FileReader(fin);
 		    //encoding = f.getEncoding();
@@ -90,8 +91,10 @@ public class WordList {
 		String text = null;
 		String [] entradas = null; 
 		tr.readLine(); // desprezando cabeçalho
+		int lines=0;
 		while ((text = tr.readLine()) != null)
 		{
+			lines++;
 			//char[] delimiterChars = {' ', ',', '.', ':','\t','!','?','/','<','>','(',')'};
 			String delimiterChars = ",";
 			text = text.replace("\"", "");
@@ -123,6 +126,7 @@ public class WordList {
 				System.out.println("Erro: Arquivo " + fin +" com mais de duas colunas");
 			}
 		}
+		System.out.println("WordList lines read "+lines);
 		tr.close();
 		}catch(IOException e){
 			System.out.println(e.getMessage());
@@ -202,7 +206,7 @@ public class WordList {
 //		 WordList stp = new WordList(MTDArquivoEnum.J_OGMA_STOP_LIST.getArquivo().getAbsolutePath());	
 		 System.out.println(verbos.BuscaPalavra("há"));
 		 System.out.println(verbos.BuscaPalavra("é"));
-		 System.out.println(verbos.BuscaPalavra("trocam"));
+		 System.out.println(verbos.BuscaPalavra("consiste"));
 		 //gramatica.writeCVS("WebContent/WEB-INF/aux_files/JOgma/Ogma-GRAMATICA-sort2.csv");
 		 //nomes.writeCVS("WebContent/WEB-INF/aux_files/JOgma/Ogma-NOMES-sort2.csv");
 		 
