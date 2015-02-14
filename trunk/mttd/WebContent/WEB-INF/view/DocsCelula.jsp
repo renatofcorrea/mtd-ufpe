@@ -1,3 +1,5 @@
+<%@page import="java.util.Comparator"%>
+<%@page import="java.util.TreeMap"%>
 <%@include file="Util.jsp"%>
 <%@page import="br.ufpe.mtd.dados.indice.RepositorioIndiceLucene"%>
 <%@page import="br.ufpe.mtd.negocio.entidade.Nodo"%>
@@ -14,6 +16,29 @@
 	List<MTDDocument> documentosUltimaPesquisa = JSPHelper.resultadoBuscaSalvo(session);
 	List<MTDDocument> documentosNodo = JSPHelper.recuperarDocumentosNodo(request, session);
 	Nodo nodo = JSPHelper.recuperarNodo(request,session);
+	
+	List<MTDDocument> listaNaPesquisa = new ArrayList<MTDDocument>();
+	List<MTDDocument> listaOrdenada = new ArrayList<MTDDocument>();
+	
+	if(documentosUltimaPesquisa != null){
+		for(Object docPesquisado: documentosNodo){
+			MTDDocument doc = (MTDDocument)docPesquisado;
+			boolean docNaPesquisa = false;
+			for(Object aux : documentosUltimaPesquisa){
+				MTDDocument docAux = (MTDDocument)aux;
+				if(docAux.getDocId() == doc.getDocId()){
+					listaNaPesquisa.add(doc);
+					break;
+				}
+			}
+		}
+	}
+	
+	documentosNodo.removeAll(listaNaPesquisa);
+	listaOrdenada.addAll(listaNaPesquisa);
+	listaOrdenada.addAll(documentosNodo);
+	
+	
 %>
 <%@include file="Cabecalho.jsp"%>
 <link href="css/style-tabela-sort.css" rel="stylesheet" />
@@ -60,21 +85,20 @@
 				</tr>				
 			</thead>	
 			<tbody>
+			
 			<%if(documentosNodo != null){%>
 				<% int i = 0;%>
-				<% for(Object docPesquisado: documentosNodo){%>
+				<% for(Object docPesquisado: listaOrdenada){%>
 					<% i++;%>
 					<% MTDDocument doc = (MTDDocument)docPesquisado;%>
 					<% String docId = "p_"+doc.getDocId();%>
 					<%
 						boolean docNaPesquisa = false;
-						if(documentosUltimaPesquisa!= null){
-							for(Object aux : documentosUltimaPesquisa){
-								MTDDocument docAux = (MTDDocument)aux;
-								if(docAux.getDocId() == doc.getDocId()){
-									docNaPesquisa = true;
-									break;
-								}
+						for(Object aux : listaNaPesquisa){
+							MTDDocument docAux = (MTDDocument)aux;
+							if(docAux.getDocId() == doc.getDocId()){
+								docNaPesquisa = true;
+								break;
 							}
 						}
 					%>
