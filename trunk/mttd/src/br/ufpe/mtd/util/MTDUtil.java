@@ -29,7 +29,7 @@ public class MTDUtil {
 	 */
 	public static Date recuperarDataFormatosSuportados(String data){
 		Date dataConvertida = null;
-		String[] formatos = {"yyyy-MM-dd","yyyy"};
+		String[] formatos = {"yyyy-MM-dd","yyyy","yyyy-MM-ddTHH:mm:ssZ"};
 		
 		//tenta todos os formatos ate achar um que tenha suporte
 		for(String formato : formatos){
