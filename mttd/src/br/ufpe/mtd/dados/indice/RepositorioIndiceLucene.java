@@ -434,18 +434,25 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 * @return
 	 * @throws IOException
 	 */
-	public synchronized List<MTDDocument> getDocumentos(Collection<Integer> ids) throws IOException{
+	public synchronized List<MTDDocument> getDocumentos(Collection<Integer> ids){
 		ArrayList<MTDDocument> listaRetorno = new ArrayList<MTDDocument>();
-		DirectoryReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
-		
+		DirectoryReader reader;
+		try {
+			reader = DirectoryReader.open(getCopiaDiretorioMemoria());
 		IndexSearcher searcher = new IndexSearcher(reader);		
-	    for(int docId: ids){
-    		Document documento = searcher.doc(docId);
+	    for(Integer docId: ids){
+    		Document documento = searcher.doc(docId.intValue());
+    		if(documento != null){
     		MTDDocument doc = new MTDDocumentBuilder().buildDocument(documento).build();
-    		doc.setDocId(docId);
+    		doc.setDocId(docId.intValue());
     		listaRetorno.add(doc);
+    		}else
+    		{System.out.println("Document with docId "+docId.intValue()+" not found.");}
 	    }
-		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return listaRetorno;
 	}
 	
