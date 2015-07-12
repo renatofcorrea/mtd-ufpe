@@ -1,5 +1,9 @@
 package br.ufpe.mtd.negocio.decodificacao;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javafx.scene.text.Text;
 import net.sf.jColtrane.annotations.methods.ContainAttribute;
 import net.sf.jColtrane.annotations.methods.EndElement;
 import net.sf.jColtrane.annotations.methods.InsideElement;
@@ -7,6 +11,7 @@ import net.sf.jColtrane.annotations.methods.StartElement;
 import net.sf.jColtrane.handler.ContextVariables;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
+import br.ufpe.mtd.util.StringConverter;
 import br.ufpe.mtd.util.enumerado.AreaCNPQEnum;
 import br.ufpe.mtd.util.log.Log;
 
@@ -98,29 +103,81 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	public void pegarAutor(ContextVariables contextVariables) {
 		//pode ter casos onde a tag tenha mais de uma ocorrencia de Nome
 		//mesmo sem ser o autor. por isso esta sendo considerado so a primeira ocorrencia.
-		String temp = contextVariables.getBody();
-		if(temp.contains("(Orientador)")){//seta orientador
-			String orientador = temp.substring(0, temp.indexOf(" (Orientador)")).trim();
+		String texto = contextVariables.getBody();
+		String temp = texto.toLowerCase();
+		if(temp.contains("(") && temp.contains("orientador") && !temp.contains("(co")){//seta orientador
+			String orientador = texto.substring(0, temp.indexOf("(")).trim();
 			if(orientador.contains(",")){
 				String [] p =orientador.split(",");
 				orientador = p[1].trim()+" "+p[0].trim();
 			}
+			if(!getDoc().contemOrientador())
 			getDoc().setOrientador(tratarCaracteres(orientador));
 		}
 		else if(!getDoc().contemAutor()){//seta autor
-			String autor = contextVariables.getBody();
-					if(autor.contains(",")){
-						String [] p =autor.split(",");
-						autor = p[1].trim()+" "+p[0].trim();
-					}
-			getDoc().setAutor(tratarCaracteres(autor));
+			setarAutor(texto);
+		}else{
+			if(!getDoc().contemOrientador() && !temp.contains("(co") && !getDoc().getAutor().contains(texto.split(",")[0])){
+				String autor = texto;//autor orientador
+				if(autor.contains(",")){
+					String [] p =autor.split(",");
+					autor = p[1].trim()+" "+p[0].trim();
+				}
+				autor = autor.replaceAll("\\([A-Za-zÀ-ú_.]*\\)", "").replaceAll("[O|o]rientador[a]*\\)", "").replaceAll("\\([O|o]rientador[a]*", "");
+				getDoc().setOrientador(tratarCaracteres(autor));
+			}
 		}
+	}
+
+	/**
+	 * Seta Autor do documento
+	 * @param texto
+	 */
+	private void setarAutor(String texto) {
+		String autor = texto;
+				if(autor.contains(",")){
+					String [] p =autor.split(",");
+					autor = p[1].trim()+" "+p[0].trim();
+				}
+		getDoc().setAutor(tratarCaracteres(autor));
+	}
+	
+	
+	@EndElement(tag = "dc:contributor")
+	public void pegarOrientador(ContextVariables contextVariables) {
+		String orientador = contextVariables.getBody();
+		String temp = orientador.toLowerCase();
+		if(temp.contains("(") && temp.contains("orientador"))//seta orientador
+			orientador = orientador.substring(0, orientador.indexOf(" (")).trim();
+		if(orientador.contains(",")){
+			String [] p =orientador.split(",");
+			orientador = p[1].trim()+" "+p[0].trim();
+		}
+		if(!getDoc().contemOrientador())
+		getDoc().setOrientador(tratarCaracteres(orientador));
+		//getDoc().setOrientador(orientador);
 	}
 	
 	@EndElement(tag = "dc:publisher")
 	public void pegarNomeBiblioteca(ContextVariables contextVariables) {
 		if(!getDoc().contemNomeInstituicao()){
 			getDoc().setNomeInstituicao(tratarCaracteres(contextVariables.getBody()));
+		}
+	}
+	
+	@EndElement(tag = "dc:type")
+	public void pegarGrau(ContextVariables contextVariables) {
+		if(!getDoc().contemGrau()){
+			String grau = tratarCaracteres(contextVariables.getBody().toLowerCase());
+			
+				if(grau.contains("dissertação") || grau.contains("dissertacao") || grau.contains("dissertation")){
+					getDoc().setGrau("mestre");
+					
+				}else if (grau.contains("tese") || grau.contains("thesis")){
+					getDoc().setGrau("doutor");
+				}else{
+					getDoc().setGrau(grau);
+				}
 		}
 	}
 	
@@ -145,6 +202,8 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 			// 3 - Tipo: Dissertação (Mestrado) / Tese (Doutorado)
 			// 4 - programa, instituição, cidade, ano
 			if(partes.length >=5){
+				if(!getDoc().contemAutor())
+					setarAutor(partes[0].split("\\;")[0]);
 				setarPrograma(partes);
 				setarAreaCNPQPorPrograma(getDoc().getPrograma());
 				setarDataDefesa(partes[2]);
@@ -154,17 +213,25 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	}
 	
 	private void setarPrograma(String[] partes){
-		String programa = partes[4].split(",")[0];
-		if(programa.toLowerCase().contains("programa de "))
-			getDoc().setPrograma(programa.trim());
-		else{
-			for(int i=5; i < partes.length; i++){
-				if(partes[i].toLowerCase().contains("programa de ")){
-					getDoc().setPrograma(tratarCaracteres(partes[i].split(",")[0].trim()));
+		String programa = null;
+		String temp;
+			for(int i=2; i < partes.length; i++){
+				temp = partes[i].toLowerCase();
+				if(temp.contains("programa de ")){
+					programa = partes[i].substring(temp.indexOf("programa de "));
+					getDoc().setPrograma(tratarCaracteres(programa.split(",")[0].trim()));
+					break;
+				}
+				else if(temp.contains("pós-graduação em")){
+					programa = partes[i].substring(temp.indexOf("pós-graduação em"));
+					getDoc().setPrograma("Programa de "+tratarCaracteres(programa.split(",")[0].trim()));
 					break;
 				}
 			}
-		}
+			if(!getDoc().contemPrograma()){
+				//getDoc().setPrograma("nao_informado");
+				MTDFactory.getInstancia().getLog().salvarDadosLog("Documento Id " +getDoc().getId()+" campo requerido Programa não informado.");
+			}
 	}
 	
 	private void setarGrau(String[] partes){
@@ -195,6 +262,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 			getDoc().setAreaCNPQ(area);
 		}else{
 			getDoc().setAreaCNPQ(AreaCNPQEnum.NAO_ENCONTRADO.name());
+			MTDFactory.getInstancia().getLog().salvarDadosLog("Documento Id "+getDoc().getId()+" programa desconhecido: "+programa);
 		}
 		
 		if(!getDoc().contemAreaPrograma() && area != null){
@@ -204,15 +272,15 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	
 	private void setarDataDefesa(String data){
 		if(!getDoc().contemDataDefesa()){
-			getDoc().setDataDeDefesa(MTDUtil.recuperarDataFormatosSuportados(data.trim()));
+			getDoc().setDataDeDefesa(MTDUtil.recuperarDataFormatosSuportados(data));
 		}
 	}
 	
 	//setado pela função acima caso oai_dc, verificar.
 	@EndElement(tag = "dcterms:issued")//Data de defesa
 	public void pegarDataDefesa(ContextVariables contextVariables) {
-		String data = contextVariables.getBody();
-		getDoc().setDataDeDefesa(MTDUtil.recuperarDataFormatosSuportados(data.trim()));
+		String data = contextVariables.getBody().trim();
+		setarDataDefesa(data);
 	}	
 	
 	/**
@@ -222,15 +290,45 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	 * @return
 	 */
 	private String tratarCaracteres(String entrada){
-		//TODO: fazer a substituição correta das entidades html para caracteres iso8859-1
-		entrada = entrada.replaceAll("&#[0-9]*;", " ");//html code
-		entrada = entrada.replace("&#13;", "\r");//html code
+		entrada = getHtmlToAscii(entrada);
 		entrada = entrada.replace("/", ","); //substitui /
 	    entrada = entrada.replace("\"", " ");//substitui aspas
 	    entrada = entrada.replace("\r", " "); //substitui retorno
 	    entrada = entrada.replace("\n", " ");//substitui novalinha
 	    entrada = entrada.replace("\t", " ");//substitui tabulação
 	    entrada = entrada.replaceAll("[ ]{2,}", " ");//excesso de espaço em branco
+	    entrada = entrada.replaceAll("[,|.|;]$", "");//ponto ou virgula no final
+	    entrada = entrada.trim();
 	    return entrada;
 	}
+	/**
+     * Transforma todas as acentuações e caracteres especiais do html no padrao ascii.
+     * 
+     * @return
+     */
+    private String getHtmlToAscii( String texto ) {
+    	//TODO: fazer a substituição correta das entidades html para caracteres iso8859-1
+//        texto = texto.replaceAll( "\\&aacute;", "á" ).replaceAll( "\\&eacute;", "é" ).replaceAll( "\\&iacute;", "í" ).replaceAll( "\\&oacute;", "ó" ).replaceAll( "\\&uacute;", "ú" )
+//        		.replaceAll( "\\&Aacute;", "Á" ).replaceAll( "\\&Eacute;", "É" ).replaceAll( "\\&Iacute;", "Í" ).replaceAll( "\\&Oacute;", "Ó" ).replaceAll( "\\&Uacute;", "Ú" )
+//                .replaceAll( "\\&acirc;", "â" ).replaceAll( "\\&ecirc;", "ê" ).replaceAll( "\\&ocirc;", "ô" )
+//                .replaceAll( "\\&Acirc;", "Â" ).replaceAll( "\\&Ecirc;", "Ê" ).replaceAll( "\\&ocirc;", "Ô" )
+//                .replaceAll( "\\&atilde;", "ã" ).replaceAll( "\\&otilde;", "õ" )
+//                .replaceAll( "\\&Atilde;", "Ã" ).replaceAll( "\\&Otilde;", "Õ" )
+//                .replaceAll( "\\&agrave;", "à" ).replaceAll( "\\&Agrave;", "À" )
+//                .replaceAll( "\\&uuml;", "u" )
+//                .replaceAll( "\\&ccedil;", "ç" ).replaceAll( "\\&Ccedil;", "Ç" )
+//                .replaceAll( "&nbsp;", " " ).replaceAll( "&#32;", " " ).replaceAll("&#13;", "\r");//html code;
+    	
+    	texto = StringConverter.fromHtmlNotation(texto);
+    	texto = StringConverter.converteCaracteresEspeciais(texto);
+    	Matcher m = Pattern.compile("&(#[0-9]*|[A-Za-z]{2,6});").matcher(texto);
+    	Log log = MTDFactory.getInstancia().getLog();
+    	while ( m.find() )
+    		log.salvarDadosLog("Documento Id "+getDoc().getDocId() +" DecodificadorDocumentoDC.getHtmlAscii, not converted: "+m.group());
+    	
+        texto = texto.replaceAll("&(#[0-9]*|[A-Za-z]{2,6});", " ");//html code
+        return texto;
+    }
+	
+	
 }
