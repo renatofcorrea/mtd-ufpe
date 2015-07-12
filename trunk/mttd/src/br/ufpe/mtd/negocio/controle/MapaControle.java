@@ -99,6 +99,7 @@ public class MapaControle {
 	private List<Nodo> carregarNodos() throws IOException {
 		List<Nodo> nodos = new ArrayList<>();
 		File arquivoCompactado = MTDArquivoEnum.TREINO_UNIT.getArquivo();
+		System.out.println("Open RNA file: "+arquivoCompactado.getAbsolutePath());
 		File arquivoDescompactado = new File(arquivoCompactado.getAbsolutePath().replace(".gz", ""));
 		MTDUtil.descompactarGZFile(arquivoCompactado, arquivoDescompactado);
 		FileReader readerUnit = new FileReader(arquivoDescompactado);
