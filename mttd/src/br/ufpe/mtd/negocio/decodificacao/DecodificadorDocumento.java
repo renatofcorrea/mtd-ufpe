@@ -47,7 +47,10 @@ public class DecodificadorDocumento {
 	 * de registros decodificados.
 	 */
 	public void salvarDocumento() {
+		if(getDoc().contemCamposRequeridos())
 		getDocumentos().add(getDoc());
+		else
+			MTDFactory.getInstancia().getLog().salvarDadosLog("Documento Id "+ getDoc().getId()+" não indexado pois não contém os campos requeridos:"+getDoc().faltandoCamposRequeridos());
 	}	
 
 	public Iterator<MTDDocument> getDocIterator() {
