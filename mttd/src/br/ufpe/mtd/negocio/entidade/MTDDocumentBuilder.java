@@ -1,5 +1,6 @@
 package br.ufpe.mtd.negocio.entidade;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -50,11 +51,18 @@ public class MTDDocumentBuilder {
 				sintagmas.add(arraySintagmas[i]);
 			}
 		}
-		
+		String datas = document.get(MTDDocument.DATA_DEFESA);
+		Date data = null;
+		if(datas != null){
+		data = MTDUtil.recuperarDataFormatosSuportados(datas.trim());
+		}else{
+			System.out.println("Erro: "+document.get(MTDDocument.ID)+" sem data.");
+			data = MTDUtil.recuperarDataFormatosSuportados("2015-01-01");
+		}
 		documento = initDocument(document.get(MTDDocument.TITULO), 
 				document.get(MTDDocument.RESUMO), 
 				keyWords,
-				MTDUtil.recuperarDataFormatosSuportados(document.get(MTDDocument.DATA_DEFESA).trim()), 
+				data, 
 				document.get(MTDDocument.AUTOR), 
 				document.get(MTDDocument.PROGRAMA), 
 				document.get(MTDDocument.ORIENTADOR), 
