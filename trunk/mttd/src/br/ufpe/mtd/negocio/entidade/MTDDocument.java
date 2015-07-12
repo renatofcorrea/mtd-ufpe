@@ -98,11 +98,10 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 		}
 		
 		document.add(new Field(GRAU, this.grau!= null ?  this.grau : VAZIO, fieldTypeIndexadoSimples));
+		document.add(new Field(DATA_DEFESA, this.anoDefesa != null ? this.anoDefesa : VAZIO, fieldTypeIndexadoSimples));
 		document.add(new Field(URL, this.url!= null ?  this.url : VAZIO, fieldTypeNaoIndex));
 		document.add(new Field(TITULO, this.titulo != null ? this.titulo : VAZIO, fieldTypeIndexadoTV));
-		if (this.anoDefesa != null) {
-			document.add(new Field(DATA_DEFESA, this.anoDefesa , fieldTypeIndexadoSimples));
-		}// data nula
+		
 		document.add(new Field(RESUMO, this.resumo != null ? this.resumo: VAZIO, fieldTypeIndexadoTV));
 		
 		document.add(new Field(AUTOR, this.autor!= null ? this.autor : VAZIO, fieldTypeIndexadoTV));
@@ -273,7 +272,7 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 
 	public void setDataDeDefesa(Date dataDeDefesa) {
 		this.dataDeDefesa = dataDeDefesa;
-		setAnoDefesa(DateTools.dateToString(this.dataDeDefesa,DateTools.Resolution.YEAR));
+		setAnoDefesa(" "+DateTools.dateToString(this.dataDeDefesa,DateTools.Resolution.YEAR));
 	}
 
 	public String getId() {
@@ -346,8 +345,28 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 		return autor != null;
 	}
 	
+	public boolean contemOrientador(){
+		return orientador != null;
+	}
+	
 	public boolean contemDataDefesa(){
 		return dataDeDefesa != null;
+	}
+	
+	public boolean contemPrograma(){
+		return programa != null;
+	}
+	
+	public boolean contemTitulo(){
+		return titulo != null;
+	}
+	
+	public boolean contemResumo(){
+		return resumo != null;
+	}
+	
+	public boolean contemPalavrasChaves(){
+		return keywords != null;
 	}
 	
 	public boolean contemRepositorio(){
@@ -361,6 +380,26 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 	public boolean contemAreaPrograma(){
 		return areaPrograma != null;
 	}	
+	
+	public boolean contemGrau() {
+		return grau != null;
+	}
+	
+	public boolean contemCamposRequeridos(){
+		return contemAutor()  && contemPrograma() && contemDataDefesa() && contemTitulo() && contemResumo() && contemPalavrasChaves();
+	}
+	
+	public String faltandoCamposRequeridos(){
+		String s = "";
+		if(!contemAutor()) s+= " Autor,";
+		if(!contemPrograma()) s+= " Programa,";
+		if(!contemDataDefesa())s+= " Data,";
+		if(!contemTitulo())s+= " Titulo,";
+		if(!contemResumo())s+= " Resumo,";
+		if(!contemPalavrasChaves())s+= " Keywords,";
+	
+	return s;
+	}
 	
 	public void setDocId(int docId) {
 		this.docId = docId;
@@ -426,4 +465,7 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 			return fieldTypeNaoIndex;
 		}
 	}
+
+
+	
 }
