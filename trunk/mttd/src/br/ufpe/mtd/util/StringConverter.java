@@ -1,4 +1,5 @@
 //Trata o conteúdo da string para fins de processamento do conteúdo baixados da web
+//Em caso de problemas nos caracteres, selecione properties do arquivo e escolha codificação UTF-8
 package br.ufpe.mtd.util;
 
 import java.text.Normalizer;
