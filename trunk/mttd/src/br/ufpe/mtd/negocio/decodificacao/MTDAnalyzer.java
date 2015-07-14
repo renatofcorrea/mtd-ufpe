@@ -11,6 +11,7 @@ import org.apache.lucene.analysis.ar.ArabicNormalizationFilter;
 import org.apache.lucene.analysis.ar.ArabicStemFilter;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
+import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
 import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.util.CharArraySet;
@@ -76,6 +77,9 @@ public class MTDAnalyzer extends StopwordAnalyzerBase {
 		// TODO maybe we should make ArabicNormalization filter also
 		// KeywordAttribute aware?!
 		result = new ArabicNormalizationFilter(result);
+		
+		result = new ASCIIFoldingFilter(result); //adicionado para remover acentos
+		
 		if (!stemExclusionSet.isEmpty()) {
 			result = new SetKeywordMarkerFilter(result, stemExclusionSet);
 		}

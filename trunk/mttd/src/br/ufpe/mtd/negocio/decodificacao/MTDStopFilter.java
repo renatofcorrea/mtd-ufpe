@@ -28,7 +28,7 @@ public class MTDStopFilter extends FilteringTokenFilter {
 	protected boolean accept() throws IOException {
 		
 		String aux = termAtt.toString().trim();
-    	if (aux.length() < 3 || aux.matches("^[0-9]+$")) {
+    	if (aux.length() < 3 || (aux.matches("[0-9]+[.|,]?[0-9]*[a-z°ºª]{0,3}?")&& !aux.matches("[0-9]{4}"))) {//("^[0-9]+$")
     		return false;
     	}
     	

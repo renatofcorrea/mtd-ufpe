@@ -442,5 +442,7 @@ public class StringConverter {
            System.out.println(deleteAcentos(StringConverter.fromHtmlNotation(s)));
            System.out.println(toUnStressedNotation(s));
            System.out.println(s.replaceAll("&(#[0-9]*|[A-Za-z]{2,6});", " "));//html code)
+           String aux = "990";
+           System.out.println(aux.matches("[0-9]+[.|,]?[0-9]*[a-z°]{0,3}?")&& !aux.matches("[0-9]{4}"));
     }
 }
