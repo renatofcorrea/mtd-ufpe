@@ -3,7 +3,7 @@ package br.ufpe.mtd.util.analizers;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
 
 public class JOgmaEtiquetador {
-	private static JOgmaEtiquetador myInstance = null;
+	private static JOgmaEtiquetador myInstance = new JOgmaEtiquetador();//null;
 	private WordList gramatica = null;
 	private WordList nomes = null;
 	private WordList verbos = null;

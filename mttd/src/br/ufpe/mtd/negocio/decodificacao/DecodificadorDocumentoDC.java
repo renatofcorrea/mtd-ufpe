@@ -1,5 +1,6 @@
 package br.ufpe.mtd.negocio.decodificacao;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,7 @@ import net.sf.jColtrane.annotations.methods.EndElement;
 import net.sf.jColtrane.annotations.methods.InsideElement;
 import net.sf.jColtrane.annotations.methods.StartElement;
 import net.sf.jColtrane.handler.ContextVariables;
+import br.ufpe.mtd.dados.drive.OAIPMHDriver;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
 import br.ufpe.mtd.util.StringConverter;
@@ -34,10 +36,10 @@ import br.ufpe.mtd.util.log.Log;
 
 public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 
-
 	public DecodificadorDocumentoDC() {
 		super();
 	}
+
 
 	@StartElement(tag = "request")
 	public void criarDocumento() {
@@ -71,6 +73,21 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 		}
 	}
 	
+	
+	@InsideElement(tag = "header")
+	@EndElement(tag = "setSpec")
+	public void pegarProgramGrauName(ContextVariables contextVariables) {
+		String setSpec = contextVariables.getBody();
+		String nset = OAIPMHDriver.getInstance().getProgramBySet(setSpec);
+		if(nset!=null && !nset.isEmpty()){
+			getDoc().setPrograma(tratarCaracteres(nset.replaceFirst("Pós[ ]+Graduação", "Pós-Graduação")));
+		}
+		nset = OAIPMHDriver.getInstance().getGrauBySet(setSpec);
+		if(nset!=null && !nset.isEmpty()){
+			getDoc().setGrau(tratarCaracteres(nset));
+		}
+		return;
+	}
 	
 	
 
@@ -229,8 +246,8 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 				}
 			}
 			if(!getDoc().contemPrograma()){
-				//getDoc().setPrograma("nao_informado");
-				MTDFactory.getInstancia().getLog().salvarDadosLog("Documento Id " +getDoc().getId()+" campo requerido Programa não informado.");
+				//getDoc().setPrograma("NAO_INFORMADO");
+				MTDFactory.getInstancia().getLog().salvarDadosLog("DecodificadorDocumentoDC.setarPrograma() Documento Id " +getDoc().getId()+" Error: campo requerido Programa não informado.");
 			}
 	}
 	
@@ -244,8 +261,9 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 					getDoc().setGrau("doutor");
 				}else{
 					Log log = MTDFactory.getInstancia().getLog();
-					log.salvarDadosLog("DecodificadorDocumentoDC.pegarURLArquivo, grau desconhecido: "+partes[3]);
-					log.salvarDadosLog(new Exception("DecodificadorDocumentoDC.pegarURLArquivo, grau desconhecido: "+partes[3]));
+					log.salvarDadosLog("DecodificadorDocumentoDC.setarGrau() Id "+getDoc().getId()+" Error: grau desconhecido: "+partes[3]);
+					//log.salvarDadosLog(new Exception("DecodificadorDocumentoDC.setarGrau() Error: grau desconhecido: "+partes[3]));
+					getDoc().setGrau("NAO_INFORMADO");
 				}
 				break;
 			}
@@ -262,7 +280,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 			getDoc().setAreaCNPQ(area);
 		}else{
 			getDoc().setAreaCNPQ(AreaCNPQEnum.NAO_ENCONTRADO.name());
-			MTDFactory.getInstancia().getLog().salvarDadosLog("Documento Id "+getDoc().getId()+" programa desconhecido: "+programa);
+			MTDFactory.getInstancia().getLog().salvarDadosLog("DecodificadorDocumentoDC.Documento.setarAreaCNPQPorPrograma() Id "+getDoc().getId()+"Error:  programa desconhecido: "+programa);
 		}
 		
 		if(!getDoc().contemAreaPrograma() && area != null){
@@ -320,11 +338,12 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 //                .replaceAll( "&nbsp;", " " ).replaceAll( "&#32;", " " ).replaceAll("&#13;", "\r");//html code;
     	
     	texto = StringConverter.fromHtmlNotation(texto);
+    	texto = StringConverter.corrigeAcentos(texto);//corrigindo problemas na acentuação devido a conversão de caracteres
     	texto = StringConverter.converteCaracteresEspeciais(texto);
     	Matcher m = Pattern.compile("&(#[0-9]*|[A-Za-z]{2,6});").matcher(texto);
     	Log log = MTDFactory.getInstancia().getLog();
     	while ( m.find() )
-    		log.salvarDadosLog("Documento Id "+getDoc().getDocId() +" DecodificadorDocumentoDC.getHtmlAscii, not converted: "+m.group());
+    		log.salvarDadosLog("DecodificadorDocumentoDC.getHtmlToAscii() Documento Id "+getDoc().getId() +" Error: character não convertido: "+m.group());
     	
         texto = texto.replaceAll("&(#[0-9]*|[A-Za-z]{2,6});", " ");//html code
         return texto;

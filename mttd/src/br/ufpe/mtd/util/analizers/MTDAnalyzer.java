@@ -1,4 +1,4 @@
-package br.ufpe.mtd.negocio.decodificacao;
+package br.ufpe.mtd.util.analizers;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -78,7 +78,7 @@ public class MTDAnalyzer extends StopwordAnalyzerBase {
 		// KeywordAttribute aware?!
 		result = new ArabicNormalizationFilter(result);
 		
-		result = new ASCIIFoldingFilter(result); //adicionado para remover acentos
+		result = new ASCIIFoldingFilter(result); //adicionado para remover acentos, tem impacto no mapa e na busca e não (na sugestão, javascript filtro)
 		
 		if (!stemExclusionSet.isEmpty()) {
 			result = new SetKeywordMarkerFilter(result, stemExclusionSet);

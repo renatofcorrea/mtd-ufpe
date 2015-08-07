@@ -1,6 +1,7 @@
 package br.ufpe.mtd.teste;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
@@ -22,12 +23,26 @@ public class TesteUpdateSintagmasIndice {
 	}
 	
 	public static void gerarSintagmas(){
-		MTDDocument doc = new MTDDocumentBuilder().buildDocument().build();
-		doc.setResumo("O brasil é um pais com uma área territoria de cerca de 8 milhões de km2. Este vasto pais é habitado desde antes da chegada dos portugueses em...");
+		HashSet<String> hs;
+		try {
+			MTDIterator<String> it = MTDArquivoEnum.J_OGMA_STOP_LIST.lineIterator();
+			hs = new HashSet<String>();
+			while(it.hasNext()){
+				hs.add(it.next());
+			}
+			it.close();
+			MTDDocument doc = new MTDDocumentBuilder().buildDocument().build();
+			doc.setTitulo("Brasil");
+			doc.setResumo("O brasil é um pais com uma área territorial de cerca de 8 milhões de km². Este vasto pais é habitado desde antes da chegada dos portugueses em 1500...");
+			
+			Document d = doc.toDocumentComSintagmas(hs);
+			
+			System.out.println(d.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		Document d = doc.toDocumentComSintagmas();
-		
-		System.out.println(d.toString());
 	}
 	
 	public static void updateSintagmasIndice(){

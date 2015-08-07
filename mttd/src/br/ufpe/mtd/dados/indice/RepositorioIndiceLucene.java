@@ -45,11 +45,11 @@ import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 
-import br.ufpe.mtd.negocio.decodificacao.MTDAnalyzer;
 import br.ufpe.mtd.negocio.entidade.EstatisticaPalavra;
 import br.ufpe.mtd.negocio.entidade.MTDDocument;
 import br.ufpe.mtd.negocio.entidade.MTDDocumentBuilder;
 import br.ufpe.mtd.util.MTDIterator;
+import br.ufpe.mtd.util.analizers.MTDAnalyzer;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
 
 /**

@@ -117,16 +117,10 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 		return document;
 	}
 	
-	public Document toDocumentComSintagmas(){
+	public Document toDocumentComSintagmas(HashSet<String> hs){
 		Document  document = toDocument();
 		try {
-			MTDIterator<String> it = MTDArquivoEnum.J_OGMA_STOP_LIST.lineIterator();
-			HashSet<String> hs = new HashSet<String>();
-			while(it.hasNext()){
-				hs.add(it.next());
-			}
-			it.close();
-
+			
 			//TODO: investigar futuramente o ganho ao extrair sintagmas do título+resumo
 			List<String> sintagmas = SNAnalyser.extrairSintagmasNominais(new SNAnalyser(hs),titulo+". \n"+resumo);
 			for(String key: sintagmas){

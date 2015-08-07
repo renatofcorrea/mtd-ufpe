@@ -146,8 +146,6 @@ public class SNTokenizer extends Tokenizer{
 	
 	void tokenize(String aContext){ //define as tokens, o método a alterar é este
 		System.out.println("super tokenize");
-		aContext = aContext.replace("/", ","); //substitui /
-	    aContext = aContext.replace("\"", " ");//substitui aspas
 	    
 		List<SNData> result = new ArrayList<SNData>();
 		//HashSet grams = new HashSet();
@@ -175,7 +173,7 @@ public class SNTokenizer extends Tokenizer{
 		//etiquetar de outros etiquetadores para o português do Brasil neste 
 		    
 			if(tagger .equals("TreeTagger"))//treetagger do macmorpho nilc muito bom e rápido
-				return JTreeTagger.getInstance().etiquetar(aContext);
+				return JTreeTagger.getInstance().etiquetar(aContext).getTextoEtiquetado();
 //			else if(tagger.equals("AeliusStanfordMM"))//StanfordPOS
 //				return JStanfordTagger.getInstance().etiquetar(aContext);
 //			else if(tagger.equals("LXTagger"))//MXPOST pt portugal
@@ -190,7 +188,7 @@ public class SNTokenizer extends Tokenizer{
 //			else if(tagger.equals("Cogroo"))//(opennlp) bom, mas demasiadamente lento
 //				return TextAnalyzerCogroo.getInstance().etiquetar(aContext);
 			else
-				return JTreeTagger.getInstance().etiquetar(aContext); //default
+				return JTreeTagger.getInstance().etiquetar(aContext).getTextoEtiquetado(); //default
 	
 	}
 	

@@ -50,7 +50,7 @@ public class DecodificadorDocumento {
 		if(getDoc().contemCamposRequeridos())
 		getDocumentos().add(getDoc());
 		else
-			MTDFactory.getInstancia().getLog().salvarDadosLog("Documento Id "+ getDoc().getId()+" não indexado pois não contém os campos requeridos:"+getDoc().faltandoCamposRequeridos());
+			MTDFactory.getInstancia().getLog().salvarDadosLog("DecodificadorDocumento.salvarDocumento() Documento Id "+ getDoc().getId()+" Error: não indexado pois não contém os campos requeridos:"+getDoc().faltandoCamposRequeridos());
 	}	
 
 	public Iterator<MTDDocument> getDocIterator() {
@@ -91,7 +91,7 @@ public class DecodificadorDocumento {
 		}catch (Exception e){
 			MTDException excecao = new MTDException(e,Thread.currentThread().getName()+"- Erro durante parse : "+identificador.getId()); 
 			
-			log.salvarDadosLog(Thread.currentThread().getName()+"- Erro de parse - procurar no log de Excecao por: "+identificador.getId());
+			log.salvarDadosLog("DecodificadorDocumento.parse() Thread "+Thread.currentThread().getName()+" Documento id: "+identificador.getId()+" Error: erro de parse - procurar no log de Excecao por doc id");
 			log.salvarDadosLog(excecao);
 			
 			excecao.setExtraData(identificador);

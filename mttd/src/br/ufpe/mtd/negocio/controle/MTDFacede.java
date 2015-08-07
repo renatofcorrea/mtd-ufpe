@@ -2,6 +2,7 @@ package br.ufpe.mtd.negocio.controle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDIterator;
 import br.ufpe.mtd.util.MTDParametros;
 import br.ufpe.mtd.util.MTDUtil;
+import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
 import br.ufpe.mtd.util.log.Log;
 
 public class MTDFacede {
@@ -23,7 +25,7 @@ public class MTDFacede {
 	public static void indexar() throws Exception{
 		MTDFactory f = MTDFactory.getInstancia();
 		Log log = f.getLog();
-		log.salvarDadosLog("Iniciando coleta e indexação!!!");
+		log.salvarDadosLog("MTDFacede.indexar() ---------------Iniciando coleta e indexação-------------");
 		
 		long inicio = System.currentTimeMillis();
 		try {
@@ -60,7 +62,7 @@ public class MTDFacede {
 			throw e;
 		} finally{
 			f.resetarRepositorios();
-			MTDUtil.imprimirConsole("Tempo total Indexação: "+ (System.currentTimeMillis() - inicio));
+			MTDUtil.imprimirConsole("---------Tempo total da Indexação: "+ (System.currentTimeMillis() - inicio));
 		}
 	}
 	
@@ -136,6 +138,14 @@ public class MTDFacede {
 	
 	public static void salvarDadosIndiceSintagmas() throws Exception{
 		MTDFactory f = MTDFactory.getInstancia();
+		//Carregando stoplist de sns
+		MTDIterator<String> it = MTDArquivoEnum.J_OGMA_STOP_LIST.lineIterator();
+		HashSet<String> hs = new HashSet<String>();
+		while(it.hasNext()){
+			hs.add(it.next());
+		}
+		it.close();
+		
 		MTDIterator<MTDDocument> iterator =null;
 		try {
 			RepositorioIndiceLucene repSintagmas = (RepositorioIndiceLucene)f.getSingleRepositorioSintagmas();
@@ -150,13 +160,14 @@ public class MTDFacede {
 				MTDUtil.imprimirConsole(doc.getId()+" Qtd : "+contador);
 				
 				if(!idsJaSalvos.contains(doc.getId())){
-					docs.add( doc.toDocumentComSintagmas());
+					docs.add( doc.toDocumentComSintagmas(hs));
 					repSintagmas.inserirDocumento(docs);
 					docs.clear();
 					qtdGerados++;
 					
-					if(qtdGerados == 1000){//resetar processo. tratamento bug sintagmas ficam lentos apos 1000 registros gerados.
-						throw new MTDException(false, "resetando geração de sintagmas para melhorar performance.");
+					if(qtdGerados == 3000){//resetar processo. tratamento bug sintagmas ficam lentos apos 1000 registros gerados.
+						//throw new MTDException(false, "resetando geração de sintagmas para melhorar performance.");
+						break;
 					}
 					
 				}else{

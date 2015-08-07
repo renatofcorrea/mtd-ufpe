@@ -30,7 +30,7 @@ public class MTDTask extends TimerTask {
 		if(executar){
 			executar();
 		}else{
-			fabrica.getLog().salvarDadosLog("Os critérios avaliados resultaram na não execução da Task de treinamento. Finalisando...");
+			fabrica.getLog().salvarDadosLog("MTDTask.run() Os critérios avaliados resultaram na não execução da Task de treinamento. Finalisando...");
 		}
 	}
 	
@@ -94,7 +94,7 @@ public class MTDTask extends TimerTask {
 				agendarGeracaoSintagmas();
 				fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
 			}else{
-				fabrica.getLog().salvarDadosLog("Treinamento do sistema precisa ser refeito. Reagendando...");
+				fabrica.getLog().salvarDadosLog("MTDTask.executar() Treinamento do sistema precisa ser refeito. Reagendando...");
 				fabrica.agendarTarefas();
 			}
 		} catch (Exception e) {
@@ -111,7 +111,7 @@ public class MTDTask extends TimerTask {
 	void agendarIndexacao(){
 		new BaseThread(){
 			public void execucao() {
-				fabrica.getLog().salvarDadosLog("Task indexação iniciando em 60 segundos!!!");
+				fabrica.getLog().salvarDadosLog("MTDTask.agendarIndexacao() Task indexação iniciando em 60 segundos!!!");
 				try {
 					Thread.sleep(TEMPO_ESPERA);
 					MTDFacede.indexar();
@@ -131,7 +131,7 @@ public class MTDTask extends TimerTask {
 	private void agendarTreino() {
 		new BaseThread(){
 			public void execucao() {
-				fabrica.getLog().salvarDadosLog("Task treinamento iniciando em 60 segundos!!!");
+				fabrica.getLog().salvarDadosLog("MTDTask.agendarTreino() Task treinamento iniciando em 60 segundos!!!");
 				try {
 					Thread.sleep(TEMPO_ESPERA);
 					MTDFacede.realizarTreinamento();
@@ -147,7 +147,7 @@ public class MTDTask extends TimerTask {
 		private void agendarAvaliacaoQualidadeTreino() {
 			new BaseThread(){
 				public void execucao() {
-					fabrica.getLog().salvarDadosLog("Task avaliação de qualidade iniciando em 60 segundos!!!");
+					fabrica.getLog().salvarDadosLog("MTDTask.agendarAvaliacaoQualidadeTreino() Task avaliação de qualidade iniciando em 60 segundos!!!");
 					try {
 						Thread.sleep(TEMPO_ESPERA);
 						MTDFacede.gerarMedidasQualidadeRedeNeural();
@@ -166,10 +166,12 @@ public class MTDTask extends TimerTask {
 	private void agendarGeracaoSintagmas() {
 		new BaseThread(){
 			public void execucao() {
-				fabrica.getLog().salvarDadosLog("Task geração sintagmas iniciando em 60 segundos!!!");
+				fabrica.getLog().salvarDadosLog("MTDTask.agendarGeracaoSintagmas() Task geração sintagmas iniciando em 60 segundos!!!");
 				try {
+					while(!MTDFacede.isSintagmasConcluidos()){
 					Thread.sleep(TEMPO_ESPERA);
 					MTDFacede.salvarDadosIndiceSintagmas();
+					}
 					
 				} catch (Exception e) {
 					fabrica.getLog().salvarDadosLog(e);

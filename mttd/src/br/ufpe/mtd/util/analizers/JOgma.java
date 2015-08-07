@@ -1793,6 +1793,8 @@ public class JOgma {
 					else{
 						int ifinal = indice+SN.length();
 						ifinal = ifinal>(texto.length()-1)?(texto.length()-1):ifinal;
+						//java.lang.StringIndexOutOfBoundsException: String index out of range: -1 at java.lang.String.substring
+						//****br.ufpe.mtd.util.analizers.JOgma.extraiSNIdentificadoIndiceOrdenado(JOgma.java:1796)
 						String sub = texto.substring(indice, ifinal);
 						String[] ss = SN.split(" ");
 						int [] iss = new int[ss.length];
@@ -2022,6 +2024,7 @@ public class JOgma {
 		//Enumeration<String> ensns = null;//**
 		HashMap<String,Integer> ensns = null;
 		String nsn = null;
+		System.out.println("Numero de derivações da frase etiquetada: "+deriva.size());
 		while(enderiva.hasMoreElements())//foreach (String s in deriva)
 		{
 			s = enderiva.nextElement(); 
@@ -2099,15 +2102,31 @@ public class JOgma {
 	 * @param texto
 	 * @return texto formatado para tokenização e etiquetagem
 	 */
-	public static String formatText(String texto) {
-		texto = texto.replace("/",",");
-		String [] pontChars = new String [] {",", ".", ":",";","!","?","(",")","[","]","\""};
+	private static String formatText(String texto) {//a mesma de treetagger
+		texto = texto.replace("/",", "); //substitui /
+	    texto = texto.replace("\"", ", ");//substitui aspas
+		String [] pontChars = new String [] {"<",">", "=", ":",";","!","?","(",")","[","]","\""};
 		for(int i = 0; i < pontChars.length; i++)
 			texto = texto.replace(pontChars[i]," "+pontChars[i]+" ");
+		//casos especiais: ",", ".","-" tratados abaixo
+		//texto = texto.replaceAll("[.](?=($|[A-Za-z ]))"," . "); //casa com ponto de sigla
+		texto = texto.replaceAll("[.](?=($|[ ][A-ZÀ-Ú]{1}[a-zà-ú]*))"," . ");
+		texto = texto.replaceAll("[,](?=[A-Za-z ])"," , ");
 		texto = texto.replace('\t', ' ');
 		texto = texto.replace('\n', ' ');
+		texto = texto.replace('\r', ' ');
+		texto = texto.replaceAll("[ ]{2,}"," ");
 		return texto;
 	}
+//	public static String formatText(String texto) {//antiga
+//		texto = texto.replace("/",", ");
+//		String [] pontChars = new String [] {",", ".", ":",";","!","?","(",")","[","]","\""};
+//		for(int i = 0; i < pontChars.length; i++)
+//			texto = texto.replace(pontChars[i]," "+pontChars[i]+" ");
+//		texto = texto.replace('\t', ' ');
+//		texto = texto.replace('\n', ' ');
+//		return texto;
+//	}
 
 
 	public static String etiquetar(String text) {
@@ -3120,7 +3139,7 @@ public class JOgma {
 			//somente o resumo que repete biblioteca digital
 			int i = 0;
 			//for(int i=6; i <res.length;i++){//res.length
-				result = JTreeTagger.getInstance().etiquetar(res[i]);//JOgma.etiquetar(res[i]);
+				result = JOgma.etiquetar(res[i]);
 				System.out.println(result);
 				System.out.println(JOgma.extraiSNTextoEtiquetado(result).toString());
 				System.out.println("------------------------------------------------------------------");
