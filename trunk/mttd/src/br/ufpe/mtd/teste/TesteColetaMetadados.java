@@ -24,7 +24,7 @@ public class TesteColetaMetadados {
 		String urlBase="http://www.repositorio.ufpe.br/oai/request";//"http://repositorio.pucrs.br/oai/request";
 		String metaDataPrefix ="qdc";
 		String set="com_123456789_50";//"col_10923_338";
-		OAIPMHDriver driver = new  OAIPMHDriver(urlBase, metaDataPrefix);
+		OAIPMHDriver driver = OAIPMHDriver.getInstance(urlBase, metaDataPrefix);
 		driver.setSet(set);
 
 		List<Identificador> dadosRecebidos = new ArrayList<Identificador>();
@@ -92,6 +92,7 @@ public class TesteColetaMetadados {
 				System.out.println("==============================================");
 				System.out.println(d.getTitulo());
 				System.out.println(" ->"+d.getUrl());
+				System.out.println(" ->"+d.getPrograma());
 				System.out.println(" ->"+d.getResumo());
 				SNAnalyser.displayTokensWithFullDetails(new SNAnalyser(snstopFile),d.getResumo());
 				System.out.println("==============================================");

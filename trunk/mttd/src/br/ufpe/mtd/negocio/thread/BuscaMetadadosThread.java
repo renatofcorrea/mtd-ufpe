@@ -83,7 +83,7 @@ public class BuscaMetadadosThread extends BaseThread{
 				ids+= aux.get(MTDDocument.ID)+",";
 			}
 			ids = ids.isEmpty() ? "" : ids.substring(0, ids.lastIndexOf(","));
-			log.salvarDadosLog("Inseridos - {"+ids+"}");
+			log.salvarDadosLog("BuscaMetadadosThread.execucao() Inseridos no índice "+docs.size()+ " documentos: {"+ids+"}");
 		
 		} catch (Exception e) {
 			MTDException excecao = new MTDException(e, "Problemas ao tentar inserir "+idsToString);
@@ -140,7 +140,7 @@ public class BuscaMetadadosThread extends BaseThread{
 			
 			if(!docsRemover.isEmpty()){
 				String ids = recuperarComoString(docsRemover);
-				MTDFactory.getInstancia().getLog().salvarDadosLog("Dados ja existentes e não inseridos - "+ids);
+				MTDFactory.getInstancia().getLog().salvarDadosLog("BuscaMetadadosThread.removerExistentes() Documentos ja indexados e não inseridos: "+ids);
 			}
 		}
 		
@@ -160,7 +160,7 @@ public class BuscaMetadadosThread extends BaseThread{
 	public List<Document> colherMetadadosOnline(List<Identificador> identificadores,String urlBase,String metaDataPrefix) throws Exception {
 		
 		List<Identificador> listaRetentativa = new ArrayList<Identificador>();//verificar se tem instabilidadee no jCoollTraine
-		OAIPMHDriver driver = new  OAIPMHDriver(urlBase,metaDataPrefix);
+		OAIPMHDriver driver = OAIPMHDriver.getInstance(urlBase,metaDataPrefix);
 		DecodificadorDocumento decodificador = new MTDDecodificadorDocumentoBuilder().buildDecodificador(metaDataPrefix).build();
 			
 		String url = null;
@@ -172,7 +172,7 @@ public class BuscaMetadadosThread extends BaseThread{
 		//baixar dados normalmente.
 		for (Identificador identificador : identificadores) {
 			
-			log.salvarDadosLog(Thread.currentThread().getName()+" Buscando documento para identificador: ("+identificador.getId()+"),  registro "+(++qtd) + " De "+tamanho);			
+			//log.salvarDadosLog("BuscaMetadadosThread.colherMetadadosOnline() "+ Thread.currentThread().getName()+" Buscando documento para identificador: ("+identificador.getId()+"),  registro "+(++qtd) + " De "+tamanho);			
 			url = driver.getRecord(metaDataPrefix, identificador.getId());//busca os dados online			
 			InputStream is = driver.getResponse(url);
 			
@@ -237,7 +237,7 @@ public class BuscaMetadadosThread extends BaseThread{
 		monitor.tentar(threadId);
 		try {
 			repositorio.inserirDocumento(docs);
-			log.salvarDadosLog("Concluida Thread de insercao numero de ordem : "+threadId);
+			//log.salvarDadosLog("BuscaMetadadosThread.inserirDocsOrdenados() Concluida Thread de insercao numero de ordem : "+threadId);
 		} catch (Exception e) {
 			throw e;
 		}finally{
@@ -275,8 +275,8 @@ public class BuscaMetadadosThread extends BaseThread{
 		}
 		
 		/**
-		 * Uma Thread de um determinado id tentara executar a cao
-		 * E so podera executala se for a sua vez. Basta chamar este metodo que
+		 * Uma Thread de um determinado id tentara executar acao
+		 * E so podera executa-la se for a sua vez. Basta chamar este metodo que
 		 * a execucao sera controlada.
 		 * 
 		 * @param threadId
@@ -284,7 +284,7 @@ public class BuscaMetadadosThread extends BaseThread{
 		private synchronized void tentar(int threadId){
 			while(!podeExecutar(threadId)){
 				try {
-					log.salvarDadosLog("Aguardando minha vez para inserir "+Thread.currentThread().getName()+" Ordem na fila "+threadId+" Processados: "+filaIdProcessado);
+					//log.salvarDadosLog("BuscaMetadadosThread.tentar() Aguardando minha vez para inserir "+Thread.currentThread().getName()+" Ordem na fila "+threadId+" Processados: "+filaIdProcessado);
 					wait();
 				} catch (Exception e) {
 					log.salvarDadosLog(e);

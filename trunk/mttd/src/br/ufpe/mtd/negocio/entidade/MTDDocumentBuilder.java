@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.solr.common.SolrDocument;
 
+import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDUtil;
 
 /**
@@ -53,11 +54,11 @@ public class MTDDocumentBuilder {
 		}
 		String datas = document.get(MTDDocument.DATA_DEFESA);
 		Date data = null;
-		if(datas != null){
+		if(datas != null || !datas.isEmpty()){
 		data = MTDUtil.recuperarDataFormatosSuportados(datas.trim());
 		}else{
-			System.out.println("Erro: "+document.get(MTDDocument.ID)+" sem data.");
-			data = MTDUtil.recuperarDataFormatosSuportados("2015-01-01");
+			MTDFactory.getInstancia().getLog().salvarDadosLog("MTDDocumentBuilder.buildDocument Error: "+document.get(MTDDocument.ID)+" sem data.");
+			//data = MTDUtil.recuperarDataFormatosSuportados("2015-01-01");
 		}
 		documento = initDocument(document.get(MTDDocument.TITULO), 
 				document.get(MTDDocument.RESUMO), 

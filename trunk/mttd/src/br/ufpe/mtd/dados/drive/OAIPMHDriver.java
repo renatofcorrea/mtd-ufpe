@@ -3,9 +3,11 @@ package br.ufpe.mtd.dados.drive;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import br.ufpe.mtd.negocio.decodificacao.DecodificadorIdentificador;
+import br.ufpe.mtd.negocio.decodificacao.DecodificadorSet;
 import br.ufpe.mtd.negocio.entidade.Identificador;
 import br.ufpe.mtd.util.MTDParametros;
 
@@ -17,7 +19,9 @@ import br.ufpe.mtd.util.MTDParametros;
  */
 public class OAIPMHDriver {
 
-	private DecodificadorIdentificador decodificador;
+	private static OAIPMHDriver driver = null;
+	private DecodificadorIdentificador decodificador = null;
+	private HashMap<String,String> hsets = null;
 	private String strUrlBase;
 	private String metaDataPrefix;
 	private String set;
@@ -27,19 +31,61 @@ public class OAIPMHDriver {
 		return repositoryname;
 	}
 	
-	public OAIPMHDriver() {
-		decodificador = new DecodificadorIdentificador();
+	public static OAIPMHDriver getInstance(String surl){
+		if(driver == null)
+		driver = new OAIPMHDriver(surl);
+		else if(!driver.getUrlBase().equals(surl)){
+			driver = new OAIPMHDriver(surl);	
+		}
+		return driver;
 	}
 	
-	public OAIPMHDriver(String strUrl) {
+	public static OAIPMHDriver getInstance(String surl,String prefix){
+		if(driver == null)
+		driver = new OAIPMHDriver(surl,prefix);
+		else if(!driver.getUrlBase().equals(surl)){
+			driver = new OAIPMHDriver(surl,prefix);	
+		}
+		return driver;
+	}
+	
+	public static OAIPMHDriver getInstance(){
+		if(driver == null)
+		driver = new OAIPMHDriver();
+		return driver;
+	}
+	
+	private OAIPMHDriver() {
+		decodificador = new DecodificadorIdentificador();
+		try {
+			hsets = null;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private OAIPMHDriver(String strUrl) {
 		setURLBase(strUrl);
 		decodificador = new DecodificadorIdentificador(this.repositoryname);
+		try {
+			hsets = getSets(null);//"Programa[A-Za-zÀ-ú -/]+"
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public OAIPMHDriver(String strUrl, String metaDataPrefix) {
+	private OAIPMHDriver(String strUrl, String metaDataPrefix) {
 		setURLBase(strUrl);
 		this.decodificador = new DecodificadorIdentificador(this.repositoryname);
 		this.metaDataPrefix = metaDataPrefix;
+		try {
+			hsets = getSets(null);//"Programa[A-Za-zÀ-ú -/]+"
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -48,6 +94,25 @@ public class OAIPMHDriver {
 		this.repositoryname = strUrl.split("/")[2].replace("www.", "");
 	}
 	
+	public String getProgramBySet(String setSpec){
+		if(hsets != null){
+		String name = hsets.get(setSpec);
+		if(name.matches("Programa[A-Za-zÀ-ú -/]+"))
+			return name;
+		}
+		return null;
+	}
+	
+	public String getGrauBySet(String setSpec){
+		if(hsets != null){
+		String name = hsets.get(setSpec);
+		if(name.matches("Tese[A-Za-zÀ-ú -/]+"))
+			return "doutor";
+		if(name.matches("Disserta[A-Za-zÀ-ú -/]+"))
+			return "mestre";
+		}
+		return null;
+	}
 
 	/*
 	 * Tenta realizar a solicitacao por uma quantidade maxima 
@@ -96,10 +161,19 @@ public class OAIPMHDriver {
 		return metainf;
 	}
 
+	//Chamada para obtenção da primeira página
 	public String getListSets() throws Exception {
 		String metainf = "?verb=ListSets";
 		return metainf;
 	}
+	
+	//Chamada para obtenção das demais páginas, se houver.
+		public String getListSetsResumptionToken(String resumptionToken) throws Exception {
+			String metainf = "?verb=ListSets&resumptionToken="
+					+ resumptionToken;
+			return metainf;
+		}
+	
 
 	//Chamada para obtenção da primeira página
 	public String getListIdentifiers(String metaDataPrefix) throws Exception {
@@ -145,13 +219,14 @@ public class OAIPMHDriver {
 		return metainf;
 	}
 
+	public DecodificadorIdentificador getDecodificador(){
+		return decodificador;
+	}
+	
+	
 	public boolean hasNext(){
 		boolean contem = !decodificador.isIniciado() || decodificador.hasNext();
 		return contem;
-	}
-	
-	public DecodificadorIdentificador getDecodificador(){
-		return decodificador;
 	}
 	
 	/**
@@ -172,6 +247,26 @@ public class OAIPMHDriver {
 		}else{
 			return DecodificadorIdentificador.parse(decodificador, getResponse(getListIdentifiersResumptionToken(decodificador.getResumption())));
 		}
+	}
+	
+	/**
+	 * baixa a lista de sets de um repositorio de forma sequencial
+	 * em lotes , chama métodos de DecodificadorSet ate que nao tenham mais sets.
+	 * use em conjunto com o metodo hasNext.
+	 * @return
+	 * @throws Exception 
+	 */
+	public HashMap<String,String> getSets(String regex) throws Exception{
+		DecodificadorSet ds = new DecodificadorSet();
+		if(!ds.isIniciado()){
+			//Retorna os identificadores iniciais do repositorio externo
+			DecodificadorSet.parse(ds, getResponse(getListSets()));
+		}
+		while(ds.hasNext()){
+			DecodificadorSet.parse(ds, getResponse(getListSetsResumptionToken(ds.getResumption())));
+		}
+		hsets = ds.getSets(regex);
+		return hsets; //ds.getSets("\\Programa de[A-Za-zÀ-ú ]+");
 	}
 
 	public String getSet() {

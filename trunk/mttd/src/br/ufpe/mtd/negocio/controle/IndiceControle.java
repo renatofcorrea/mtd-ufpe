@@ -20,7 +20,7 @@ public class IndiceControle {
 	}
 	
 	public void indexar(String urlBase, String metaDataPrefix, String set) throws Exception {
-		OAIPMHDriver driver = new  OAIPMHDriver(urlBase, metaDataPrefix);
+		OAIPMHDriver driver = OAIPMHDriver.getInstance(urlBase, metaDataPrefix);
 		driver.setSet(set);
 		indexar(driver);
 	}
@@ -56,7 +56,7 @@ public class IndiceControle {
 					}
 					
 					for (Identificador identificador : deletados) {
-						MTDFactory.getInstancia().getLog().salvarDadosLog("Deletado id : "+identificador.getId());
+						MTDFactory.getInstancia().getLog().salvarDadosLog("IndiceControle.indexar() Deletado id : "+identificador.getId());
 					}
 					
 					identificadores.removeAll(deletados);
@@ -87,7 +87,7 @@ public class IndiceControle {
 	 * @throws InterruptedException 
 	 */
 	private void baixarDocsEsalvar(IRepositorioIndice repositorio, List<Identificador> identificadores,String urlBase,String metaDataPrefix) throws InterruptedException{
-		f.getLog().salvarDadosLog("Quantidade de ids enviados para baixar: "+contador);
+		//f.getLog().salvarDadosLog("IndiceControle.baixarDocsEsalvar() Quantidade de ids enviados para baixar: "+contador);
 		BuscaMetadadosThread t = new BuscaMetadadosThread(f.getLog(),repositorio , identificadores,urlBase,metaDataPrefix);
 		t.executarNoPool();
 	}

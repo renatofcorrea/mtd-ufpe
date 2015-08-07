@@ -86,7 +86,7 @@ public class Log {
 	public void salvarDadosLog(final String dado) {
 		try {
 			if (logAplicDados.exists()) {
-				final String cabecalho = "---------- Dado ---------: \n"+ new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss").format(new Date());
+				final String cabecalho = "---------- Dado ---------: "+ new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss").format(new Date());
 				LogDadosRunnable runnable = new LogDadosRunnable(cabecalho, dado, logAplicDados);
 				runnable.executarNoPool();
 			}

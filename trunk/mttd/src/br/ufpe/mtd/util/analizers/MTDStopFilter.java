@@ -1,4 +1,4 @@
-package br.ufpe.mtd.negocio.decodificacao;
+package br.ufpe.mtd.util.analizers;
 
 import java.io.IOException;
 

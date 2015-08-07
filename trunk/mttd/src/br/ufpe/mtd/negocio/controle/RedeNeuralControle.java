@@ -65,7 +65,7 @@ public class RedeNeuralControle {
 	public void treinarRedeNeural() {
 		try {
 			long inicio = System.currentTimeMillis();
-			log.salvarDadosLog(" ---- iniciando treinamento da rede neural-----");
+			log.salvarDadosLog(" RedeNeuralControle.treinarRedeNeural() ---- iniciando treinamento da rede neural-----");
 
 			deletarTreinoAnteiror();
 
@@ -80,8 +80,7 @@ public class RedeNeuralControle {
 			realizarTreinamento(mapaEstatisticaPalavra, listaDocumentos);
 
 			
-			log.salvarDadosLog(" ---- fim do treinamento da rede neural-----");
-			log.salvarDadosLog("Tempo " + (System.currentTimeMillis() - inicio));
+			log.salvarDadosLog(" ---- fim do treinamento da rede neural---- Tempo decorrido" + (System.currentTimeMillis() - inicio));
 
 		} catch (Exception e) {
 			log.salvarDadosLog(e);
@@ -91,15 +90,14 @@ public class RedeNeuralControle {
 	public void retreinarRedeNeural() {
 		try {
 			long inicio = System.currentTimeMillis();
-			log.salvarDadosLog(" ---- iniciando retreinamento da rede neural-----");
-
+			log.salvarDadosLog(" RedeNeuralControle.retreinarRedeNeural() ---- iniciando retreinamento da rede neural-----");
+			log.salvarDadosLog(" ---- Error: faltando implementar em RedeNeuralControle.retreinarRedeNeural() -----");
 			
-			//gerar arquivo retreino properies
-			//weightVectorFile
+			//gerar arquivo retreino properties
 			//mapDescriptionFile
+			//weightVectorFile
 			
-			log.salvarDadosLog(" ---- fim do retreinamento da rede neural-----");
-			log.salvarDadosLog("Tempo " + (System.currentTimeMillis() - inicio));
+			log.salvarDadosLog(" ---- fim do retreinamento da rede neural----- Tempo decorrido" + (System.currentTimeMillis() - inicio));
 
 		} catch (Exception e) {
 			log.salvarDadosLog(e);
@@ -289,7 +287,7 @@ public class RedeNeuralControle {
 	 * @throws IOException
 	 */
 	private void gerarMapaPalavraEPalavraDoc(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra) throws IOException {
-		log.salvarDadosLog("Gerando mapa de palavras e mapa de palavra_documento...");
+		log.salvarDadosLog("RedeNeuralControle.gerarMapaPalavraEPalavraDoc() Gerando mapa de palavras e mapa de palavra_documento...");
 		FileOutputStream fosPalavras = MTDArquivoEnum.WORD_TABLE.getFileOutputStream(false);
 		FileOutputStream fosPalavraDoc = MTDArquivoEnum.WORD_DOC_TABLE.getFileOutputStream(false);
 
@@ -429,7 +427,7 @@ public class RedeNeuralControle {
 	 * @throws IOException
 	 */
 	private void gerarMapaDocumentos(List<MTDDocument> listaDocumentos) throws IOException {
-		log.salvarDadosLog("Gerando mapa de documentos...");
+		log.salvarDadosLog("RedeNeuralControle.gerarMapaDocumentos() Gerando mapa de documentos...");
 
 		FileOutputStream fosDocs = MTDArquivoEnum.DOC_TABLE.getFileOutputStream(false);
 
@@ -455,7 +453,7 @@ public class RedeNeuralControle {
 	}
 
 	public void gerarArquivoTemplateVetor(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos, TreeMap<Integer, Double> mapaNormas) throws IOException {
-		log.salvarDadosLog("Gerando template vector...");
+		log.salvarDadosLog("RedeNeuralControle.gerarArquivoTemplateVetor() Gerando template vector...");
 
 		FileOutputStream fos = MTDArquivoEnum.TEMPLATE_TREINAMENTO.getFileOutputStream(false);
 		FileOutputStream fosNorm = MTDArquivoEnum.TEMPLATE_TREINAMENTO_NORM.getFileOutputStream(false);
@@ -516,7 +514,7 @@ public class RedeNeuralControle {
 	 * @throws IOException
 	 */
 	public void gerarArquivoVecCls(TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra, List<MTDDocument> listaDocumentos, TreeMap<Integer, Double> mapaNormas) throws IOException {
-		log.salvarDadosLog("Gerando vector de entradas e arquivos cls...");
+		log.salvarDadosLog("RedeNeuralControle.gerarArquivoVecCls() Gerando vector de entradas e arquivos cls...");
 
 		FileOutputStream fosVec = MTDArquivoEnum.VECTOR_TREINAMENTO.getFileOutputStream(false);
 		FileOutputStream fosVecNorm = MTDArquivoEnum.VECTOR_TREINAMENTO_NORM.getFileOutputStream(false);
@@ -624,7 +622,7 @@ public class RedeNeuralControle {
 	 * @throws IOException
 	 */
 	public void gerarArquivoProperties(String[] cmdLine, File arquivoDestino, int tamListaDoc) throws IOException {
-		log.salvarDadosLog("Gerando arquivo de properties...");
+		log.salvarDadosLog("RedeNeuralControle.gerarArquivoProperties() Gerando arquivo de properties...");
 		Integer randoSeed = NUM_CICLOS * tamListaDoc;
 
 		Properties properties = new Properties();
@@ -688,7 +686,7 @@ public class RedeNeuralControle {
 	 */
 	public void gerarMedidasQualidadeRedeNeural() throws SOMLibFileFormatException, ClassNotFoundException, Exception {
 		if(isMedidasQualidadeAdequadas()){
-			log.salvarDadosLog("Medidas de qualidade já estão adequadas. Encerrando...");
+			log.salvarDadosLog("RedeNeuralControle.gerarMedidasQualidadeRedeNeural() Medidas de qualidade já estão adequadas. Encerrando...");
 			return;
 		}
 		log.salvarDadosLog("Inicio da geração de medidas de qualidade da rede neural...");

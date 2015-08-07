@@ -129,7 +129,7 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 		
 		for (SolrInputDocument iDocument : listaInserir) {
 			try {
-				log.salvarDadosLog("Tentando inserir documento individualmente: "+iDocument.getFieldValue(MTDDocument.ID));
+				//log.salvarDadosLog("RepositorioIndiceSolr.inserirDocumentoIndividualmente() Tentando inserir documento individualmente: "+iDocument.getFieldValue(MTDDocument.ID));
 				solrServer.add(iDocument);
 				solrServer.commit();
 				

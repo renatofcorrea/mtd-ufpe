@@ -63,9 +63,11 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 			String pattern = (String)result.get(i);
 			String type = (String)gramType.get(pattern);
 			int offset = (Integer)gramOffset.get(pattern);
-			//***java.lang.IllegalArgumentException: startOffset must be non-negative, and endOffset must be >= startOffset, startOffset=-1,endOffset=40
-			Token temp = new Token(pattern,offset-pattern.length(), offset, type); //the field name here doesn't matter, it will follow the one in Document.add
+			//NA LINHA ABAIXO***java.lang.IllegalArgumentException: startOffset must be non-negative, and endOffset must be >= startOffset, startOffset=-1,endOffset=40
+			int itemp = offset-pattern.length();
+			Token temp = new Token(pattern,(itemp>=0)?itemp:0, offset, type); //the field name here doesn't matter, it will follow the one in Document.add
 			//Token temp = new Token(pattern.toCharArray(),0,pattern.length(),offset-pattern.length(),offset); //offset-pattern.length()+1
+			//Token temp = new Token(pattern, int start, int end, String typ);
 			temp.setType("SN");
 			temp.setPositionIncrement(1);
 			//Token temp = new Token(pattern+"\t"+type+"\t"+offset,i, i+1,fieldname); //the field name here doesn't matter, it will follow the one in Document.add
@@ -96,6 +98,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 			System.out.println(resultado);
 			//----Extraindo os sintagmas nominais do texto etiquetado
 			//List<SNData> lsns = JOgma.extraiSNOrdenadoTextoEtiquetado(res2);
+			//NA LINHA ABAIXO****java.lang.StringIndexOutOfBoundsException: String index out of range: -1 at java.lang.String.substring(String.java:1955)
 			List<SNData> lsns = JOgma.extraiSNIdentificadoIndiceOrdenado(aContext,resultado);
 //			Vector<String> sns =new Vector<String>(hm.keySet());
 //			Vector<Integer> snsind =new Vector<Integer>(hm.values());
@@ -258,7 +261,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 								index = endOffset;
 								resultTokens.add(subs);
 							}else{
-								System.out.println("SNTokenizer.tokenize(): Não encontrado: "+tempWord+ " Encontrado: "+subs);
+								System.out.println("SNTokenizerWithAtributes.tokenize(): Não encontrado: "+tempWord+ " Encontrado: "+subs);
 								System.out.println("\n===>Não contornado!!!");
 							}
 						}
