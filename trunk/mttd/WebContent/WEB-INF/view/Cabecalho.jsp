@@ -10,7 +10,6 @@
 		<div onclick="ocultar('ajuda');ocultar('contato');ocultar('mascara_site');" style="border-bottom-style: solid;position: relative;float: right;" >Fechar X</div>
 		<%@ include file="Contato.jsp" %>
 	</div>
-	<div class="quebra-linha"></div>
 	<div id="cabecalho" >
 		<div id="menu-cabecalho-titulo">
 			<h1>MTTD-UFPE</h1>
@@ -35,11 +34,8 @@
 				</form>
 			</div>
 			<div class="item-menu-cabecalho" style="width:100%; margin-top: -2px; color: #8B4726; text-align: center;">
-			
 					Sugestão por :
-					<%
-				String tipoSugestao = JSPHelper.getTipoSugestao(session);
-			%>
+					<% String tipoSugestao = JSPHelper.getTipoSugestao(session); %>
 					
 					<input type="radio" name="tipo_sugestao" value="<%=JSPHelper.sugestaoPalavraChave()%>"  onchange="setTipoSugestao(this.value);" 
 						<%=tipoSugestao != null && tipoSugestao.equals(JSPHelper.sugestaoPalavraChave()) ? "checked" : ""%>/><b>Palavras-chave</b>
@@ -68,7 +64,6 @@
 				</ul>
 		</div>
 	</div>
-	<div class="quebra-linha"></div>
 	<div id="linha-inferior-cabecalho"></div>
 	
 	<script type="text/javascript">
