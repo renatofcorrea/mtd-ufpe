@@ -18,14 +18,16 @@
 	Nodo nodo = JSPHelper.recuperarNodo(request,session);
 	
 	List<MTDDocument> listaNaPesquisa = new ArrayList<MTDDocument>();
+	List<MTDDocument> listaForaPesquisa = new ArrayList<MTDDocument>();
 	List<MTDDocument> listaOrdenada = new ArrayList<MTDDocument>();
 	
 	if(documentosUltimaPesquisa != null){
+		
+		for(Object aux : documentosUltimaPesquisa){
+			MTDDocument docAux = (MTDDocument)aux;
+			boolean docNaPesquisa = false;
 		for(Object docPesquisado: documentosNodo){
 			MTDDocument doc = (MTDDocument)docPesquisado;
-			boolean docNaPesquisa = false;
-			for(Object aux : documentosUltimaPesquisa){
-				MTDDocument docAux = (MTDDocument)aux;
 				if(docAux.getDocId() == doc.getDocId()){
 					listaNaPesquisa.add(doc);
 					break;
@@ -33,10 +35,10 @@
 			}
 		}
 	}
-	
-	documentosNodo.removeAll(listaNaPesquisa);
+	listaForaPesquisa.addAll(documentosNodo);
+	listaForaPesquisa.removeAll(listaNaPesquisa);
 	listaOrdenada.addAll(listaNaPesquisa);
-	listaOrdenada.addAll(documentosNodo);
+	listaOrdenada.addAll(listaForaPesquisa);
 	
 	
 %>
