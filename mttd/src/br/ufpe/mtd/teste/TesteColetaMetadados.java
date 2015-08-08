@@ -11,10 +11,12 @@ import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.jColtrane.handler.JColtraneXMLHandler;
 import br.ufpe.mtd.dados.drive.OAIPMHDriver;
+import br.ufpe.mtd.dados.indice.RepositorioIndiceLucene;
 import br.ufpe.mtd.negocio.decodificacao.DecodificadorDocumentoDC;
 import br.ufpe.mtd.negocio.entidade.Identificador;
 import br.ufpe.mtd.negocio.entidade.MTDDocument;
 import br.ufpe.mtd.util.MTDException;
+import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.analizers.SNAnalyser;
 import br.ufpe.mtd.util.analizers.SNTokenizer;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
@@ -79,25 +81,39 @@ public class TesteColetaMetadados {
 		
 		List<Identificador> listaRetentativa = new ArrayList<Identificador>();//verificar se tem instabilidadee no jColtraine
 		for (Identificador identificador : dadosRecebidos) {
-			System.out.println(identificador.getId());
+			//System.out.println(identificador.getId());
 			//Coletar documento
 			try{
 				url = driver.getRecord(metaDataPrefix, identificador.getId());//busca os dados online			
 				is = driver.getResponse(url);
 				//DecodificadorDocumentoDC.parse(is, decodificador, identificador);
 				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-			
+
 				parser.parse(is, new JColtraneXMLHandler(decodificador));
-				MTDDocument d = decodificador.getDocumentos().get(index);
-				System.out.println("==============================================");
-				System.out.println(d.getTitulo());
-				System.out.println(" ->"+d.getUrl());
-				System.out.println(" ->"+d.getPrograma());
-				System.out.println(" ->"+d.getResumo());
-				SNAnalyser.displayTokensWithFullDetails(new SNAnalyser(snstopFile),d.getResumo());
-				System.out.println("==============================================");
-				
-				index++;
+				if(decodificador.getDocumentos().size() > index){//documentos sem campos requeridos não são adicionados
+					MTDDocument d = decodificador.getDocumentos().get(index);
+					//System.out.println("==============================================");
+					//System.out.println(d.getTitulo()); 
+					//System.out.println(" ->"+d.getUrl());
+					//System.out.println(" ->"+d.getPrograma());
+					//System.out.println(" ->"+d.getResumo());
+					//SNAnalyser.displayTokensWithFullDetails(new SNAnalyser(snstopFile),d.getResumo());
+
+					index++;
+
+					RepositorioIndiceLucene rep = (RepositorioIndiceLucene) MTDFactory.getInstancia().getSingleRepositorioIndice();
+					//Adicionando condição para encontrar duplicatas
+					ArrayList<MTDDocument> doc = rep.getDocFirstInserted(d);
+					if(doc !=null && !doc.isEmpty()){
+						//System.out.println(d.getId() + " Duplicado "+doc.size()+" vezes.");
+						//System.out.println(d.getTitulo());
+						//System.out.println(" ->"+d.getUrl());
+						//System.out.println(" ->"+d.getPrograma());
+						//System.out.println("==============================================");
+					}
+
+				}
+
 			}catch(MTDException e ){
 				Object o = e.getExtraData();
 				if(o instanceof Identificador){
@@ -110,12 +126,12 @@ public class TesteColetaMetadados {
 					try {
 						is.close();
 					} catch (IOException e) {
-						
+
 						e.printStackTrace();
 					}
 				}
 			}
-		}
+		}//end for
 		return;
 	}
 	

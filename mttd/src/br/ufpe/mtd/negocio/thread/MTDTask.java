@@ -83,7 +83,7 @@ public class MTDTask extends TimerTask {
 		
 		try {
 			if(MTDFacede.isSistemaTreinado()){
-				MTDFacede.resetarRepositorios();
+				MTDFacede.resetarRepositorios();//carregando repositórios
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();

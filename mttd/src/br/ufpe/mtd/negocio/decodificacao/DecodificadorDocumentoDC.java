@@ -309,13 +309,13 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	 */
 	private String tratarCaracteres(String entrada){
 		entrada = getHtmlToAscii(entrada);
-		entrada = entrada.replace("/", ","); //substitui /
-	    entrada = entrada.replace("\"", " ");//substitui aspas
+		//entrada = entrada.replace("/", ","); //substitui /
+	    //entrada = entrada.replace("\"", " ");//substitui aspas
+		// entrada = entrada.replaceAll("[,|.|;]$", "");//ponto ou virgula no final
 	    entrada = entrada.replace("\r", " "); //substitui retorno
 	    entrada = entrada.replace("\n", " ");//substitui novalinha
 	    entrada = entrada.replace("\t", " ");//substitui tabulação
 	    entrada = entrada.replaceAll("[ ]{2,}", " ");//excesso de espaço em branco
-	    entrada = entrada.replaceAll("[,|.|;]$", "");//ponto ou virgula no final
 	    entrada = entrada.trim();
 	    return entrada;
 	}
@@ -342,9 +342,11 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
     	texto = StringConverter.converteCaracteresEspeciais(texto);
     	Matcher m = Pattern.compile("&(#[0-9]*|[A-Za-z]{2,6});").matcher(texto);
     	Log log = MTDFactory.getInstancia().getLog();
+    	String msg = "";
     	while ( m.find() )
-    		log.salvarDadosLog("DecodificadorDocumentoDC.getHtmlToAscii() Documento Id "+getDoc().getId() +" Error: character não convertido: "+m.group());
-    	
+    		msg += "DecodificadorDocumentoDC.getHtmlToAscii() Documento Id "+getDoc().getId() +" Error: character não convertido: "+m.group()+"\n";
+    	if(!msg.isEmpty())
+    	log.salvarDadosLog(msg);
         texto = texto.replaceAll("&(#[0-9]*|[A-Za-z]{2,6});", " ");//html code
         return texto;
     }
