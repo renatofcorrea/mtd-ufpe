@@ -48,9 +48,12 @@ import org.apache.lucene.util.Version;
 import br.ufpe.mtd.negocio.entidade.EstatisticaPalavra;
 import br.ufpe.mtd.negocio.entidade.MTDDocument;
 import br.ufpe.mtd.negocio.entidade.MTDDocumentBuilder;
+import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDIterator;
+import br.ufpe.mtd.util.StringDiff;
 import br.ufpe.mtd.util.analizers.MTDAnalyzer;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
+import br.ufpe.mtd.util.log.Log;
 
 /**
  * Classe que fara o controle de acesso ao indice do 
@@ -399,6 +402,48 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		iterator.close();
 		
 		return lista;
+	}
+	
+	/**
+	 * Obtem id do documento no Indice cujo documento corrente é duplicata
+	 * registro. Deve ser usada no contexto da indexação, decidindo pela inclusão
+	 * ou não de um documento x no índice
+	 * @return MTDDocument
+	 * @throws Exception
+	 */
+	public synchronized ArrayList<MTDDocument> getDocFirstInserted(MTDDocument x) throws Exception{
+		MTDDocument documento = null, doc=null;
+		ArrayList<MTDDocument> listaRetorno = new ArrayList<MTDDocument>();
+		ArrayList<MTDDocument> listaDuplicados = new ArrayList<MTDDocument>();
+		
+		Log log = MTDFactory.getInstancia().getLog();
+    	String msg = "";
+		
+			listaRetorno = consultar("\""+x.getTitulo()+"\"",new String[] { MTDDocument.TITULO},5);
+
+			if(listaRetorno != null && !listaRetorno.isEmpty() && listaRetorno.size() > 1){	
+				for(int index = 0;index<listaRetorno.size();index++){
+					documento = listaRetorno.get(index);
+					if(!documento.getId().equals(x.getId())){
+						if(x.getTitulo().equalsIgnoreCase(documento.getTitulo()) || StringDiff.getLevenshteinDistance(x.getTitulo(), documento.getTitulo())<5){
+							
+							msg+= "Documento com docId "+x.getId()+" com título semelhante ao do documento com docId "+documento.getId()+".\n";
+							if(x.getAutor().equalsIgnoreCase(documento.getAutor()) || StringDiff.getLevenshteinDistance(x.getAutor(), documento.getAutor())<10){
+								msg+= "Documento com docId "+x.getId()+" com título e autor semelhante ao documento com docId "+documento.getId()+".\n";
+								listaDuplicados.add(documento);
+							}
+							else if(x.getOrientador().equalsIgnoreCase(documento.getOrientador()) || StringDiff.getLevenshteinDistance(x.getOrientador(), documento.getOrientador())<10){
+								msg+= "Documento com docId "+x.getId()+" com título e orientador semelhante ao documento com docId "+documento.getId()+".\n";
+								listaDuplicados.add(documento);
+
+							}
+							if(!msg.isEmpty())
+								log.salvarDadosLog(msg);
+						}
+					}
+				}
+			}
+    		return listaDuplicados;
 	}
 	
 	/**

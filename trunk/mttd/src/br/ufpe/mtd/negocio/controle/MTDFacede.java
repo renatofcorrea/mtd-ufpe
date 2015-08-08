@@ -61,7 +61,7 @@ public class MTDFacede {
 		} catch (Exception e) {
 			throw e;
 		} finally{
-			f.resetarRepositorios();
+			f.resetarRepositorios();//carregar repositorios
 			MTDUtil.imprimirConsole("---------Tempo total da Indexação: "+ (System.currentTimeMillis() - inicio));
 		}
 	}
