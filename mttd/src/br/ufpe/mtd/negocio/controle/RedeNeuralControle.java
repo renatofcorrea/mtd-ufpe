@@ -206,9 +206,10 @@ public class RedeNeuralControle {
 		String[] campos = new String[] { MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.KEY_WORD, MTDDocument.PROGRAMA };// MTDDocument.AREA_CNPQ,
 		RepositorioIndiceLucene repLucene = (RepositorioIndiceLucene) rep;
 
-		int docFreqMax = (int) Math.round((repLucene.getQuantidadeDocumentosNoIndice() * 80.0) / 100.0); // 80%
-		int docFreqMin = 5;
-		int numMaxDoc = 10000;
+		//TODO: colocar como parâmetros do sistema
+		int docFreqMax = (int) Math.round((repLucene.getQuantidadeDocumentosNoIndice() * 50.0) / 100.0); // 50%
+		int docFreqMin = 10;
+		int numMaxDoc = 5000;
 
 		List<EstatisticaPalavra> filtroPalavrasRelevantes = repLucene.getListaPalavrasFiltrado(campos, numMaxDoc, docFreqMin, docFreqMax);
 		TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra = repLucene.getMapaPalavraDocFreq(campos, filtroPalavrasRelevantes);

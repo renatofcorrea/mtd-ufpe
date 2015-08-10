@@ -1770,7 +1770,7 @@ public class JOgma {
 			String[] palavras = resultado.split(" ");
 			//String[] palavraso = texto.split(" ");
 			String palavra = null;
-			int indice = 0;
+			int indice = 0, last_indice=0;
 			int temp = 0;
 			for(int i=0; i < palavras.length; i++)//foreach (String palavra in palavras)
 			{
@@ -1788,13 +1788,21 @@ public class JOgma {
 					//{
 					//indice = resultado.indexOf(original,indice) - i * 3;//barra mais 2 caracteres da tag sn ou ct anteriores
 					temp = texto.indexOf(SN,indice);
-					if(temp >= indice)
+					if(temp >= indice && indice >= 0){
 						indice = temp+SN.length();
-					else{
+						last_indice = indice;
+					}else{
+						indice = (indice>=0 && indice <= (texto.length()-1))?indice:last_indice;
 						int ifinal = indice+SN.length();
 						ifinal = ifinal>(texto.length()-1)?(texto.length()-1):ifinal;
+						//TODO: oai:repositorio.ufpe.br:123456789/7636
 						//java.lang.StringIndexOutOfBoundsException: String index out of range: -1 at java.lang.String.substring
 						//****br.ufpe.mtd.util.analizers.JOgma.extraiSNIdentificadoIndiceOrdenado(JOgma.java:1796)
+						if(indice > ifinal){
+							indice = 0;
+							ifinal = texto.length()-1;
+						}
+							
 						String sub = texto.substring(indice, ifinal);
 						String[] ss = SN.split(" ");
 						int [] iss = new int[ss.length];

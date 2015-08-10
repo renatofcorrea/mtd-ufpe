@@ -132,6 +132,7 @@ public class TesteColetaMetadados {
 				}
 			}
 		}//end for
+		System.out.println("Fim da execução.");
 		return;
 	}
 	

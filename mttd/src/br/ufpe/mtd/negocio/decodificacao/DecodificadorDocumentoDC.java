@@ -81,6 +81,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 		String nset = OAIPMHDriver.getInstance().getProgramBySet(setSpec);
 		if(nset!=null && !nset.isEmpty()){
 			getDoc().setPrograma(tratarCaracteres(nset.replaceFirst("Pós[ ]+Graduação", "Pós-Graduação")));
+			setarAreaCNPQPorPrograma(getDoc().getPrograma());
 		}
 		nset = OAIPMHDriver.getInstance().getGrauBySet(setSpec);
 		if(nset!=null && !nset.isEmpty()){
@@ -112,7 +113,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 
 	@EndElement(tag = "dc:subject")
 	public void pegarAssunto(ContextVariables contextVariables) {
-		getDoc().adicionarPalavraChave(tratarCaracteres(contextVariables.getBody()));
+		getDoc().adicionarPalavraChave(tratarCaracteres(contextVariables.getBody()).replaceAll("[,|.|;]$", ""));
 
 	}
 
@@ -280,7 +281,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 			getDoc().setAreaCNPQ(area);
 		}else{
 			getDoc().setAreaCNPQ(AreaCNPQEnum.NAO_ENCONTRADO.name());
-			MTDFactory.getInstancia().getLog().salvarDadosLog("DecodificadorDocumentoDC.Documento.setarAreaCNPQPorPrograma() Id "+getDoc().getId()+"Error:  programa desconhecido: "+programa);
+			MTDFactory.getInstancia().getLog().salvarDadosLog("DecodificadorDocumentoDC.Documento.setarAreaCNPQPorPrograma() Id "+getDoc().getId()+" Error:  programa desconhecido: "+programa);
 		}
 		
 		if(!getDoc().contemAreaPrograma() && area != null){
@@ -344,7 +345,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
     	Log log = MTDFactory.getInstancia().getLog();
     	String msg = "";
     	while ( m.find() )
-    		msg += "DecodificadorDocumentoDC.getHtmlToAscii() Documento Id "+getDoc().getId() +" Error: character não convertido: "+m.group()+"\n";
+    		msg += "DecodificadorDocumentoDC.getHtmlToAscii() Documento Id "+getDoc().getId() +" Erro: caracter não convertido: "+m.group()+"\n";
     	if(!msg.isEmpty())
     	log.salvarDadosLog(msg);
         texto = texto.replaceAll("&(#[0-9]*|[A-Za-z]{2,6});", " ");//html code

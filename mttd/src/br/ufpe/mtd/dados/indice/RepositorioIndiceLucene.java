@@ -419,7 +419,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		Log log = MTDFactory.getInstancia().getLog();
     	String msg = "";
 		
-			listaRetorno = consultar("\""+x.getTitulo()+"\"",new String[] { MTDDocument.TITULO},5);
+			listaRetorno = consultar("\""+x.getTitulo().replaceAll("['|\"]","")+"\"",new String[] { MTDDocument.TITULO},5);
 
 			if(listaRetorno != null && !listaRetorno.isEmpty() && listaRetorno.size() > 1){	
 				for(int index = 0;index<listaRetorno.size();index++){
@@ -427,13 +427,13 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 					if(!documento.getId().equals(x.getId())){
 						if(x.getTitulo().equalsIgnoreCase(documento.getTitulo()) || StringDiff.getLevenshteinDistance(x.getTitulo(), documento.getTitulo())<5){
 							
-							msg+= "Documento com docId "+x.getId()+" com título semelhante ao do documento com docId "+documento.getId()+".\n";
+							msg = "Documento com docId "+x.getId()+" com título semelhante ao do documento com docId "+documento.getId()+".\n";
 							if(x.getAutor().equalsIgnoreCase(documento.getAutor()) || StringDiff.getLevenshteinDistance(x.getAutor(), documento.getAutor())<10){
-								msg+= "Documento com docId "+x.getId()+" com título e autor semelhante ao documento com docId "+documento.getId()+".\n";
+								msg = "Documento com docId "+x.getId()+" com título e autor semelhante ao documento com docId "+documento.getId()+".\n";
 								listaDuplicados.add(documento);
 							}
 							else if(x.getOrientador().equalsIgnoreCase(documento.getOrientador()) || StringDiff.getLevenshteinDistance(x.getOrientador(), documento.getOrientador())<10){
-								msg+= "Documento com docId "+x.getId()+" com título e orientador semelhante ao documento com docId "+documento.getId()+".\n";
+								msg = "Documento com docId "+x.getId()+" com título e orientador semelhante ao documento com docId "+documento.getId()+".\n";
 								listaDuplicados.add(documento);
 
 							}

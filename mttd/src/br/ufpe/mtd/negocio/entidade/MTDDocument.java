@@ -122,7 +122,7 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 		try {
 			
 			//TODO: investigar futuramente o ganho ao extrair sintagmas do título+resumo
-			List<String> sintagmas = SNAnalyser.extrairSintagmasNominais(new SNAnalyser(hs),titulo+". \n"+resumo);
+			List<String> sintagmas = SNAnalyser.extrairSintagmasNominais(new SNAnalyser(hs),titulo+" . "+resumo);
 			for(String key: sintagmas){
 				document.add(new Field(SINTAGMA_NOMINAL, key ,FieldFactory.fieldIndexado()));
 			}
