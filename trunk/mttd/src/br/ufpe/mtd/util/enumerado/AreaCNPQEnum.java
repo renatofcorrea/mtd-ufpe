@@ -167,7 +167,7 @@ public enum AreaCNPQEnum implements Serializable{
 			e.printStackTrace();
 		}
 		
-		return "NAO_ENCONTRADO";
+		return null; //AreaCNPQEnum.NAO_ENCONTRADO;
 	}	
 	
 	public static AreaCNPQEnum getGrandeAreaCNPQPorNome(String nomeArea){
