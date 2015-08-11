@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<orengorules>
+  <step name="pluralreduction" size="3" exceptions="1">
+    <rule replacement="ão" size="2" suffix="ões"/>
+    <rule replacement="ão" size="1" suffix="ães">
+      <exception>mães</exception>
+    </rule>
+    <rule replacement="al" size="1" suffix="ais">
+      <exception>cais</exception>
+      <exception>mais</exception>
+      <exception>pais</exception>
+    </rule>
+    <rule replacement="el" size="2" suffix="éis"/>
+    <rule replacement="il" size="2" suffix="eis"/>
+    <rule replacement="ol" size="2" suffix="óis"/>
+    <rule replacement="il" size="2" suffix="is">
+      <exception>lápis</exception>
+      <exception>cais</exception>
+      <exception>mais</exception>
+      <exception>crúcis</exception>
+      <exception>biquínis</exception>
+      <exception>pois</exception>
+      <exception>depois</exception>
+      <exception>dois</exception>
+      <exception>leis</exception>
+      <exception>pais</exception>
+    </rule>
+    <rule replacement="l" size="3" suffix="les"/>
+    <rule replacement="r" size="3" suffix="ras"/>
+    <rule replacement="r" size="3" suffix="res"/>
+    <rule replacement="s" size="3" suffix="ses"/>
+    <rule replacement="z" size="3" suffix="zes"/>
+    <rule replacement="m" size="1" suffix="ns"/>
+    <rule replacement="" size="2" suffix="s">
+      <exception>aliás</exception>
+      <exception>pires</exception>
+      <exception>lápis</exception>
+      <exception>cais</exception>
+      <exception>mais</exception>
+      <exception>mas</exception>
+      <exception>menos</exception>
+      <exception>férias</exception>
+      <exception>fezes</exception>
+      <exception>pêsames</exception>
+      <exception>crúcis</exception>
+      <exception>gás</exception>
+      <exception>atrás</exception>
+      <exception>moisés</exception>
+      <exception>através</exception>
+      <exception>convés</exception>
+      <exception>ês</exception>
+      <exception>país</exception>
+      <exception>após</exception>
+      <exception>ambas</exception>
+      <exception>ambos</exception>
+      <exception>messias</exception>
+    </rule>
+  </step>
+  <step name="vowelremoval" size="0" exceptions="0">
+    <rule replacement="" size="3" suffix="a">
+      <exception>ásia</exception>
+    </rule>
+    <rule replacement="" size="3" suffix="á"/>
+    <rule replacement="" size="3" suffix="e"/>
+    <rule replacement="" size="3" suffix="ê">
+      <exception>bebê</exception>
+    </rule>
+    <rule replacement="" size="3" suffix="o">
+      <exception>ão</exception>
+    </rule>
+    <rule replacement="vel" size="2" suffix="bil"/>
+    <rule replacement="g" size="3" suffix="gue">
+      <exception>gangue</exception>
+      <exception>jegue</exception>
+    </rule>
+  </step>
+</orengorules>
