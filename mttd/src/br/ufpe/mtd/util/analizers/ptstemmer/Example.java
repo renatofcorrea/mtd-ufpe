@@ -31,6 +31,7 @@ import br.ufpe.mtd.util.analizers.ptstemmer.exceptions.PTStemmerException;
 public class Example {
 
 	public static void main(String[] args) throws PTStemmerException {
+		//interativo via prompt de comando
 		Example ex = new Example();
 		ex.starter();
 	}

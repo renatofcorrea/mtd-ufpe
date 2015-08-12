@@ -52,6 +52,7 @@ import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.MTDIterator;
 import br.ufpe.mtd.util.StringDiff;
 import br.ufpe.mtd.util.analizers.MTDAnalyzer;
+import br.ufpe.mtd.util.analizers.ptstemmer.Stemmer;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
 import br.ufpe.mtd.util.log.Log;
 
@@ -528,6 +529,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		
 		IndexReader reader = DirectoryReader.open(getCopiaDiretorioMemoria());
 		MultiReader mr = new MultiReader(reader);
+		Stemmer st = Stemmer.StemmerFactory(Stemmer.StemmerType.RSLPS);
 		
 		//guarda todas as palavras em um mapa e soma os valores de docfreq e total freq encontrado por campo
 		for(String campo: campos){
@@ -535,7 +537,9 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 			
 			for (TermStats termstat : stats) {
 				String palavra = termstat.termtext.utf8ToString();
-				
+				//Stemmer
+				if(st!=null)
+					palavra = st.getWordStem(palavra);
 				if(!conjuntoPalavras.containsKey(palavra)){
 					
 					int docFreq = getHits(palavra, campos, EstatisticaPalavra.getTamCorpus()).length;

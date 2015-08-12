@@ -63,7 +63,7 @@ public class RSLPSStemmer extends OrengoStemmer{
 		// {
 		// 	stem = applyRules(stem, verbreductionrules);
 		//	if(aux.equals(stem))
-				stem = applyRules(stem, vowelremovalrules);
+		//		stem = applyRules(stem, vowelremovalrules);
 		//}
 		//stem = removeDiacritics(stem);		
 		return stem;
