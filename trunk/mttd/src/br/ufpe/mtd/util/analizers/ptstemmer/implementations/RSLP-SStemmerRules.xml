@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
 <orengorules>
   <step name="pluralreduction" size="3" exceptions="1">
-    <rule replacement="Ã£o" size="2" suffix="Ãµes"/>
-    <rule replacement="Ã£o" size="1" suffix="Ã£es">
-      <exception>mÃ£es</exception>
+    <rule replacement="ão" size="2" suffix="ões"/>
+    <rule replacement="ão" size="1" suffix="ães">
+      <exception>mães</exception>
     </rule>
     <rule replacement="al" size="1" suffix="ais">
       <exception>cais</exception>
       <exception>mais</exception>
       <exception>pais</exception>
     </rule>
-    <rule replacement="el" size="2" suffix="Ã©is"/>
+    <rule replacement="el" size="2" suffix="éis"/>
+    <rule replacement="el" size="2" suffix="eis">
+    	<exception>répteis</exception>
+    </rule>
+    <rule replacement="ol" size="2" suffix="óis"/>
     <rule replacement="il" size="2" suffix="eis"/>
-    <rule replacement="ol" size="2" suffix="Ã³is"/>
     <rule replacement="il" size="2" suffix="is">
-      <exception>lÃ¡pis</exception>
+      <exception>anéis</exception>
+      <exception>fiéis</exception>
+      <exception>lápis</exception>
       <exception>cais</exception>
       <exception>mais</exception>
-      <exception>crÃºcis</exception>
-      <exception>biquÃ­nis</exception>
+      <exception>crúcis</exception>
+      <exception>biquínis</exception>
       <exception>pois</exception>
       <exception>depois</exception>
       <exception>dois</exception>
@@ -27,51 +32,35 @@
     </rule>
     <rule replacement="l" size="3" suffix="les"/>
     <rule replacement="r" size="3" suffix="ras"/>
-    <rule replacement="r" size="3" suffix="res"/>
+    <rule replacement="r" size="2" suffix="res">
+    	<exception>softwares</exception>
+    </rule>
     <rule replacement="s" size="3" suffix="ses"/>
     <rule replacement="z" size="3" suffix="zes"/>
     <rule replacement="m" size="1" suffix="ns"/>
     <rule replacement="" size="2" suffix="s">
-      <exception>aliÃ¡s</exception>
+      <exception>aliás</exception>
       <exception>pires</exception>
-      <exception>lÃ¡pis</exception>
+      <exception>lápis</exception>
       <exception>cais</exception>
       <exception>mais</exception>
       <exception>mas</exception>
       <exception>menos</exception>
-      <exception>fÃ©rias</exception>
+      <exception>férias</exception>
       <exception>fezes</exception>
-      <exception>pÃªsames</exception>
-      <exception>crÃºcis</exception>
-      <exception>gÃ¡s</exception>
-      <exception>atrÃ¡s</exception>
-      <exception>moisÃ©s</exception>
-      <exception>atravÃ©s</exception>
-      <exception>convÃ©s</exception>
-      <exception>Ãªs</exception>
-      <exception>paÃ­s</exception>
-      <exception>apÃ³s</exception>
+      <exception>pêsames</exception>
+      <exception>crúcis</exception>
+      <exception>gás</exception>
+      <exception>atrás</exception>
+      <exception>moisés</exception>
+      <exception>através</exception>
+      <exception>convés</exception>
+      <exception>ês</exception>
+      <exception>país</exception>
+      <exception>após</exception>
       <exception>ambas</exception>
       <exception>ambos</exception>
       <exception>messias</exception>
-    </rule>
-  </step>
-  <step name="vowelremoval" size="0" exceptions="0">
-    <rule replacement="" size="3" suffix="a">
-      <exception>Ã¡sia</exception>
-    </rule>
-    <rule replacement="" size="3" suffix="Ã¡"/>
-    <rule replacement="" size="3" suffix="e"/>
-    <rule replacement="" size="3" suffix="Ãª">
-      <exception>bebÃª</exception>
-    </rule>
-    <rule replacement="" size="3" suffix="o">
-      <exception>Ã£o</exception>
-    </rule>
-    <rule replacement="vel" size="2" suffix="bil"/>
-    <rule replacement="g" size="3" suffix="gue">
-      <exception>gangue</exception>
-      <exception>jegue</exception>
     </rule>
   </step>
 </orengorules>
