@@ -119,7 +119,8 @@ function quickSearch(tInput){
 
 			for (var j=0; j<numCols; j++) {
 				cCell = inCells[j];
-				var t = cCell.innerText?cCell.innerText:getTextContent(cCell);
+				//var t = cCell.innerText?cCell.innerText:getTextContent(cCell);
+				var t = getTextContent(cCell);//cCell.textContent
 				if (t.search(searchText) != -1){
 					found=true;
 					break;
@@ -127,15 +128,15 @@ function quickSearch(tInput){
 			}
 
 			// look for further hits in Abstract and Review
-			if(!found) {
-				var articleid = cRow.id;
-				if(searchAbstract && (abs = document.getElementById('abs_'+articleid))) {
-					if (getTextContent(abs).search(searchText) != -1){ found=true; }
-				}
-				if(searchReview && (rev = document.getElementById('rev_'+articleid))) {
-					if (getTextContent(rev).search(searchText) != -1){ found=true; }
-				}
-			}
+//			if(!found) {
+//				var articleid = cRow.id;
+//				if(searchAbstract && (abs = document.getElementById('abs_'+articleid))) {
+//					if (getTextContent(abs).search(searchText) != -1){ found=true; }
+//				}
+//				if(searchReview && (rev = document.getElementById('rev_'+articleid))) {
+//					if (getTextContent(rev).search(searchText) != -1){ found=true; }
+//				}
+//			}
 
 			if(found) {
 				cRow.className = 'entry show';
@@ -348,7 +349,7 @@ for(i=0;i<alltables.length;i++) {
 	var currentTable = alltables[i];
 	if(currentTable.className.indexOf('sortable') !=-1) {
 		var thead = currentTable.getElementsByTagName('thead')[0];
-		thead.title = 'Clique no cabeçalho da coluna para ordenar';
+		thead.title = 'Clique no cabeï¿½alho da coluna para ordenar';
 		for (var i=0;cell = thead.getElementsByTagName('th')[i];i++) {
 			cell.onclick = function () { resortTable(this); };
 			// make it possible to have a default sort column
