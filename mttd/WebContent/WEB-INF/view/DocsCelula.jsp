@@ -145,7 +145,7 @@
 									</div>
 							</div>							
 						</td>
-						</td>
+						
 						
 						<td><%=doc.getPrograma() %></td>
 						<td align="center"><%=doc.getAnoDefesa() %></td>

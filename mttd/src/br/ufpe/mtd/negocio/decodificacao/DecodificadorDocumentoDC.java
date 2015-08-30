@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.tika.language.LanguageIdentifier;
+
 import javafx.scene.text.Text;
 import net.sf.jColtrane.annotations.methods.ContainAttribute;
 import net.sf.jColtrane.annotations.methods.EndElement;
@@ -16,6 +18,7 @@ import br.ufpe.mtd.util.MTDUtil;
 import br.ufpe.mtd.util.StringConverter;
 import br.ufpe.mtd.util.enumerado.AreaCNPQEnum;
 import br.ufpe.mtd.util.log.Log;
+
 
 /**
  * Classe que vai fazer a decodificacao dos 
@@ -38,6 +41,11 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 
 	public DecodificadorDocumentoDC() {
 		super();
+	}
+	
+	private String identifyLanguage(String text) {
+	    LanguageIdentifier identifier = new LanguageIdentifier(text);
+	    return identifier.getLanguage();
 	}
 
 
@@ -101,14 +109,32 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	//oai_dc
 	@EndElement(tag = "dc:description")
 	public void pegarResumo(ContextVariables contextVariables) {
-		getDoc().setResumo(tratarCaracteres(contextVariables.getBody()));
+		String text = tratarCaracteres(contextVariables.getBody());
+		String lang = identifyLanguage(text);
+		if(lang.equals("PT"))
+		getDoc().setResumo(text);
+		else{
+			Log log = MTDFactory.getInstancia().getLog();
+			String msg = "Resumo não escrito em português, mas em "+lang;
+			log.salvarDadosLog(msg);
+		}
+			
 
 	}
 	
 	//qdc
 	@EndElement(tag = "dcterms:abstract")
 	public void pegarResumoQDC(ContextVariables contextVariables) {
-			getDoc().setResumo(tratarCaracteres(contextVariables.getBody()));
+			//getDoc().setResumo(tratarCaracteres(contextVariables.getBody()));
+		String text = tratarCaracteres(contextVariables.getBody());
+		String lang = identifyLanguage(text);
+		if(lang.equals("PT"))
+		getDoc().setResumo(text);
+		else{
+			Log log = MTDFactory.getInstancia().getLog();
+			String msg = "Resumo não escrito em português, mas em "+lang;
+			log.salvarDadosLog(msg);
+		}
 	}
 
 	@EndElement(tag = "dc:subject")
