@@ -359,7 +359,7 @@ function quickSearch(tInput){
 	} else {
 		// only search for valid RegExp
 		try {
-			var searchText = new RegExp(removeDiacritics(tInput.value),"i")
+			var searchText = new RegExp("\\b"+removeDiacritics(tInput.value),"gi");
 			closeAllInfo();
 			qsfield.className = '';
 		}
