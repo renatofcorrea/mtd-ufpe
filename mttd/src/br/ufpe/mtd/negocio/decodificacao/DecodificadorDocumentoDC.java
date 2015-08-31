@@ -128,11 +128,11 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 			//getDoc().setResumo(tratarCaracteres(contextVariables.getBody()));
 		String text = tratarCaracteres(contextVariables.getBody());
 		String lang = identifyLanguage(text);
-		if(lang.equals("PT"))
+		if(lang.equals("pt")||lang.equals("gl"))
 		getDoc().setResumo(text);
-		else{
+		else{//en e preenchimento errado como: vazio, xxxx
 			Log log = MTDFactory.getInstancia().getLog();
-			String msg = "Resumo não escrito em português, mas em "+lang;
+			String msg = "DecodificadorDocumentoDC.pegarResumoQDC() Documento Id "+getDoc().getId() +" Erro: Resumo não escrito em português, mas em "+lang +", conteúdo: "+text ;
 			log.salvarDadosLog(msg);
 		}
 	}
