@@ -461,7 +461,7 @@ public class StringConverter {
     			.replaceAll("\\\'a","á").replaceAll("\\\'e","é").replaceAll("\\\'i","í").replaceAll("\\\'o","ó").replaceAll("\\\'u","ú")
     			.replaceAll("\\¶a","á").replaceAll("\\¶e","é").replaceAll("\\¶i","í").replaceAll("\\¶o","ó").replaceAll("\\¶u","ú")
     			.replaceAll("\\´a","á").replaceAll("\\´e","é").replaceAll("\\´i","í").replaceAll("\\´o","ó").replaceAll("\\´u","ú")
-    			.replaceAll("\\^e","ê").replaceAll("\\^o","ô").replaceAll("\\^E","Ê").replaceAll("\\^O","Ô")
+    			.replaceAll("\\^a","â").replaceAll("\\^e","ê").replaceAll("\\^o","ô").replaceAll("\\^E","Ê").replaceAll("\\^O","Ô")
     			.replaceAll("\\\"u","ü").replaceAll("¯","fi")
     			.replaceAll("\\¸c","ç").replaceAll("\\\'c","ç").replaceAll("»c","ç").replaceAll("\\´c","ç");
     }
@@ -469,7 +469,8 @@ public class StringConverter {
     
     public static void main(String[] args){
            String s = "testando &aacute;gua para v&ecirc;r se d&aacute;&#32;certo.";
-           System.out.println(s);
+           s = "o ambiente din^amico exige processos de con gura c~ao ";
+           System.out.println(corrigeAcentos(s));
            System.out.println(StringConverter.fromHtmlNotation(s));
            System.out.println(deleteAcentos(StringConverter.fromHtmlNotation(s)));
            System.out.println(toUnStressedNotation(s));
