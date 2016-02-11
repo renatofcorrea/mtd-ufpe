@@ -211,6 +211,7 @@ public class RedeNeuralControle {
 		int docFreqMin = 10;
 		int numMaxDoc = 5000;
 
+		//TODO: analisar radicalizador utilizado na função RepositorioIndiceLucene.getListaPalavrasFiltrado
 		List<EstatisticaPalavra> filtroPalavrasRelevantes = repLucene.getListaPalavrasFiltrado(campos, numMaxDoc, docFreqMin, docFreqMax);
 		TreeMap<String, EstatisticaPalavra> mapaEstatisticaPalavra = repLucene.getMapaPalavraDocFreq(campos, filtroPalavrasRelevantes);
 
@@ -272,6 +273,9 @@ public class RedeNeuralControle {
 		// <labeling>] [-n <numberLabels>] [-w <weightVectorFile>] [-m
 		// <mapDescriptionFile>] [--skipDWM] [--numberWinners <numberWinners>]
 		// <properties> [--cpus <cpus>]
+		//---->uma opção para resolver o problema da dimensionalidade entre mapas
+		//é gerar a incialização dos peso com base na média (centróide)
+		//dos novos vetores documentos dos documentos mapeados em cada nodo no mapa anterior
 		String[] cmdLine = new String[] { "--numberWinners", new Integer(listaDocumentos.size()).toString(), "--cpus", MTDParametros.getNumMaxThreads().toString(), arquivoProp.getAbsolutePath() };
 		gerarArquivoProperties(cmdLine, arquivoProp, listaDocumentos.size());
 

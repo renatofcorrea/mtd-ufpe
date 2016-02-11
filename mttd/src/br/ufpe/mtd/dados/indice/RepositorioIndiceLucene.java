@@ -425,8 +425,9 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 			if(listaRetorno != null && !listaRetorno.isEmpty() && listaRetorno.size() > 1){	
 				for(int index = 0;index<listaRetorno.size();index++){
 					documento = listaRetorno.get(index);
-					if(!documento.getId().equals(x.getId())){
-						if(x.getTitulo().equalsIgnoreCase(documento.getTitulo()) || StringDiff.getLevenshteinDistance(x.getTitulo(), documento.getTitulo())<5){
+					//if(!documento.getId().equals(x.getId())){
+					if(documento.getIdHasint() > x.getIdHasint()){	
+						if(x.getTitulo().toLowerCase().equals(documento.getTitulo().toLowerCase()) || StringDiff.getLevenshteinDistance(x.getTitulo().toLowerCase(), documento.getTitulo().toLowerCase())<5){
 							
 							msg = "RepositorioIndiceLucene.getDocFirstInserted() Documento com docId "+x.getId()+" com título semelhante ao do documento com docId "+documento.getId()+".\n";
 							if(x.getAutor().equalsIgnoreCase(documento.getAutor()) || StringDiff.getLevenshteinDistance(x.getAutor(), documento.getAutor())<10){
@@ -438,8 +439,16 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 								listaDuplicados.add(documento);
 
 							}
-							if(!msg.isEmpty())
+							else if(x.getPrograma().equalsIgnoreCase(documento.getPrograma()) || StringDiff.getLevenshteinDistance(x.getPrograma(), documento.getPrograma())<10){
+								msg = "RepositorioIndiceLucene.getDocFirstInserted() Documento com docId "+x.getId()+" com título e programa semelhante ao documento com docId "+documento.getId()+".\n";
+								listaDuplicados.add(documento);
+
+							}
+							if(!msg.isEmpty()){
 								log.salvarDadosLog(msg);
+								//System.out.println(msg);
+							}
+							
 						}
 					}
 				}
@@ -538,6 +547,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 			for (TermStats termstat : stats) {
 				String palavra = termstat.termtext.utf8ToString();
 				//Stemmer
+				//TODO: analisar impacto do uso de radicalizador
 				if(st!=null)
 					palavra = st.getWordStem(palavra);
 				if(!conjuntoPalavras.containsKey(palavra)){

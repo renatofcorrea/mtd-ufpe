@@ -86,6 +86,7 @@ public class Log {
 	public void salvarDadosLog(final String dado) {
 		try {
 			if (logAplicDados.exists()) {
+				//run as app => logAplicDados.path C:\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\mttd\WEB-INF\data\log\log_dados.txt
 				final String cabecalho = "---------- Dado ---------: "+ new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss").format(new Date());
 				LogDadosRunnable runnable = new LogDadosRunnable(cabecalho, dado, logAplicDados);
 				runnable.executarNoPool();

@@ -110,12 +110,14 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	@EndElement(tag = "dc:description")
 	public void pegarResumo(ContextVariables contextVariables) {
 		String text = tratarCaracteres(contextVariables.getBody());
+		if(text.isEmpty()|| text.trim().length() == 0)
+			return; //vai ser tratado quando verificar campos requeridos
 		String lang = identifyLanguage(text);
-		if(lang.equals("PT"))
+		if(lang.equals("PT")|| lang.equals("pt")||lang.equals("gl"))
 		getDoc().setResumo(text);
 		else{
 			Log log = MTDFactory.getInstancia().getLog();
-			String msg = "Resumo não escrito em português, mas em "+lang;
+			String msg = "DecodificadorDocumentoDC.pegarResumo() Documento Id "+getDoc().getId() +" Resumo não escrito em português, mas em "+lang;
 			log.salvarDadosLog(msg);
 		}
 			
@@ -127,13 +129,16 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	public void pegarResumoQDC(ContextVariables contextVariables) {
 			//getDoc().setResumo(tratarCaracteres(contextVariables.getBody()));
 		String text = tratarCaracteres(contextVariables.getBody());
+		if(text.isEmpty()|| text.trim().length() == 0)
+			return; //vai ser tratado quando verificar campos requeridos
 		String lang = identifyLanguage(text);
 		if(lang.equals("pt")||lang.equals("gl"))
 		getDoc().setResumo(text);
 		else{//en e preenchimento errado como: vazio, xxxx
 			Log log = MTDFactory.getInstancia().getLog();
-			String msg = "DecodificadorDocumentoDC.pegarResumoQDC() Documento Id "+getDoc().getId() +" Erro: Resumo não escrito em português, mas em "+lang +", conteúdo: "+text ;
+		String msg = "DecodificadorDocumentoDC.pegarResumoQDC() Documento Id "+getDoc().getId() +" Erro: Resumo não escrito em português, mas em "+lang;// +", início do conteúdo: "+text;
 			log.salvarDadosLog(msg);
+			getDoc().setResumo(text);//salvando o resumo mesmo que em outra lingua
 		}
 	}
 
@@ -248,8 +253,10 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 			if(partes.length >=5){
 				if(!getDoc().contemAutor())
 					setarAutor(partes[0].split("\\;")[0]);
+				if(!getDoc().contemPrograma()){
 				setarPrograma(partes);
 				setarAreaCNPQPorPrograma(getDoc().getPrograma());
+				}
 				setarDataDefesa(partes[2]);
 				setarGrau(partes);
 			}
@@ -370,10 +377,13 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
     	Matcher m = Pattern.compile("&(#[0-9]*|[A-Za-z]{2,6});").matcher(texto);
     	Log log = MTDFactory.getInstancia().getLog();
     	String msg = "";
-    	while ( m.find() )
-    		msg += "DecodificadorDocumentoDC.getHtmlToAscii() Documento Id "+getDoc().getId() +" Erro: caracter não convertido: "+m.group()+"\n";
+    	if(m.find()){
+    		msg += "DecodificadorDocumentoDC.getHtmlToAscii() Documento Id "+getDoc().getId() +" Erro: caracteres não convertidos: "+m.group()+" ";
+    	    while ( m.find() )
+    		   msg+= m.group()+" ";
+    	}
     	if(!msg.isEmpty())
-    	log.salvarDadosLog(msg);
+    	log.salvarDadosLog(msg+"\n");
         texto = texto.replaceAll("&(#[0-9]*|[A-Za-z]{2,6});", " ");//html code
         return texto;
     }

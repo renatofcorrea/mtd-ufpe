@@ -272,6 +272,13 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 	public String getId() {
 		return id;
 	}
+	
+	public int getIdHasint(){
+		int i = id.lastIndexOf('/');
+		i = (i>0)?i:0;
+		String s = id.substring(i+1);
+		return Integer.parseInt(s);
+	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -360,7 +367,7 @@ public class MTDDocument implements Comparable<MTDDocument>, Serializable{
 	}
 	
 	public boolean contemPalavrasChaves(){
-		return keywords != null;
+		return keywords != null && keywords.size() > 0;
 	}
 	
 	public boolean contemRepositorio(){
