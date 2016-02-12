@@ -20,6 +20,14 @@
     <servlet-name>DocsCelula</servlet-name>
     <url-pattern>/docs</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>Etiquetar</servlet-name>
+    <jsp-file>/WEB-INF/view/Etiquetar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Etiquetar</servlet-name>
+    <url-pattern>/Etiquetar</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>SuggestServlet</servlet-name>
 	<servlet-class>br.ufpe.mtd.view.SuggestServlet</servlet-class>

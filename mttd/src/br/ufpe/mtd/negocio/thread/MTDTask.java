@@ -102,10 +102,13 @@ public class MTDTask extends TimerTask {
 		}
 	}
 	
+	//TODO: agendar em properties data/hora da próxima execução (23h do dia seguinte), verificar
+	//de hora em hora se é para executar (data/hora > data/hora properties e não executado)
+	//Talvez utilizar http://www.quartz-scheduler.org/
+	
 	//TODO: Dado que o índice existe, uma verificação rápida da não necessidade de indexar de novo
 	//é verificar se a quantidade de documentos no repositório e no índice é igual
-	//Na coleta de indentificadores, primeira página, você já obtem esta informação
-	
+	//Na coleta de indentificadores, primeira página, você já obtem esta informa
 	//Obs: Levar em conta que esta estrategia pode não funcionar pra outros repositorios.
 	//avaliar se o ganho seria relevante em detrimento da confiabilidade.
 	void agendarIndexacao(){
