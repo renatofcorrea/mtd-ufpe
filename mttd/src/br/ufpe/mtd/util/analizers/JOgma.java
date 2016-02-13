@@ -315,7 +315,11 @@ public class JOgma {
 		return rst;
 	}
 
-
+	//TODO: Verificar regras, se é bom contemplar
+	//NP AV VP | PR demandas não atendidas de
+	//NP VP AV | PR área reconhecida geograficamente como
+	//TODO: niv de NP está zero, incrementar nivel em cada regra
+	//Guardar para cada sn: posição, nivel sn, num palavras, freq, rank
 	public static Vector<Vector<SNData>> idCatSNTextoEtiquetado2(String frase)
 	{
 		//TODO: modificando disparo das regras

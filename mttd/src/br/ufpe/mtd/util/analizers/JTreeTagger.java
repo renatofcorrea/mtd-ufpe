@@ -98,6 +98,8 @@ public class JTreeTagger implements TaggerInterface {
 				return token+"/VB";
 			}else if(token.equals("é")){
 				return token+"/VB";
+			}else if(!isverb &&token.equals("deste")){
+				return token+"/PD";
 			}
 			else if( pos.equalsIgnoreCase("PCP") && isvp){	
 				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
@@ -105,6 +107,9 @@ public class JTreeTagger implements TaggerInterface {
 			}else if(isvp)
 				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
 				return token+"/VP";
+			else if(isnom && (pos.equals("N") || pos.equals("ADJ")))
+				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
+				return token+"/SU";
 			else
 			if(lemma.contains("@card@")||pos.equalsIgnoreCase("CARD")||pos.equalsIgnoreCase("NUM")||pos.equalsIgnoreCase("SENT")||pos.equalsIgnoreCase("CUR")){
 				return token+"/NC";
@@ -184,6 +189,8 @@ public class JTreeTagger implements TaggerInterface {
 				return token+"/NP";
 			else if(temp2.equals("PD"))
 				return token+"/PD";
+			else if(token.equalsIgnoreCase("para"))
+				return token+"/PR";
 			else
 				return token+"/VB";
 		}else if(pos.equalsIgnoreCase("PCP")){
@@ -264,7 +271,10 @@ public class JTreeTagger implements TaggerInterface {
 					return "em/PR "+token.substring(j)+"/AD";
 				else
 					return token+"/PR";
-			}else
+			}else 
+				if(temp2.equals("SU"))
+						return token+"/"+temp2;
+				else
 				return token+"/PR";
 		}else  if(pos.equalsIgnoreCase("ART")){
 			if(token.startsWith("um")||token.startsWith("Um")) 
@@ -461,8 +471,11 @@ public class JTreeTagger implements TaggerInterface {
 		System.out.println(JTreeTagger.getInstance().etiquetar(fr2).getTextoEtiquetado());
 		*/
 		String [] res = new String[7];
+		res[0] = "Diante deste novo cenário.";
+		//res[0] = "Acompanhar as mudanças, têm sido o grande desafio dos empresários do setor de vestuário do arranjo produtivo local do agreste pernambucano.";
+		//res[0] = "O fim do acordo multifibras aconteceu em 2000.";
         //res[0] =  "No período de abril de 2005 a novembro de 2006 foram estudadas a distribuição temporal, a partilha do habitat, a reprodução e a atividade vocal em uma assembleia de anfíbios anuros na Fazenda Serra da Esperança, município de Lebon Régis, Estado de Santa Catarina. Os objetivos do trabalho foram verificar a importância da pluviosidade e da temperatura na distribuição temporal das espécies na assembleia, analisar a ocupação do habitat, realizar a análise acústica do repertório vocal das espécies e testar a influência da temperatura do ar e do tamanho e massa dos machos vocalizantes sobre os parâmetros acústicos. Foram encontradas 32 espécies na área de estudo, a maior riqueza de anfíbios registrada para o Estado. A taxonomia de pelo menos sete dessas espécies é incerta, podendo tratar-se de táxons ainda não descritos na literatura. A temperatura apresentou uma forte influência na distribuição temporal das espécies. O número de espécies em atividade de vocalização e reprodução foi relacionado às variações da temperatura mensal média, mínima e máxima, significando que nos meses mais quentes foram encontradas mais espécies em atividade de vocalização e reprodução. Foi documentada atividade reprodutiva em 14 espécies e um total de nove modos reprodutivos na assembleia. A comparação das vocalizações de 23 espécies da assembleia com descrições de vocalizações de outras assembleias indicou diferenças que sugerem a existência de espécies ainda não descritas na área de estudo. Também foram documentadas variações intraespecíficas nos cantos em decorrência do tamanho e massa dos machos cantores e em função da temperatura do ar. Encontraram-se influências da massa e tamanho do macho cantor na frequência dominante do canto de anúncio, e também da temperatura do ar na duração das notas. A riqueza de espécies da assembleia apresentou forte semelhança biogeográfica com áreas de Floresta Ombrófila Mista dos Estados de Santa Catarina, Paraná e Rio Grande do Sul. A presença de possíveis novas espécies e da espécie Pleurodema bibroni, classificada na categoria quase ameaçada, salienta a importância da conservação deste bioma altamente degradado e demonstra a nossa carência de conhecimento acerca da anurofauna catarinense.";
-        res[0]="ELEMENTOS PARA A IDENTIFICAÇÃO DA NECESSIDADE DE OFERTA, 24 HORAS, DE BENS ALIMENTÍCIOS NO PÓLO MÉDICO HOSPITALAR LOCALIZADO NO BAIRRO DA ILHA DO LEITE RECIFE,PE. O presente estudo analisa os elementos para a identificação da necessidade de oferta, 24 horas, de bens alimentícios no pólo médico hospitalar localizado no Bairro da Ilha do Leite Recife, através da aplicação de questionários, objetivando constituir um indicador das necessidades não atendidas de consumo 24 horas de bens de alimentos nesta área reconhecida geograficamente como Pólo Médico de Recife.";
+        //res[0]="ELEMENTOS PARA A IDENTIFICAÇÃO DA NECESSIDADE DE OFERTA, 24 HORAS, DE BENS ALIMENTÍCIOS NO PÓLO MÉDICO HOSPITALAR LOCALIZADO NO BAIRRO DA ILHA DO LEITE RECIFE,PE. O presente estudo analisa os elementos para a identificação da necessidade de oferta, 24 horas, de bens alimentícios no pólo médico hospitalar localizado no Bairro da Ilha do Leite Recife, através da aplicação de questionários, objetivando constituir um indicador das necessidades não atendidas de consumo 24 horas de bens de alimentos nesta área reconhecida geograficamente como Pólo Médico de Recife.";
 		res[1]= new String("Apresenta de forma introdutória questões e conceitos fundamentais sobre metadados e a estruturação da descrição padronizada de documentos eletrônicos. Discorre sobre os elementos propostos no Dublin Core e comenta os projetos de catalogação dos recursos da Internet, CATRIONA, InterCat e CALCO.");
 		res[2] = new String("Bibliografia internacional seletiva e anotada sobre bibliotecas digitais. Aborda os seguintes aspectos: a) Visionários, principais autores que escreveram sobre a biblioteca do futuro, no período de 1945-1985; b) conceituação de biblioteca digital; c) projetos em andamento na Alemanha, Austrália, Brasil, Canadá, Dinamarca, Espanha, Estados Unidos, Franca, Holanda, Japão, Nova Zelândia, Reino Unido, Suécia e Vaticano; d) aspectos técnicos relativos a construção de uma biblioteca digital: arquitetura do sistema, conversão de dados e escaneamento, marcação de textos, desenvolvimento de coleções, catalogação, classificação/indexação, metadados, referencia, recuperação da informação, direitos autorais e preservação da informação digital; e) principais fontes de reuniões técnicas especificas, lista de discussão, grupos e centros de estudos, cursos e treinamento.");
 		res[3] = new String("Apresenta a implantação de recursos multimídia e interface Web no banco de dados desenvolvido para a coleção de vídeos da Videoteca Multimeios, pertencente ao Departamento de Multimeios do Instituto de Artes da UNICAMP. Localiza a discussão conceitual no universo das bibliotecas digitais e propõe alterações na configuração atual de seu banco de dados.");
