@@ -68,7 +68,7 @@ public class SuggestServlet extends HttpServlet {
 				JSONObject j = new JSONObject(dados);
 				
 				String termo = j.getString("termo");
-				termo = new String(Base64.decode(termo));
+				termo = new String(Base64.decode(termo)).trim();
 				String tipoSugestao = j.getString("tipo_sugestao");
 				if (tipoSugestao == null) {
 					tipoSugestao = MTDFacede.sugestaoPadrao();
@@ -76,7 +76,7 @@ public class SuggestServlet extends HttpServlet {
 				JSPHelper.salvarTipoSugestao(request, tipoSugestao);
 				JSPHelper.validarTermoBusca(termo);
 				
-				if (termo != null) {
+				if (termo != null && termo.length() >= 3) {
 					
 					Collection<String> sugestoes = MTDFacede.buscarSugestoes(termo, tipoSugestao);
 					

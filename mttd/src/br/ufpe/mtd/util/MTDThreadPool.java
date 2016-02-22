@@ -76,7 +76,8 @@ public class MTDThreadPool {
 		
 		while(!poolAntigo.isTerminated()){
 			try {
-				MTDUtil.imprimirConsole(Thread.currentThread().getName()+" - Esperando fim das threads "+lista.toString());
+				//TODO:Fica imprimindo direto, sem parar, Thread-0!!!
+				//MTDUtil.imprimirConsole(Thread.currentThread().getName()+" - Esperando fim das threads "+lista.toString());
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();

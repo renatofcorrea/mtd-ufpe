@@ -15,7 +15,7 @@ import br.ufpe.mtd.util.MTDParametros;
  * 
  */
 public class MTDTask extends TimerTask {
-	private final static long TEMPO_ESPERA = 60000l;
+	private final static long TEMPO_ESPERA = 60000l * 60 * 24;//60 s
 	MTDFactory fabrica;
 	
 	public MTDTask(MTDFactory fabrica) {

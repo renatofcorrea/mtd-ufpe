@@ -88,204 +88,238 @@ public class JTreeTagger implements TaggerInterface {
 		String temp = JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "verbos", null);
 		String temp2 = JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "nomes", null);
 		boolean isverb = temp.contains("VB") && temp2.isEmpty();
-		boolean isvp = temp.contains("VP") && token.toLowerCase().matches(".*(i|a)(d|t)(o|a)[s]?") && (temp2.isEmpty() || temp2.contains("AJ"));
-		boolean isnom = temp2.contains("SU") && temp.isEmpty();
+		boolean isvp = (temp.contains("VP")|| pos.contains("PCP")) && token.toLowerCase().matches(".*(i|a)(d|t)(o|a)[s]?") && !temp2.contains("SU") && (temp2.isEmpty() || temp2.contains("AJ"));
+		boolean isnom = (temp2.contains("SU")) && temp.isEmpty();
+		boolean isadj = temp2.contains("AJ") && temp.isEmpty() && !isnom;
+		int len = token.trim().length();
 		
-		if(myModel.equals(models[1])){//nilc mac-morpho http://www.nilc.icmc.usp.br/macmorpho/macmorpho-manual.pdf
-			if(isverb && (pos.startsWith("V")||pos.startsWith("VAUX"))){
-				return token+"/VB";
-			}else if(isverb && token.toLowerCase().matches(".*(i|a|e|o)(r)$")){
-				return token+"/VB";
-			}else if(token.equals("é")){
-				return token+"/VB";
-			}else if(!isverb &&token.equals("deste")){
-				return token+"/PD";
-			}
-			else if( pos.equalsIgnoreCase("PCP") && isvp){	
-				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
-				return token+"/VP";
-			}else if(isvp)
-				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
-				return token+"/VP";
-			else if(isnom && (pos.equals("N") || pos.equals("ADJ")))
-				//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
-				return token+"/SU";
-			else
-			if(lemma.contains("@card@")||pos.equalsIgnoreCase("CARD")||pos.equalsIgnoreCase("NUM")||pos.equalsIgnoreCase("SENT")||pos.equalsIgnoreCase("CUR")){
-				return token+"/NC";
-			}else if(pos.contains("@card@")||token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
-				return token + "/NC";
-			else if(pos.equalsIgnoreCase("N")||pos.startsWith("N|")|| pos.contains("NPROP")|| pos.equalsIgnoreCase("PROP")){
-//    			return token+"/NP";
-			
-			if(token.length() >= 2 && "de do da dos das".contains(token.toLowerCase())){
-				token = token.toLowerCase();
-    				int i = token.indexOf("o");
-    				int j = token.indexOf("a");
-    				if(i >=0)
-    					return "de/PR "+token.substring(i)+"/AD";	
-    				else if(j>=0)
-    					return "de/PR "+token.substring(j)+"/AD";
-    				else if (token.indexOf("e") >=0)
-    					return token+"/PR";
-    				else
-    					return token+"/NP";
-    			}else if (token.equalsIgnoreCase("em"))
-					return token.toLowerCase()+"/PR";
-    			else if (token.equalsIgnoreCase("se"))
-    				return token.toLowerCase()+"/ct";
-    			else if(token.length() >= 5 && "nesse nisso nessa neste nisto nesta nesses nessas nestes nestas deste disto desta desse disso dessa dessas desses destes destas".contains(token.toLowerCase())){
-					return token + "/PD";
-				}
-				else if(token.length() >= 4 && "dele dela deles delas".contains(token.toLowerCase()))
-					return token + "/ct";
-				else if(token.length() >= 3 && "lhe lhes".contains(token.toLowerCase()))
-					return token + "/ct";
-    			else if (token.split("-").length > 1 && "lhe lhes lo la los las o a os as se nos vos".contains(token.split("-")[1]))
-    				return token.toLowerCase()+"/VB";
-    			else if(token.length() >= 3 && "num numa nuns numas".contains(token.toLowerCase())){
-    				int i = token.indexOf("u");
-    				if(i >=0){
-    					return "em/PR "+token.substring(i)+"/AI";
-    				}else{
-    					return token+"/ct";
-    				}
-				}
-    			else if(token.length() >= 2 && "no na nos nas".contains(token.toLowerCase())){
-    				token = token.toLowerCase();
-    				int i = token.indexOf("o");
-    				int j = token.indexOf("a");
-    				if(i >=0)
-    					return "em/PR "+token.substring(i)+"/AD";	
-    				else if(j>=0)
-    					return "em/PR "+token.substring(j)+"/AD";
-    				else
-    					return token+"/NP";
-    			}else if(token.length() >= 4 && "pelo pela pelos pelas".contains(token.toLowerCase()))
-    					return token+"/PR";
-    			else if(token.length() >= 2 && "ao aos".contains(token.toLowerCase())){
-    				int i = token.indexOf("o");
-    				if(i>=0)
-    				return "a/PR "+token.substring(i)+"/AD";
-    				else
-    					return token+"/AD";
-    			}else if("à às".contains(token.toLowerCase())){
-    				if(token.toLowerCase().equals("à"))
-					return "a/PR "+"a/AD";
-    				else
-    				return "a/PR "+"as/AD";
-    			}else if("=.,:;!?()[]{}<>'\"".contains(pos)||"=.,:;!?()[]{}<>'\"".contains(token))
-    				return token+"/PN";
-    			else
-    			return token+"/NP";
-		}else if("=.,:;!?()[]{}<>'\"".contains(pos)||".,:;!?()[]{}\"".contains(token)){
-			return token+"/PN";
-		}else if(pos.startsWith("V")||pos.startsWith("VAUX")){
-			if (token.split("-").length > 1 && "o a os as se nos vos".contains(token.split("-")[1]))
-				return token.toLowerCase()+"/VB";
-			else if(token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
-				return token + "/NC";
-			else if(isnom)
-				return token+"/NP";
-			else if(temp2.equals("PD"))
-				return token+"/PD";
-			else if(token.equalsIgnoreCase("para"))
-				return token+"/PR";
-			else
-				return token+"/VB";
-		}else if(pos.equalsIgnoreCase("PCP")){
-//			if(token.endsWith("ida")||token.endsWith("ido")||token.endsWith("ada")||token.endsWith("ado")||token.endsWith("idas")||token.endsWith("idos")||token.endsWith("adas")||token.endsWith("ados"))
-//			return token+"/VP"; //contempla VP - verbo participio
-			if(!(temp.isEmpty()) || token.matches(".*(i|í|a)(d|t)(o|a)[s]?"))				
-				return token+"/VP";
-			else				
-			return token+"/NP";
-		}else if(pos.equals("-")){//hifen solto
-			return token+"/PN";
-		}else if(pos.startsWith("ADJ")){
-			return token+"/AJ";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
-		}else if(pos.startsWith("IN")){
-			if(lemma.contains("@card@"))
-				return token+"/NC";
-			else
-			return token+"/IN";//interjeição
-		}else if(pos.equalsIgnoreCase("PROADJ")){
-			return token+"/de";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
-		}else if(pos.equalsIgnoreCase("PROSUB")){//PRONOME SUBSTANTIVO
-			return token+"/PI";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
-		}else if(pos.equalsIgnoreCase("PROPESS")){
-			return token+"/PP";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
-		}else if(pos.equalsIgnoreCase("PRO-KS")  || pos.equalsIgnoreCase("PRO-KS-REL")){
-			//PRONOME CONECTIVO SUBORDINATIVO (PRO-KS), PRONOME CONECTIVO SUBORDIN. RELATIVO (PRO-KS-REL)
-			return token+"/PL";
-		}else if(pos.equalsIgnoreCase("PDEN")){
-			return token+"/ct";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
-		}else if(pos.startsWith("ADV")){
-			return token+"/AV";
-		}else if(pos.contains("KC")|| pos.contains("KS")){//CONJUNÇÃO SUBORDINATIVA (KS) //CONJUNÇÃO COORDENATIVA (KC) || pos.equalsIgnoreCase("KS")
-			if("e em".contains(token.toLowerCase()))
-				return token+"/CJ";
-			else if(token.length() >= 2 && "no na nos nas do da dos das".contains(token.toLowerCase())){
-				token = token.toLowerCase();
-				int i = token.indexOf("o");
-				int j = token.indexOf("a");
-				if(token.indexOf("n") == 0){
-				if(i >=0)
-					return "em/PR "+token.substring(i)+"/AD";	
-				else if(j>=0)
-					return "em/PR "+token.substring(j)+"/AD";
-				else
-					return token+"/CJ";
-				}else {//if(token.indexOf("d") == 0){
-					if(i >=0)
-						return "de/PR "+token.substring(i)+"/AD";	
-					else if(j>=0)
-						return "de/PR "+token.substring(j)+"/AD";
-					else
-						return token+"/CJ";
-				} 
-			}else if(token.length() >= 4 && "pelo pela pelos pelas".contains(token.toLowerCase()))
-				return token+"/PR";
-			else
-				return token+"/ct";
-		}else if(pos.startsWith("PREP")){
-			if(pos.equals("PREP|+")){
-				if(lemma.contains("@card"))
-					return token + "/NC";
-				else
-					return token + "/PR";
-			}
-			else if(pos.endsWith("+DET")){
-				int i = token.indexOf("o");
-				int j = token.indexOf("a");
-				if(i >=0)
-					return lemma.toLowerCase()+"/PR "+token.substring(i)+"/AD";	
-				else
-					return lemma.toLowerCase()+"/PR "+token.substring(j)+"/AD";
-			}else  if((token.startsWith("no") || token.startsWith("na")) && token.length() >= 2 && token.length()<=3){
-				int i = token.indexOf("o");
-				int j = token.indexOf("a");
-				if(i >=0)
-					return "em/PR "+token.substring(i)+"/AD";	
-				else if(j>=0)
-					return "em/PR "+token.substring(j)+"/AD";
-				else
-					return token+"/PR";
-			}else 
-				if(temp2.equals("SU"))
-						return token+"/"+temp2;
-				else
-				return token+"/PR";
-		}else  if(pos.equalsIgnoreCase("ART")){
-			if(token.startsWith("um")||token.startsWith("Um")) 
-				return token+"/AI";
-			else 
-				return token +"/AD";
-		}else{
-			System.out.println("NAO CONTEMPLADA: "+token + " "+pos + " "+lemma);
-			return token+"/NR";
+		if(len == 1){
+			if("=.,:;!?()[]{}<>'\"".contains(pos)||"=.,:;!?()[]{}<>'\"".contains(token))
+				return token+"/PN";
+			else if(pos.equals("-"))//hifen solto
+				return token+"/PN";
+			else if(token.equals("é"))
+				return token+"/VB";	
 		}
-		}else if(myModel.equals(models[0])){//gamallo
+		if(len >=1 && len <= 2 ){
+			if("à às".contains(token.toLowerCase())){
+				if(token.toLowerCase().equals("à"))
+					return "a/PR "+"a/AD";
+				else
+					return "a/PR "+"as/AD";
+			}
+			if("o a os as".contains(token.toLowerCase())){
+					return token+"/AD";
+			}
+		}
+		if(len >=2 && len <= 3 ){
+			if (token.equalsIgnoreCase("em"))
+				return token.toLowerCase()+"/PR";
+			else if (token.equalsIgnoreCase("se"))
+				return token.toLowerCase()+"/ct";
+			else if(token.toLowerCase().startsWith("n")&& "no na nos nas".contains(token.toLowerCase())){
+				token = token.toLowerCase();
+				int i = token.indexOf("o");
+				int j = token.indexOf("a");
+				if(i >=0)
+					return "em/PR "+token.substring(i)+"/AD";	
+				else if(j>=0)
+					return "em/PR "+token.substring(j)+"/AD";
+			}else if(token.toLowerCase().startsWith("d") && "de do da dos das".contains(token.toLowerCase())){
+				token = token.toLowerCase();
+				int i = token.indexOf("o");
+				int j = token.indexOf("a");
+				if(i >=0)
+					return "de/PR "+token.substring(i)+"/AD";	
+				else if(j>=0)
+					return "de/PR "+token.substring(j)+"/AD";
+				else if (token.indexOf("e") >=0)
+					return token+"/PR";
+				else
+					return token+"/ct";
+			}else if(token.toLowerCase().startsWith("a") && "ao aos".contains(token.toLowerCase())){
+				int i = token.indexOf("o");
+				if(i>=0)
+					return "a/PR "+token.substring(i)+"/AD";
+				else
+					return token+"/AD";
+			}
+		}
+	
+		if(len >= 3 && len <=5){
+				if("lhe lhes".contains(token.toLowerCase()))
+				return token + "/ct";
+				else if(token.toLowerCase().startsWith("nu") && "num numa nuns numas".contains(token.toLowerCase())){
+					int i = token.indexOf("u");
+					if(i >=0)
+					return "em/PR "+token.substring(i)+"/AI";
+					else
+					return token+"/ct";
+				}
+		}
+		if(len >= 4 && len <= 5){
+				if(token.toLowerCase().startsWith("de") && "dele dela deles delas".contains(token.toLowerCase()))
+					return token + "/ct";
+				else  if(token.toLowerCase().startsWith("pel") && "pelo pela pelos pelas".contains(token.toLowerCase()))
+				return token+"/PR";
+				else if(token.equalsIgnoreCase("para"))
+					return token+"/PR";
+		}
+		if(len >= 5 && len <= 6){
+				if("nesse nisso nessa neste nisto nesta nesses nessas nestes nestas deste disto desta desse disso dessa dessas desses destes destas".contains(token.toLowerCase()))
+				return token + "/PD";
+		}
+		if(len >= 6 && len <= 8){
+			if("àquele àquela àqueles àquelas aquele aquela aqueles aquelas aquilo daquilo daquele daquela daqueles daquelas".contains(token.toLowerCase()))
+			return token + "/PD";
+		}
+			
+		if(token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
+				return token + "/NC";
+		
+		if (token.split("-").length > 1){ 
+			if("lhe lhes lo la los las o a os as se nos vos".contains(token.split("-")[1]))
+			return token.toLowerCase()+"/VB";
+		else if ("o a os as se nos vos".contains(token.split("-")[1]))
+			return token.toLowerCase()+"/VB";
+		}
+			
+		if(myModel.equals(models[1])){//nilc mac-morpho http://www.nilc.icmc.usp.br/macmorpho/macmorpho-manual.pdf
+				if(isverb && (pos.startsWith("V")||pos.startsWith("VAUX")))
+					return token+"/VB";
+				else if(isverb && token.toLowerCase().matches(".*(i|a|e|o)(r)$"))
+					return token+"/VB";
+				else if(isverb && pos.equals("N") && !token.toLowerCase().matches(".*(t|r|m)(a)(s)$"))
+					return token+"/VB";
+				else  if(!isverb &&token.equals("deste"))
+					return token+"/PD";
+				else if(isadj && (pos.equals("ADJ")))
+					return token+"/AJ";
+				else if(isadj && (pos.equals("V")||pos.equals("PCP")))
+					return token+"/AJ";
+				else if(isnom && (pos.equals("N")))
+					//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
+					return token+"/SU";
+				else if(isnom && (pos.equals("NUM")))
+					return token+"/SU";
+				else if( pos.equalsIgnoreCase("PCP") && isvp)
+					//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
+					return token+"/VP";
+				else if(isvp)
+					//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
+					return token+"/VP";
+				else if( pos.equalsIgnoreCase("PCP") && !isvp && !isverb && !isnom)	
+					//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
+					return token+"/VB";
+				else if(lemma.contains("@card@")||pos.equalsIgnoreCase("CARD")||pos.equalsIgnoreCase("NUM")||pos.equalsIgnoreCase("SENT")||pos.equalsIgnoreCase("CUR"))
+					return token+"/NC";
+				else if(pos.contains("@card@")||token.matches("[-+]?(?:[0-9]+(?:[.,][0-9]*)?|[.,][0-9]+)(?:[eE][-+]?[0-9]+)?[%]?"))
+					return token + "/NC";
+				else if(pos.equalsIgnoreCase("N")||pos.startsWith("N|")|| pos.contains("NPROP")|| pos.equalsIgnoreCase("PROP")){
+					//    			return token+"/NP";
+					//			    return token+"/NP";
+					if(pos.equals("N"))
+						return token + "/SU";
+					else
+						return token+"/NP";
+				}else if(pos.startsWith("V")||pos.startsWith("VAUX")){
+					 if(isnom)
+						return token+"/NP";
+					else if(temp2.equals("PD"))
+						return token+"/PD";
+					else
+						return token+"/VB";
+				}else if(pos.equalsIgnoreCase("PCP")){
+					//			if(token.endsWith("ida")||token.endsWith("ido")||token.endsWith("ada")||token.endsWith("ado")||token.endsWith("idas")||token.endsWith("idos")||token.endsWith("adas")||token.endsWith("ados"))
+					//			return token+"/VP"; //contempla VP - verbo participio
+					if(!(temp.isEmpty()) || token.matches(".*(i|í|a)(d|t)(o|a)[s]?"))				
+						return token+"/VP";
+					else				
+						return token+"/NP";
+				}else  if(pos.startsWith("ADJ") && !temp2.equals("SU"))
+					return token+"/AJ";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
+				else if(pos.startsWith("ADJ") && temp2.equals("SU"))
+					return token+"/SU";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
+				else if(pos.startsWith("IN")){
+					if(lemma.contains("@card@"))
+						return token+"/NC";
+					else
+						return token+"/IN";//interjeição
+				}else if(pos.equalsIgnoreCase("PROADJ"))
+					return token+"/de";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
+				else if(pos.equalsIgnoreCase("PROSUB"))//PRONOME SUBSTANTIVO
+					return token+"/PI";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
+				else if(pos.equalsIgnoreCase("PROPESS"))
+					return token+"/PP";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
+				else if(pos.equalsIgnoreCase("PRO-KS")  || pos.equalsIgnoreCase("PRO-KS-REL"))
+					//PRONOME CONECTIVO SUBORDINATIVO (PRO-KS), PRONOME CONECTIVO SUBORDIN. RELATIVO (PRO-KS-REL)
+					return token+"/PL";
+				else if(pos.equalsIgnoreCase("PDEN"))
+					return token+"/ct";//PD,PI,PP, (PS) (PS em geral categorizado como adjetivo)
+				else if(pos.startsWith("ADV"))
+					return token+"/AV";
+				else if(pos.contains("KC")|| pos.contains("KS")){//CONJUNÇÃO SUBORDINATIVA (KS) //CONJUNÇÃO COORDENATIVA (KC) || pos.equalsIgnoreCase("KS")
+					if("e em".contains(token.toLowerCase()))
+						return token+"/CJ";
+					else if(token.length() >= 2 && "no na nos nas do da dos das".contains(token.toLowerCase())){
+						token = token.toLowerCase();
+						int i = token.indexOf("o");
+						int j = token.indexOf("a");
+						if(token.indexOf("n") == 0){
+							if(i >=0)
+								return "em/PR "+token.substring(i)+"/AD";	
+							else if(j>=0)
+								return "em/PR "+token.substring(j)+"/AD";
+							else
+								return token+"/CJ";
+						}else {//if(token.indexOf("d") == 0){
+							if(i >=0)
+								return "de/PR "+token.substring(i)+"/AD";	
+							else if(j>=0)
+								return "de/PR "+token.substring(j)+"/AD";
+							else
+								return token+"/CJ";
+						} 
+					}else 
+						return token+"/ct";
+				}else if(pos.startsWith("PREP")){
+					if(pos.equals("PREP|+")){
+						if(lemma.contains("@card"))
+							return token + "/NC";
+						else
+							return token + "/PR";
+					}
+					else if(pos.endsWith("+DET")){
+						int i = token.indexOf("o");
+						int j = token.indexOf("a");
+						if(i >=0)
+							return lemma.toLowerCase()+"/PR "+token.substring(i)+"/AD";	
+						else
+							return lemma.toLowerCase()+"/PR "+token.substring(j)+"/AD";
+					}else  if((token.startsWith("no") || token.startsWith("na")) && token.length() >= 2 && token.length()<=3){
+						int i = token.indexOf("o");
+						int j = token.indexOf("a");
+						if(i >=0)
+							return "em/PR "+token.substring(i)+"/AD";	
+						else if(j>=0)
+							return "em/PR "+token.substring(j)+"/AD";
+						else
+							return token+"/PR";
+					}else if(temp2.equals("SU"))
+						return token+"/"+temp2;
+					else
+						return token+"/PR";
+				}else  if(pos.equalsIgnoreCase("ART")){
+					if(token.startsWith("um")||token.startsWith("Um")) 
+						return token+"/AI";
+					else 
+						return token +"/AD";
+				}else{
+					System.out.println("NAO CONTEMPLADA: "+token + " "+pos + " "+lemma);
+					return token+"/NR";
+				}
+
+			}else if(myModel.equals(models[0])){//gamallo
 			if(pos.equalsIgnoreCase("NOM")){
 				return token+"/SU";
 			}else if(pos.equalsIgnoreCase("ADJ")){//pronomes possessivos como adjetivo
@@ -471,7 +505,16 @@ public class JTreeTagger implements TaggerInterface {
 		System.out.println(JTreeTagger.getInstance().etiquetar(fr2).getTextoEtiquetado());
 		*/
 		String [] res = new String[7];
-		res[0] = "Diante deste novo cenário.";
+		res[0]="Além disso, os membros desses arranjos performatizam e significam suas ações com fantasias.";
+		//res[0]="O desenvolvimento local sustentável em um pólo petrolífero. ";
+		//res[0]="A conservação sustentável do meio ambiente numa localidade no Estado de Sergipe.";
+		//res[0]="O presente trabalho tem por tema avaliar os impactos.";
+		//res[0]= "Viva a gestão participativa dos funcionários.";
+		//res[0]= "As perguntas das entrevistas estruturadas sobre temas gerais foram propostas por mim.";
+		//res[0]="Os resultados indicaram que : 1 ) o mapeamento furou.";
+		//res[0]="Os stakeholders interagem por meio de coopetição.";
+		//res[0] = "O Desenvolvimento Local tem por estratégia inovadora os Arranjos Produtivos Locais.";
+		//res[0] = "Diante deste novo cenário.";
 		//res[0] = "Acompanhar as mudanças, têm sido o grande desafio dos empresários do setor de vestuário do arranjo produtivo local do agreste pernambucano.";
 		//res[0] = "O fim do acordo multifibras aconteceu em 2000.";
         //res[0] =  "No período de abril de 2005 a novembro de 2006 foram estudadas a distribuição temporal, a partilha do habitat, a reprodução e a atividade vocal em uma assembleia de anfíbios anuros na Fazenda Serra da Esperança, município de Lebon Régis, Estado de Santa Catarina. Os objetivos do trabalho foram verificar a importância da pluviosidade e da temperatura na distribuição temporal das espécies na assembleia, analisar a ocupação do habitat, realizar a análise acústica do repertório vocal das espécies e testar a influência da temperatura do ar e do tamanho e massa dos machos vocalizantes sobre os parâmetros acústicos. Foram encontradas 32 espécies na área de estudo, a maior riqueza de anfíbios registrada para o Estado. A taxonomia de pelo menos sete dessas espécies é incerta, podendo tratar-se de táxons ainda não descritos na literatura. A temperatura apresentou uma forte influência na distribuição temporal das espécies. O número de espécies em atividade de vocalização e reprodução foi relacionado às variações da temperatura mensal média, mínima e máxima, significando que nos meses mais quentes foram encontradas mais espécies em atividade de vocalização e reprodução. Foi documentada atividade reprodutiva em 14 espécies e um total de nove modos reprodutivos na assembleia. A comparação das vocalizações de 23 espécies da assembleia com descrições de vocalizações de outras assembleias indicou diferenças que sugerem a existência de espécies ainda não descritas na área de estudo. Também foram documentadas variações intraespecíficas nos cantos em decorrência do tamanho e massa dos machos cantores e em função da temperatura do ar. Encontraram-se influências da massa e tamanho do macho cantor na frequência dominante do canto de anúncio, e também da temperatura do ar na duração das notas. A riqueza de espécies da assembleia apresentou forte semelhança biogeográfica com áreas de Floresta Ombrófila Mista dos Estados de Santa Catarina, Paraná e Rio Grande do Sul. A presença de possíveis novas espécies e da espécie Pleurodema bibroni, classificada na categoria quase ameaçada, salienta a importância da conservação deste bioma altamente degradado e demonstra a nossa carência de conhecimento acerca da anurofauna catarinense.";

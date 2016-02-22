@@ -16,9 +16,9 @@
     <form action="Etiquetar" method="POST" >
       <p> Digite ou cole o texto na área abaixo:<br/>
           
-   <TEXTAREA name="texto"  rows="20" cols="80" maxlength="2000"></TEXTAREA>
+   <TEXTAREA name="texto"  rows="20" cols="80" maxlength="3600"></TEXTAREA>
             
-          </p>
+      </p>
       <p> 
         <input type="submit" name="Submeter" value="Submeter texto" />
         <input type="reset" name="Resetar" value="Resetar" />

@@ -636,8 +636,9 @@ public class StringConverter {
     
     public static void main(String[] args){
            String s = "testando &aacute;gua para v&ecirc;r se d&aacute;&#32;certo.";
-           s = "o ambiente din^amico exige processos de con gura c~ao ";
-           System.out.println(corrigeAcentos(s));
+           s = "o ambiente din^amico exige processos de configura´c~ao ";
+           System.out.println(s=corrigeAcentos(s));
+           
            System.out.println(StringConverter.fromHtmlNotation(s));
            System.out.println(deleteAcentos(StringConverter.fromHtmlNotation(s)));
            System.out.println(toUnStressedNotation(s));

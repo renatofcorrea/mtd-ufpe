@@ -371,7 +371,7 @@ public class JSPHelper {
 		}
 		
 		if(qtdAspas > 0 && qtdAspas % 2 != 0){
-			throw new MTDException("Termo de busca em formato incorreto. possui aspas não fechadas.");
+			throw new MTDException("Aguardando fechamento das aspas...");
 		}
 	}
 }
