@@ -322,10 +322,11 @@ public class JSPHelper {
 		List<MTDDocument> documentosPesquisa = null;
 		try {
 			String strTermoBusca = (String) request.getParameter("termo_busca");
+			//TODO: as exceções do termo da busca não deveriam ser levantadas
 			validarTermoBusca(strTermoBusca);
 			
 			if (strTermoBusca != null && !strTermoBusca.trim().isEmpty()) {
-				documentosPesquisa = f.getSingleRepositorioIndice().consultar(strTermoBusca, new String[] { MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.KEY_WORD, MTDDocument.AUTOR, MTDDocument.ORIENTADOR, MTDDocument.PROGRAMA, MTDDocument.AREA_CNPQ }, 100);
+				documentosPesquisa = f.getSingleRepositorioIndice().consultar(strTermoBusca, new String[] { MTDDocument.TITULO, MTDDocument.KEY_WORD, MTDDocument.RESUMO,  MTDDocument.AUTOR, MTDDocument.ORIENTADOR, MTDDocument.PROGRAMA, MTDDocument.AREA_CNPQ }, 100);
 				
 				sessao.setAttribute("termo_busca", strTermoBusca);
 			}

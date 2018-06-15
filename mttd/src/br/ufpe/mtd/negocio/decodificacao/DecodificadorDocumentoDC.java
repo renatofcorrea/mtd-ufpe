@@ -87,12 +87,12 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	public void pegarProgramGrauName(ContextVariables contextVariables) {
 		String setSpec = contextVariables.getBody();
 		String nset = OAIPMHDriver.getInstance().getProgramBySet(setSpec);
-		if(nset!=null && !nset.isEmpty()){
+		if(nset!=null && !nset.isEmpty()){//dando prioridade ao nome do programa por set
 			getDoc().setPrograma(tratarCaracteres(nset.replaceFirst("Pós[ ]+Graduação", "Pós-Graduação")));
 			setarAreaCNPQPorPrograma(getDoc().getPrograma());
 		}
 		nset = OAIPMHDriver.getInstance().getGrauBySet(setSpec);
-		if(nset!=null && !nset.isEmpty()){
+		if(nset!=null && !nset.isEmpty()){//dando prioridade ao grau por set
 			getDoc().setGrau(tratarCaracteres(nset));
 		}
 		return;
@@ -258,6 +258,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 				setarAreaCNPQPorPrograma(getDoc().getPrograma());
 				}
 				setarDataDefesa(partes[2]);
+				if(!getDoc().contemGrau())
 				setarGrau(partes);
 			}
 		}
@@ -266,6 +267,7 @@ public class DecodificadorDocumentoDC extends DecodificadorDocumento{
 	private void setarPrograma(String[] partes){
 		String programa = null;
 		String temp;
+		if(!getDoc().contemPrograma())
 			for(int i=2; i < partes.length; i++){
 				temp = partes[i].toLowerCase();
 				if(temp.contains("programa de ")){

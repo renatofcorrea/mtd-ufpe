@@ -1,6 +1,15 @@
+#TODO: modificar não contornado, indexa do mesmo jeito na posição do inicio-fim do último inserido;
+#tratar palavras hifenizadas -seguido de \n palavra seguinte não é pronome oblíquo e anterior não é verbo
+#colocar como,para,pela quebrando SN, e_de já separa, mas deve permancer?; remover pronomes do inicio do sn(seu, aquela)
+#categorizar pessoa(NP), organização(empresa,instituição),lugar(geo),evento(período,data,tempo),obra(trabalho criativo),palavras-chave(assunto,materia,substancia, nda)
+#
+#Para alterar parametros de execução edite /mttd/WebContent/WEB-INF/mtd_properties.properties
+#Controla a execução de
+#/mttd/src/br/ufpe/mtd/negocio/thread/MTDTask.java
+#
 #Colocar a permissao abaixo dentro do catalina.policy do tom cat para permitir
 #que o somtoolbox possa trabalhar adequadamente dentro da pasta treino. 
 #ajustar o caminho para o ambiente de producao.
-grant codeBase "jar:file:${catalina.base}/wtpwebapps/mtd-ufpe-web/WEB-INF/lib/somtoolbox.jar!/-" {
-	permission java.io.FilePermission "${catalina.base}/wtpwebapps/mtd-ufpe-web/WEB-INF/data/treino/-","read,write,delete";
+grant codeBase "jar:file:${catalina.base}/wtpwebapps/mttd/WEB-INF/lib/somtoolbox.jar!/-" {
+	permission java.io.FilePermission "${catalina.base}/wtpwebapps/mttd/WEB-INF/data/treino/-","read,write,delete";
  };

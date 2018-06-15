@@ -112,7 +112,7 @@ public class Nodo implements Serializable, Comparable<Nodo>{
 	private class AreaQtd implements Serializable{
 		private static final long serialVersionUID = 1L;
 		AreaCNPQEnum area;
-		int qtd;
+		int qtd=0;
 	}
 
 	@Override

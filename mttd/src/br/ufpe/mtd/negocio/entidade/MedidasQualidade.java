@@ -75,6 +75,7 @@ public class MedidasQualidade implements Serializable {
 		this.distMap = distMap;
 	}
 
+	//QUANTERROR_VEC
 	public double getErroQuantizacao() {
 		return erroQuantizacao;
 	}

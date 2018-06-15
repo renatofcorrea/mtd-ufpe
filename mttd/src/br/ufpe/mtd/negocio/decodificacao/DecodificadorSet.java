@@ -77,9 +77,9 @@ public class DecodificadorSet {
 		String conteudo = contextVariables.getBody().trim();
 		String valor = conteudo.trim();
 		
-		if(!identificadores.containsKey(identificador)){
+		//if(!identificadores.containsKey(identificador)){
 			identificadores.put(identificador,valor);
-		}
+		//}//se repetido será sobrescrito
 	}
 	
 	

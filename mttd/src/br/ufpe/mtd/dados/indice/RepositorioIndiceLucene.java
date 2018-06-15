@@ -90,6 +90,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	  Cria o analyzador
 	 */
 	private synchronized Analyzer getAnalizerPadrao() throws Exception{
+		//TODO: ponto de acesso ao analizador usado na indexação e busca
 		CharArraySet set = new CharArraySet(getStopWords(), false);
 //		return new ArabicAnalyzer(set);
 		return new MTDAnalyzer(set);
@@ -125,7 +126,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	}
 	
 	/*
-	 * 
+	 * Retorna IndexWriter padrão associado ao Analizer padrão
 	 */
 	private synchronized IndexWriter getWriterPadrao(boolean criar) throws Exception{
 		IndexWriterConfig config = new IndexWriterConfig(version, getAnalizerPadrao());
@@ -151,7 +152,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 	 */
 	public synchronized ArrayList<MTDDocument> consultar(String termo, String[] campos, int maxResultado)
 			throws Exception {
-		
+		//TODO: função que dispara a busca no índice para sugestões e busca do usuário
 		ScoreDoc[] hits = getHits(termo, campos, maxResultado);
 		ArrayList<MTDDocument> listaRetorno = parseHitsToDocumentArray(hits); 
 		
@@ -170,7 +171,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		ArrayList<MTDDocument> retorno = new ArrayList<MTDDocument>();
 		
 		Directory indexDirectory = getCopiaDiretorioMemoria();		
-		Analyzer analisador = getAnalizerPadrao();
+		//Analyzer analisador = getAnalizerPadrao();  //removido por não ser usado
 		IndexReader reader = DirectoryReader.open(indexDirectory);
 		// Cria o acesso ao indice
 		IndexSearcher searcher = new IndexSearcher(reader);
@@ -185,7 +186,7 @@ public class RepositorioIndiceLucene implements IRepositorioIndice{
 		}
 		
 		reader.close();
-		analisador.close();
+		//analisador.close();
 
 		return retorno;
 	}

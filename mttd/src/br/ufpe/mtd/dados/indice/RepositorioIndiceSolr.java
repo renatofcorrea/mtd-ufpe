@@ -251,4 +251,19 @@ public class RepositorioIndiceSolr implements IRepositorioIndice{
 			}
 		};
 	}
+
+	@Override
+	public int getQuantidadeDocumentosNoIndice() throws IOException {
+		//TODO: verificar se está correto ao usar solr, validação não realizada
+	    SolrQuery q = new SolrQuery("*:*");
+	    q.setRows(0);  // don't actually request any data
+	    try {
+			return (int) solrServer.query(q).getResults().getNumFound();
+		} catch (SolrServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+		
+	}
 }

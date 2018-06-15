@@ -618,7 +618,7 @@ for(i=0;i<alltables.length;i++) {
 	var currentTable = alltables[i];
 	if(currentTable.className.indexOf('sortable') !=-1) {
 		var thead = currentTable.getElementsByTagName('thead')[0];
-		thead.title = 'Clique no cabe�alho da coluna para ordenar';
+		thead.title = 'Clique no cabe&ccedil;alho da coluna para ordenar.';
 		for (var i=0;cell = thead.getElementsByTagName('th')[i];i++) {
 			cell.onclick = function () { resortTable(this); };
 			// make it possible to have a default sort column

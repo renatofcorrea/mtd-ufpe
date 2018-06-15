@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import br.ufpe.mtd.dados.arquivo.RepositorioMapa;
+import br.ufpe.mtd.dados.indice.RepositorioIndiceLucene;
 import br.ufpe.mtd.negocio.entidade.MTDDocument;
 import br.ufpe.mtd.negocio.entidade.MTDDocumentBuilder;
 import br.ufpe.mtd.negocio.entidade.Mapa;
@@ -57,7 +58,7 @@ public class MapaControle {
 	
 	public boolean isMapaTreinado() throws Exception{
 		Mapa mapa = getMapa();
-		if(mapa == null || mapa.getNodos() == null || mapa.getNodos().size() < (RedeNeuralControle.MAPA_X_SIZE * RedeNeuralControle.MAPA_Y_SIZE)){
+		if(mapa == null || mapa.getNodos() == null || mapa.getDocumentos().size() < (RedeNeuralControle.MAPA_X_SIZE * RedeNeuralControle.MAPA_Y_SIZE)|| mapa.numDocumentos() < MTDFactory.getInstancia().getSingleRepositorioIndice().getQuantidadeDocumentosNoIndice()){
 			return false;
 		}
 		return true;

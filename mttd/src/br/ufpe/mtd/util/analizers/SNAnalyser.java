@@ -191,7 +191,7 @@ public final class SNAnalyser extends Analyzer {
 	@Override
 	protected TokenStreamComponents createComponents(String arg0, Reader arg1) {
 		// TODO Auto-generated method stub
-		tokenizador = new SNTokenizerWithAtributes(arg1,arg0);
+		tokenizador = new SNTokenizerWithAtributes(arg1,arg0);//SNTokenizer(arg1,arg0);//não elimina sns em stoplist
 			return new TokenStreamComponents(tokenizador);
 		
 	}

@@ -1,8 +1,10 @@
 package br.ufpe.mtd.teste;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +21,12 @@ import br.ufpe.mtd.util.MTDException;
 import br.ufpe.mtd.util.MTDFactory;
 import br.ufpe.mtd.util.analizers.SNAnalyser;
 import br.ufpe.mtd.util.analizers.SNTokenizer;
+import br.ufpe.mtd.util.enumerado.AreaCNPQEnum;
 import br.ufpe.mtd.util.enumerado.MTDArquivoEnum;
 
 public class TesteColetaMetadados {
 	public static void main(String[] args){
-		String urlBase="http://www.repositorio.ufpe.br/oai/request";//"http://repositorio.pucrs.br/oai/request";
+		String urlBase="https://repositorio.ufpe.br/oai/request";//"http://repositorio.pucrs.br/oai/request";
 		String metaDataPrefix ="qdc";
 		String set="com_123456789_50";//"col_10923_338";
 		OAIPMHDriver driver = OAIPMHDriver.getInstance(urlBase, metaDataPrefix);
@@ -80,6 +83,10 @@ public class TesteColetaMetadados {
 		SNTokenizer.setTagger("TreeTagger");//macmorpho 
 		
 		List<Identificador> listaRetentativa = new ArrayList<Identificador>();//verificar se tem instabilidadee no jColtraine
+		try( PrintWriter out = new PrintWriter("./bdtd-doc.csv.txt")){
+		    //out.println( text );
+		
+		out.println("id;url;documento;programa;area");
 		for (Identificador identificador : dadosRecebidos) {
 			//System.out.println(identificador.getId());
 			//Coletar documento
@@ -90,17 +97,21 @@ public class TesteColetaMetadados {
 				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 
 				parser.parse(is, new JColtraneXMLHandler(decodificador));
+				
 				if(decodificador.getDocumentos().size() > index){//documentos sem campos requeridos não são adicionados
 					MTDDocument d = decodificador.getDocumentos().get(index);
-					//System.out.println("==============================================");
+					//if(d.getAreaCNPQ()== null || d.getAreaCNPQ().isEmpty()|| d.getAreaCNPQ().equals("NAO_INFORMADO")){
 					//System.out.println(d.getTitulo()); 
-					//System.out.println(" ->"+d.getUrl());
-					//System.out.println(" ->"+d.getPrograma());
-					//System.out.println(" ->"+d.getResumo());
+					System.out.println(" ->"+d.getUrl());
+					String texto = d.getUrl()+";\""+d.getTitulo().replace(';', ',').replace('"', '\'').replaceAll("[ \n\t\r]+", " ")+" . "+d.getResumo().replace(';', ',').replace('"', '\'').replaceAll("[ \n\t\r]+", " ")+" . "+String.join(", ", d.getKeywords())+" . \"";
+					out.print(index+";"+texto+";" + d.getPrograma()+";");
+					out.println(AreaCNPQEnum.getGrandeAreaCNPQPorPrograma(d.getPrograma()));
+					
 					//SNAnalyser.displayTokensWithFullDetails(new SNAnalyser(snstopFile),d.getResumo());
-
+				    //}
 					index++;
 
+					if(false){//verifica duplicatas
 					RepositorioIndiceLucene rep = (RepositorioIndiceLucene) MTDFactory.getInstancia().getSingleRepositorioIndice();
 					//Adicionando condição para encontrar duplicatas
 					ArrayList<MTDDocument> doc = rep.getDocFirstInserted(d);
@@ -111,9 +122,10 @@ public class TesteColetaMetadados {
 						//System.out.println(" ->"+d.getPrograma());
 						//System.out.println("==============================================");
 					}
+					}
 
 				}
-
+				
 			}catch(MTDException e ){
 				Object o = e.getExtraData();
 				if(o instanceof Identificador){
@@ -132,6 +144,12 @@ public class TesteColetaMetadados {
 				}
 			}
 		}//end for
+		out.close();
+		}//end try PrinterWriter
+ catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println("Fim da execução.");
 		return;
 	}

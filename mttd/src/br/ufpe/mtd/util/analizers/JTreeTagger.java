@@ -43,7 +43,7 @@ public class JTreeTagger implements TaggerInterface {
 	
 	private JTreeTagger(String model) {
 		if(ttHome == null)
-			ttHome = "WebContent\\WEB-INF\\aux_files\\Tagger\\TreeTagger";
+			ttHome = "WEB-INF\\aux_files\\Tagger\\TreeTagger";//"WebContent\\WEB-INF\\aux_files\\Tagger\\TreeTagger";
 		String isdone = System.setProperty("treetagger.home", ttHome);//aqui.....
 		if(isdone == null){
 			System.out.println("Fail setting treetagger.home property with JTreeTagger path");
@@ -149,6 +149,8 @@ public class JTreeTagger implements TaggerInterface {
 		if(len >= 3 && len <=5){
 				if("lhe lhes".contains(token.toLowerCase()))
 				return token + "/ct";
+				else if(token.toLowerCase().startsWith("qu") && "que qual quais".contains(token.toLowerCase()))
+					return token + "/PL";
 				else if(token.toLowerCase().startsWith("nu") && "num numa nuns numas".contains(token.toLowerCase())){
 					int i = token.indexOf("u");
 					if(i >=0)
@@ -197,6 +199,8 @@ public class JTreeTagger implements TaggerInterface {
 					return token+"/AJ";
 				else if(isadj && (pos.equals("V")||pos.equals("PCP")))
 					return token+"/AJ";
+				else if((pos.equals("N")|| pos.equals("NPROP")|| pos.equals("V")||pos.equals("ADJ"))&& token.matches("[A-ZÀ-Úa-zà-ú]+(a|o|i|e)nte(s)*") && (JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase().replaceFirst("nte(s)*", ""), "verbos", null).contains("VB")||token.toLowerCase().replaceFirst("nte(s)*", "").equalsIgnoreCase("provenie")))
+					return token+"/AJ";//não casa com proveniente
 				else if(isnom && (pos.equals("N")))
 					//JOgmaEtiquetador.getInstance().buscaPalavra(token.toLowerCase(), "Nomes", null).isEmpty() &&
 					return token+"/SU";
@@ -383,14 +387,18 @@ public class JTreeTagger implements TaggerInterface {
 	 */
 	private static String formatText(String texto) {
 		texto = texto.replace("/",", "); //substitui /
-	    texto = texto.replace("\"", ", ");//substitui aspas
+	    texto = texto.replace("\"", " ");//substitui aspas
+	    texto = texto.replace("\'", " ");//substitui aspas
 		String [] pontChars = new String [] {"<",">", "=", ":",";","!","?","(",")","[","]","\""};
 		for(int i = 0; i < pontChars.length; i++)
 			texto = texto.replace(pontChars[i]," "+pontChars[i]+" ");
 		//casos especiais: ",", ".","-" tratados abaixo
 		//texto = texto.replaceAll("[.](?=($|[A-Za-z ]))"," . "); //casa com ponto de sigla
-		texto = texto.replaceAll("[.](?=($|[ ][A-ZÀ-Ú]{1}[a-zà-ú]*))"," . ");
-		texto = texto.replaceAll("[,](?=[A-Za-z ])"," , ");
+		//(\S.+?[.!?])(?=\s+|$) //separa sentenças, casa com cada sentença.
+		texto = texto.replaceAll("(?![A-Z])[.](?=([A-Z]|$))", ""); //elimina ponto de ex. S.O.M. => SOM.
+		//texto = texto.replaceAll("[.](?=($|[ \n]+[A-ZÀ-Ú]{1}[a-zà-ú]*))"," . ");//ponto ideal
+		texto = texto.replaceAll("[.](?=($|[ \n]+[A-ZÀ-Úa-zà-ú]))"," . ");
+		texto = texto.replaceAll("[,](?=[A-ZÀ-Úa-zà-ú ])"," , ");
 		texto = texto.replace('\t', ' ');
 		texto = texto.replace('\n', ' ');
 		texto = texto.replace('\r', ' ');
@@ -505,7 +513,10 @@ public class JTreeTagger implements TaggerInterface {
 		System.out.println(JTreeTagger.getInstance().etiquetar(fr2).getTextoEtiquetado());
 		*/
 		String [] res = new String[7];
-		res[0]="Além disso, os membros desses arranjos performatizam e significam suas ações com fantasias.";
+		res[0]="Os resultados obtidos revelaram a fraude.";
+		res[0]="Uma base de dados existente foi reformulada a partir de os dados coletados com os atacadistas da CEASA-PE participantes do comércio da uva Itália proveniente do Vale do São Francisco.";
+		//res[0]="Nas empresas visitadas prevalece a estrutura familiar.";
+		//res[0]="Além disso, os membros desses arranjos performatizam e significam suas ações com fantasias.";
 		//res[0]="O desenvolvimento local sustentável em um pólo petrolífero. ";
 		//res[0]="A conservação sustentável do meio ambiente numa localidade no Estado de Sergipe.";
 		//res[0]="O presente trabalho tem por tema avaliar os impactos.";

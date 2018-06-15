@@ -70,13 +70,14 @@
 			int coluna = 1;
 			int linha = 1;
 			int maiorQtdDocsNodo = 0;
+			AreaCNPQEnum areaCnpq = null;
 			for(NodoHolder aux : nodosAnalisados.getLista()){
 				Nodo nodo = aux.getNodo();
 				
 				String classe = "";
 				String popPupClass = "poppup";
-				
-				AreaCNPQEnum areaCnpq = nodo.getAreaPredominante();
+				areaCnpq = null;
+				areaCnpq = nodo.getAreaPredominante();
 				
 				if(areaCnpq.equals(AreaCNPQEnum.CBS)){
 					//classe = "celula-vermelha";
@@ -92,7 +93,7 @@
 				}else if(areaCnpq.equals(AreaCNPQEnum.OUTROS)){
 					classe = "celula-cinza";
 					exibirOutros = true;
-				}else if(areaCnpq.equals(AreaCNPQEnum.NAO_ENCONTRADO)){
+				}else {//if(areaCnpq.equals(AreaCNPQEnum.NAO_ENCONTRADO)){
 					classe = "celula-sem-classificacao";
 					exibirNEncontrado = true;
 				}

@@ -124,13 +124,17 @@ public enum AreaCNPQEnum implements Serializable{
 			String [] linhas = bdtdAreas.split("\n");
 			
 			for(String linha : linhas){
-				String programa = linha.split(";")[0];
-				String area = linha.split(";")[1];
+				String[] spl = linha.split(";");
+				String programa = spl[0];
+				String area = spl[1];
+				String garea= spl[3];
 				
 				programa = substituirCaracteresEspeciais(programa);
-				String aux = substituirCaracteresEspeciais(nomePrograma).replace("PROGRAMADE", "");
+				String aux = substituirCaracteresEspeciais(nomePrograma).replaceFirst("PROGRAMADE", "");
 				if(programa.equals(aux)){
+					if(garea.equals("NAO_INFORMADO"))
 					return getAreaCNPQPorSubArea(area);
+					else return convertToAreaCNPQEnum(garea);
 				}
 			}
 			
@@ -139,6 +143,19 @@ public enum AreaCNPQEnum implements Serializable{
 		}
 		System.out.println("Não encontrado em bdtdareas.txt programa: "+nomePrograma);
 		return AreaCNPQEnum.NAO_ENCONTRADO;
+	}
+	
+	private static  AreaCNPQEnum  convertToAreaCNPQEnum (String garea){
+		garea = garea.trim();
+		if(garea != null && !garea.isEmpty()){
+			if(garea.equalsIgnoreCase("TCEN"))
+			return AreaCNPQEnum.TCEN;
+			else if (garea.equalsIgnoreCase("CHLA"))
+			return AreaCNPQEnum.CHLA;
+			else if (garea.equalsIgnoreCase("CBS"))
+				return AreaCNPQEnum.CBS;
+		}
+			return AreaCNPQEnum.NAO_ENCONTRADO;
 	}
 	
 	private static synchronized void initAreas() throws IOException{
@@ -157,7 +174,7 @@ public enum AreaCNPQEnum implements Serializable{
 				String area = linha.split(";")[1];
 				
 				programa = substituirCaracteresEspeciais(programa);
-				String aux = substituirCaracteresEspeciais(nomePrograma).replace("PROGRAMADE", "");
+				String aux = substituirCaracteresEspeciais(nomePrograma).replaceFirst("PROGRAMA[ ]*DE", "");
 				if(programa.equals(aux)){
 					return area;
 				}
@@ -207,8 +224,9 @@ public enum AreaCNPQEnum implements Serializable{
 		System.out.println(aux);
 		
 		String[] array = new String[] {"Programa de Pós-Graduação em Engenharia e Tecnologia de Materiais",
-				"Programa de Programa de Pós-Graduação em Biologia Aplicada à Saúde",
-				"Programa de Programa de Pós-Graduação em Biotecnologia Industrial",
+				"Programa de Pós-Graduação em Biologia Aplicada à Saúde",
+				"Programa de Pós-Graduação em Direitos Humanos",
+				"Programa de Pós-Graduação em Biotecnologia Industrial",
 				"Programa de Pós-Graduação em Ciência da Informação",
 				"Programa de Pós-Graduação em Educação Matemática e Tecnológica",
 				"Programa de Pós-Graduação em Enfermagem",
@@ -223,8 +241,11 @@ public enum AreaCNPQEnum implements Serializable{
 		
 		for(String str : array){
 			aux = AreaCNPQEnum.getAreaCNPQPorPrograma(str);
-			String strArea = AreaCNPQEnum.getAreaCNPQPorSubArea(aux).name();
-			System.out.println(str+" : "+aux+" : "+strArea);
+			if(aux !=null){
+				String strArea = AreaCNPQEnum.getAreaCNPQPorSubArea(aux).name();
+				System.out.println(str+" : "+aux+" : "+strArea);
+			}else
+				System.out.println(str+" : not found.................>>>>>>>>>>>>>>>>>>");	
 		}
 		
 		System.out.println("==============================");

@@ -20,12 +20,15 @@ import java.util.Vector;
 public class JOgma {
 
 
-//Utilizado por SNTokenizer e indiretamente por SNAnalyzer
+//Utilizado por SNTokenizer e indiretamente por SNAnalyzer, e Etiquetar.jsp
+//TODO: comece aperfeiçoar por este método, ele é chamado para extrair SN
+//integrar pypln, palavras, nlpnet, taspardo no aperfeiçoamento do etiquetador (arquivos ogma)
 //TODO: tratamento de nomes pessoais, remoção de VB VP prep art, suporte a quebra de sns aninhados, remoção de sns stopwords
 	public static String identificaSNTextoEtiquetado(String frase)
 	{
 		String rst;
 		String palavra;
+		System.out.println("Executando identificaSNTextoEtiquetado(String frase) modificado...");
 		rst = "";
 		// Normaliza as tags para o padrão ED-CER
 		frase = frase.replace("/AD", "/AR");
@@ -39,8 +42,42 @@ public class JOgma {
 		frase = frase.replace("/VG", "/ct");//para não disparar regra com vírgulas, incluindo-as nos sns
 		frase = frase.replace("/CJ", "/CO");
 		frase = frase.replace("/PL", "/LG");
-
-
+		
+		//expressões comuns
+		frase = frase.replace(" por/PR meio/SU de/PR", " por_meio_de/ct"); //eliminar por meio de
+		frase = frase.replace(" em/PR função/SU de/PR", " em_função_de/ct"); //eliminar por meio de
+		frase = frase.replace(" em/PR relação/SU", " em_relação/ct");
+		frase = frase.replace(" melhor/AJ forma/SU", " melhor_forma/ct"); //eliminar por meio de
+		frase = frase.replace(" tema/SU de/PR", " tema_de/ct");
+		frase = frase.replace(" interesse/SU para/PR", " interesse_para/ct");
+		frase = frase.replace(" questão/SU de/PR", " questão_de/ct");
+		frase = frase.replace(" mais/AV influente/SU", " mais_influente/ct");
+		frase = frase.replace(" inerente/SU a/PR", " inerente_a/ct");
+		frase = frase.replace(" objetivo/SU de/PR", " objetivo_de/ct");
+		frase = frase.replace(" experiência/SU de/PR", " experiência_de/ct");
+		frase = frase.replace(" reorganização/SU de/PR", " reorganização_de/ct");
+		frase = frase.replace(" grande/AJ medida/SU", " grande_medida/ct");
+		frase = frase.replace(" envolvidas/AJ em/PR", " envolvidas_em/ct");
+		frase = frase.replace(" implicações/SU em/PR", " implicações_em/ct");
+		frase = frase.replace(" implicações/SU de/PR", " implicações_de/ct");
+		frase = frase.replace(" relações/SU com/PR", " relações_com/ct");
+		frase = frase.replace(" cada/de vez/SU", " cada_vez/ct");
+		frase = frase.replace(" de/PR vista/SU", " de_vista/ct");
+		frase = frase.replace(" em/PR vista/SU", " em_vista/ct");
+		frase = frase.replace(" capaz/AJ de/PR", " capaz_de/ct");
+		frase = frase.replace(" foco/SU de/PR", " foco_de/ct");
+		frase = frase.replace(" forma/SU em/PR", " forma_em/ct");
+		frase = frase.replace(" contexto/SU de/PR", " contexto_de/ct");
+		frase = frase.replace(" interação/SU entre/PR", " interação_entre/ct");
+		frase = frase.replace(" ponto/SU de/PR vista/SU", " ponto_de_vista/ct");
+		frase = frase.replace(" objetivo/SU", " objetivo/ct");
+		
+		frase = frase.replace(" a/PR a/AR", " à/PR"); //tratamento de crase
+		frase = frase.replace(" a/PR as/AR", " às/PR");
+		frase = frase.replace(" a/PR o/AR", " ao/PR");//tratamento de ao
+		//frase = frase.replace("como/PR", "como/ct");//incluido abaixo com demais preposições
+		
+		
 		//ADAPTAÇÂO DO MODO SELETOR DO METODO ED-CER
 		//Inicia analise
 		frase = frase.replace("/LG", "/ct");
@@ -72,9 +109,43 @@ public class JOgma {
 					if (ppalavras + 2 < npalavras) PC2 = palavras[ppalavras +2].split("/");
 					if (ppalavras + 3 < npalavras) PC3 = palavras[ppalavras +3].split("/");
 
-					if (PC0[1].equals("NP") && PC1[1].equals("NP")|| PC0[1].equals("NP") && PC1[1].equals("SU")|| PC0[1].equals("SU") && PC1[1].equals("NP") ||
+					if((PC0[1].equals("NP")|| PC0[1].equals("SU")) && JOgmaEtiquetador.getInstance().isStopword(PC0[0].toLowerCase()))
+						//adicionado tratamento de início de frase
+					{
+						esquerda = esquerda + "/ct";// 
+					}else if(PC0[1].equals("AJ")&& PC0[0].matches("[A-ZÀ-Úa-zà-ú]+(a|i)d(a|o)(s)*"))
+						//adicionado tratamento proveniente de, voltada para, reconhecido por
+					//é necessário verificar se pc0 é verbo tirando o sufixo
+					{
+						esquerda = esquerda + "/VP";// 
+					}else
+					
+					if (PC0[1].equals("AJ")&& PC0[0].matches("[A-ZÀ-Úa-zà-ú]+(a|o|i|e)nte(s)*") && PC1[1].equals("PR"))
+						//adicionado tratamento proveniente de, referente a, existente em, participante de
+					//é necessário verificar se pc0 é verbo tirando o sufixo------------------------------------
+					{
+						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
+						ppalavras++;//avança
+					}else if(PC0[1].equals("AJ")&& PC0[0].matches("[A-ZÀ-Úa-zà-ú]+(a|i)d(a|o)(s)*") && (PC1[1].equals("PR")||PC1[1].equals("de")))
+						//adicionado tratamento proveniente de, voltada para, reconhecido por
+					//é necessário verificar se pc0 é verbo tirando o sufixo
+					{
+						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
+						ppalavras++;//avança
+					}
+					else
+					if (PC0[1].equals("AJ")&& PC1[1].equals("CO") && PC2[1].equals("AJ") && !PC2[0].matches("[A-ZÀ-Úa-zà-ú]+(a|i)d(a|o)(s)*"))
+							//adicionado tratamento proveniente de adjetivos múltiplos, 
+						{
+							esquerda = esquerda + "_" + PC1[0] + "_" + PC2[0] +"/AJ";// 
+							ppalavras++;//avança
+							ppalavras++;//avança
+					}else
+					if (PC0[1].equals("NP") && PC1[1].equals("NP")|| 
+							PC0[1].equals("NP") && PC1[1].equals("SU")||
+							PC0[1].equals("SU") && PC1[1].equals("NP") ||
 							PC0[1].equals("SU") && PC1[1].equals("SU"))
-						//adicionado tratamento NP e VP-------------------------------------
+						//adicionado tratamento NP e VP----deve detectar se início de frase
 					{
 						esquerda = esquerda + "=" + PC1[0] + "/NP";
 						ppalavras++;//avança
@@ -93,7 +164,7 @@ public class JOgma {
 						ppalavras++;
 						ppalavras++;
 						ppalavras++;
-					}else if (PC0[1].equals("VB") && (PC1[1].equals("VP")))//adicionado por mim por causa de "foram estudadas"
+					}else if (PC0[1].equals("VB") && ((PC1[1].equals("VP"))||(PC1[1].equals("AJ") && PC1[0].matches("[A-ZÀ-Úa-zà-ú]+(a|o|i)d(o|a)(s)*"))))//adicionado por mim por causa de "foram estudadas"
 					{
 						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
 						ppalavras++;//avança
@@ -101,17 +172,68 @@ public class JOgma {
 					{
 						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
 						ppalavras++;//avança
-					}else if (PC0[1].equals("ct") && (PC1[1].equals("AV")))//adicionado por mim por causa de "foram estudadas"
-					{
-						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
-						ppalavras++;//avança
 					}else if (PC0[1].equals("AV") && (PC1[1].equals("VP")))//adicionado por mim por causa de "foram estudadas"
 					{
 						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
 						ppalavras++;//avança
-					}else if (PC0[1].equals("VP") && (PC1[1].equals("AR") || PC1[1].equals("PR")))//adicionado por mim por causa de "foram estudadas"
+					}else if ((PC0[1].equals("AV")|| PC0[1].equals("ct")) && (PC1[1].equals("AJ")))//adicionado por mim por causa de "menos compreendidas questões"
 					{
 						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
+						ppalavras++;//avança
+					}else if (PC0[1].equals("ct") && (PC1[1].equals("de")|| PC1[1].equals("AJ")|| PC1[1].equals("AV")||PC1[1].equals("ct")|| PC1[1].equals("AR")||PC1[1].equals("PR")||PC1[1].equals("PI")||PC1[1].equals("PD")||PC1[1].equals("PP")||PC1[1].equals("PS")))//adicionado por mim por causa de "foram estudadas"
+					{
+						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
+						ppalavras++;//avança
+					}else if (PC1[1].equals("ct") && (PC0[1].equals("de")|| PC0[1].equals("AV")||PC0[1].equals("ct")||PC0[1].equals("AR")||PC0[1].equals("PR")||PC0[1].equals("PI")||PC0[1].equals("PD")||PC0[1].equals("PP")||PC0[1].equals("PS")))//adicionado por mim por causa de "foram estudadas"
+					{
+						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
+						ppalavras++;//avança
+					}else if (PC0[1].equals("VP") && (PC1[1].equals("AV") || PC1[1].equals("VB") || PC1[1].equals("AR") || PC1[1].equals("PR")))//adicionado por mim por causa de "foram estudadas"
+					{
+						esquerda = esquerda + "_" + PC1[0] + "/ct";// 
+						ppalavras++;//avança
+					}else if (PC0[1].equals("VP") && PC1[1].equals("AV") && (PC2[1].equals("AR") || PC2[1].equals("PR")))//adicionado por mim por causa de "localizadas geograficamente em"
+					{
+						esquerda = esquerda + "_" + PC1[0] + "_" + PC2[0] +"/ct";// 
+						ppalavras++;//avança
+						ppalavras++;//avança
+					}else if (!(PC0[1].equals("NP")|| PC0[1].equals("SU")|| PC0[1].equals("AJ")) && PC1[1].equals("AJ") && (PC2[1].equals("AR") || PC2[1].equals("PR")|| PC2[1].equals("de")|| PC2[1].equals("PI")|| PC2[1].equals("PD")|| PC2[1].equals("PS")|| PC2[1].equals("PP")))//adicionado por mim por causa de "localizadas geograficamente em"
+					{
+						esquerda = esquerda + "_" + PC1[0] + "_" + PC2[0] +"/ct";// 
+						ppalavras++;//avança
+						ppalavras++;//avança
+					}else if (PC0[1].equals("PR") && !("de em".contains(PC0[0]) && "a o os as".contains(PC1[0])) && PC1[1].equals("AR"))//adicionado regra de normalização: de sua, sobre a, a o, tbci tem alguns termos com ao, mas que podem ser quebrados serviço de auxílio ao, quanto ao 
+					{
+						esquerda = esquerda + "_" +  PC1[0] + "/ct";//.
+						ppalavras++;//avança
+				
+					}else if (PC0[1].equals("PR") && ("como sobre pela pelas pelo".contains(PC0[0]))) // regra de normalização: pela pelas pelo (pelos tem no tbci, sobre e como tem um) tbci só tem termo: entidade coletiva como autor
+					{
+						esquerda = esquerda + "/ct";//.
+				
+					}else if (PC0[1].equals("AR") && (PC1[1].equals("AR")||PC1[1].equals("de")|| PC1[1].equals("PP")||PC1[1].equals("PD")||PC1[1].equals("PI")||PC1[1].equals("PS")))//adicionado regra de normalização: de sua, sobre a
+					{
+						esquerda = esquerda + "_" +  PC1[0] + "/ct";//.
+						ppalavras++;//avança
+				
+					}else if ((PC0[1].equals("PR")||PC0[1].equals("AR")||PC0[1].equals("ct")) && (PC1[1].equals("VP")|| PC1[1].equals("de")|| PC1[1].equals("PP")||PC1[1].equals("PD")||PC1[1].equals("PI")||PC1[1].equals("PS")))//adicionado regra de normalização: de sua, sobre a
+					{
+						esquerda = esquerda + "_" +  PC1[0] + "/ct";//.
+						ppalavras++;//avança
+				
+					}else if ((PC1[1].equals("PR")|| PC1[1].equals("AR")) && (PC0[1].equals("PP")||PC0[1].equals("PD")||PC0[1].equals("PI")||PC0[1].equals("PS")))//adicionado regra de normalização: de sua, sobre a
+					{
+						esquerda = esquerda + "_" +  PC1[0] + "/ct";//.
+						ppalavras++;//avança
+				
+					}else if (PC0[1].equals("de")|| PC0[1].equals("PP")||PC0[1].equals("PD")||PC0[1].equals("PI")||PC0[1].equals("PS"))//adicionado regra de normalização: de sua, sobre a
+					{
+						esquerda = esquerda + "/ct";//.
+					
+				
+					}else if (PC0[1].equals("CO") && (PC1[1].equals("VP")|| PC1[1].equals("de")|| PC1[1].equals("PR")|| PC1[1].equals("AR")||PC1[1].equals("PP")||PC1[1].equals("PD")||PC1[1].equals("PI")||PC1[1].equals("PS")))//adicionado regra de normalização: de sua, sobre a
+					{
+						esquerda = esquerda + "_" +  PC1[0] +  "/ct";//.
 						ppalavras++;//avança
 					}
 					else//--------------		
@@ -1878,7 +2000,7 @@ public class JOgma {
 				//if (!(resultados.contains(SN)))
 				//{
 				indice = resultado.indexOf(original,indice) - i * 3;//barra mais 2 caracteres da tag sn ou ct anteriores
-				resultados.add(new SNData(SN,indice)); //ops hashmap não permite duplicatas na lista, ops indice impreciso devido a contracoes fora de ct ou sn
+				resultados.add(new SNData(SN,indice)); //indice impreciso devido a contracoes fora de ct ou sn
 				//}
 			};
 		}
@@ -1990,7 +2112,7 @@ public class JOgma {
 		String resultado = "";
 		//String SN = "";
 		String s = "";
-		Set<SNData> resultados= new LinkedHashSet<SNData>();
+		ArrayList<SNData> resultados= new ArrayList<SNData>();
 		//List<SNData> resultados;
 		Enumeration<String> enderiva =deriva.elements();
 		//Enumeration<String> ensns = null;//**
@@ -2016,9 +2138,9 @@ public class JOgma {
 			//					indexres= indextmp + 1;
 			//			}
 			//chama insere
-			resultados.addAll(ensns);
+			resultados.addAll(ensns);//não trata duplicatas se deriva gera mais de uma combinação
 		}
-		return new ArrayList<SNData>(resultados);
+		return resultados;
 	}
 
 	public static HashMap<String,Integer> extraiSNTextoEtiquetado(String textoEtiquetado){//texto etiquetado
@@ -2116,7 +2238,8 @@ public class JOgma {
 	 */
 	private static String formatText(String texto) {//a mesma de treetagger
 		texto = texto.replace("/",", "); //substitui /
-	    texto = texto.replace("\"", ", ");//substitui aspas
+	    texto = texto.replace("\"", " ");//substitui aspas por espaço
+	    texto = texto.replace("'", " ");//substitui aspas
 		String [] pontChars = new String [] {"<",">", "=", ":",";","!","?","(",")","[","]","\""};
 		for(int i = 0; i < pontChars.length; i++)
 			texto = texto.replace(pontChars[i]," "+pontChars[i]+" ");
@@ -2154,9 +2277,9 @@ public class JOgma {
 		text = text.replace(" ao ", " a o ");
 		text = text.replace(" aos ", " a os ");
 		text = text.replace(" pela ", " por a ");
-		text = text.replace(" pelas ", " por a ");
-		text = text.replace(" pelos ", " por o ");
-		text = text.replace(" pelo ", " por e ");
+		text = text.replace(" pelas ", " por as ");
+		text = text.replace(" pelos ", " por os ");
+		text = text.replace(" pelo ", " por o ");
 		text = text.replace(" neste ", " em este ");
 		text = text.replace(" nisto ", " em isto ");
 		text = text.replace(" nums ", " em ums ");
@@ -2175,7 +2298,7 @@ public class JOgma {
 		text = text.replace(" nas ", " em as ");
 		text = text.replace(" no ", " em o ");
 		text = text.replace(" na ", " em a ");
-		text = text.replace(" ás ", " aos as ");
+		text = text.replace(" às ", " a as ");
 		//conjunto de palavras
 		text = text.replace(" a fim de ", " a+fim+de ");
 		text = text.replace(" a que ", " a+que ");
@@ -3136,7 +3259,9 @@ public class JOgma {
 			System.out.println("Testando...");	
 			String sent = new String("O novo cálculo das aposentadorias resulta em valores menores do que os atuais para quem perde o benefício com menos tempo de contribuição e idade.");
 			String result = null;
-
+			sent = "Transferência da Informação: análise para valoração de unidades de conhecimento. Entender e medir o valor do conhecimento é uma das mais discutidas e menos compreendidas questões nos estudos sobre a gestão do conhecimento. Porém, se esta dificuldade fica mais explícita ao analisar o conjunto do conhecimento de uma organização em relação ao mercado, torna-se necessária a definição de parâmetros e mecanismos de avaliação de cada unidade de conhecimento disponível, principalmente aquele que, por algum processo, já foi registrado e precisa ser gerenciado, tanto em seu processo de obtenção, armazenamento, acesso e, até mesmo, descarte. Neste artigo, objetivamos descrever questões envolvidas na identificação do valor do conhecimento registrado em função de sua multidimensionalidade funcional e do processo de transmissão de informações.";
+			sent = "Dentre as funções sociais e delineados alguns perfis.";
+			//sent = "Em relação ao mercado, educação à distância sofre pressões sociais e econômicas.";
 			//ogma força a barra substituindo "do que" por "que"
 
 			String [] res = new String[7];

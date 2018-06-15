@@ -15,7 +15,7 @@
     	<exception>répteis</exception>
     </rule>
     <rule replacement="ol" size="2" suffix="óis"/>
-    <rule replacement="il" size="2" suffix="eis"/>
+    <rule replacement="ptil" size="2" suffix="pteis"/>
     <rule replacement="il" size="2" suffix="is">
       <exception>anéis</exception>
       <exception>fiéis</exception>

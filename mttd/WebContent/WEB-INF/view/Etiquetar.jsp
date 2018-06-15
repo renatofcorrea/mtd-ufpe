@@ -35,6 +35,7 @@
       Digite e submeta algum texto para visualizar as marcações.<br><br><br>
     <%
     } else {
+    	texto = texto.replaceAll("[ \n\t\r]{2,}"," ");
     	String texto_etq = JTreeTagger.getInstance().etiquetar(texto).getTextoEtiquetado();
     	String[] palavras = texto_etq.split(" ");
 		String palavra = null;

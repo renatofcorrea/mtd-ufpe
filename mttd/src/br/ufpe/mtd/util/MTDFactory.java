@@ -29,7 +29,7 @@ import br.ufpe.mtd.util.log.Log;
  */
 public class MTDFactory implements ContentHandlerFactory{
 	
-	public static final long PERIODO_REPETICAO = 1000l * 60l * 60l * 24l * 1l;//1 dia
+	public static final long PERIODO_REPETICAO = 1000l * 60l * 60l;//1 hora
 	private static Log log;
 	private static MTDFactory instancia;
 	private IRepositorioIndice repositorioIndice, repositorioSintagmas;
@@ -84,7 +84,7 @@ public class MTDFactory implements ContentHandlerFactory{
 			timer.cancel();
 			timer = new Timer();
 		}
-		timer.schedule(new MTDTask(this), 60000, PERIODO_REPETICAO);//depois de 1 minuto começa a tarefa.
+		timer.schedule(new MTDTask(this), 60000, PERIODO_REPETICAO);//depois de 60 s começa a tarefa, repete daqui a um dia
 		return false;
 	}
 	

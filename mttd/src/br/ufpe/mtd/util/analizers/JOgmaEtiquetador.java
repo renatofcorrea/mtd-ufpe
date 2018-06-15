@@ -21,6 +21,10 @@ public class JOgmaEtiquetador {
 	      return myInstance;   
 	   } 
 	
+	public boolean isStopword(String palavra) {
+	    return !gramatica.BuscaPalavra(palavra).isEmpty();
+	}
+	
 	 public String buscaPalavra(String palavra, String tabela,
 				String oleDb) {
 		    

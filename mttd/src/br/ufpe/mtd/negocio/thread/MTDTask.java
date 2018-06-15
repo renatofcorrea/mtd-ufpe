@@ -15,7 +15,7 @@ import br.ufpe.mtd.util.MTDParametros;
  * 
  */
 public class MTDTask extends TimerTask {
-	private final static long TEMPO_ESPERA = 60000l * 60 * 24;//60 s
+	private final static long TEMPO_ESPERA = 60000l;// * 60 * 24;//60 s
 	MTDFactory fabrica;
 	
 	public MTDTask(MTDFactory fabrica) {
@@ -37,7 +37,7 @@ public class MTDTask extends TimerTask {
 	/**
 	 * Avalia os criterios de execucao para confirmar se task deve 
 	 * ser executada ou nao.
-	 * 
+	 * Valores de WEB-INF/mtd_properties.properties
 	 * @return
 	 */
 	private boolean deveExecutar(){
@@ -94,7 +94,7 @@ public class MTDTask extends TimerTask {
 				agendarGeracaoSintagmas();
 				fabrica.getTreinamentoPoolThread().aguardarFimDoPool();
 			}else{
-				fabrica.getLog().salvarDadosLog("MTDTask.executar() Treinamento do sistema precisa ser refeito. Reagendando...");
+				fabrica.getLog().salvarDadosLog("MTDTask.executar() Reagendando tarefas do sistema...");
 				fabrica.agendarTarefas();
 			}
 		} catch (Exception e) {

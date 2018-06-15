@@ -1,8 +1,11 @@
 package br.ufpe.mtd.dados.drive;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
@@ -95,20 +98,36 @@ public class OAIPMHDriver {
 	}
 	
 	public String getProgramBySet(String setSpec){
+		if(hsets == null){
+			try {
+				hsets = getSets(null);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
 		if(hsets != null){
-		String name = hsets.get(setSpec);
-		if(name.matches("Programa[A-Za-zÀ-ú -/]+"))
+			String name = hsets.get(setSpec);
+		if((name!= null) && name.matches("Programa[A-Za-zÀ-ú -/]+"))
 			return name;
 		}
 		return null;
 	}
 	
 	public String getGrauBySet(String setSpec){
+		if(hsets == null){
+			try {
+				hsets = getSets(null);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
 		if(hsets != null){
 		String name = hsets.get(setSpec);
-		if(name.matches("Tese[A-Za-zÀ-ú -/]+"))
+		if((name!= null) && name.matches("Teses de [A-Za-zÀ-ú -/]+"))
 			return "doutor";
-		if(name.matches("Disserta[A-Za-zÀ-ú -/]+"))
+		if((name!= null) && name.matches("Dissertações de [A-Za-zÀ-ú -/]+"))
 			return "mestre";
 		}
 		return null;
@@ -121,6 +140,7 @@ public class OAIPMHDriver {
 	public InputStream getResponse(String metaInf) throws Exception {
 		InputStream stream = null;
 		int tentativas = 0;
+		//String str = null;
 		String urlstr = strUrlBase + metaInf;
 		URL urlbase = new URL(urlstr);
 		boolean isdown = false;
@@ -133,6 +153,7 @@ public class OAIPMHDriver {
 				urlConn.setReadTimeout(10000);
 				urlConn.setConnectTimeout(10000);
 				stream = urlConn.getInputStream();
+				//str = fromInputStream(urlConn.getInputStream());
 				
 			} catch (java.net.ConnectException e) {
 				isdown = true;
@@ -149,6 +170,19 @@ public class OAIPMHDriver {
 			}
 		}
 		return stream;
+	}
+	
+	private String fromInputStream(InputStream inputStream)throws IOException {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		int nRead;
+		byte[] data = new byte[1024];
+		while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+		buffer.write(data, 0, nRead);
+		}
+		buffer.flush();
+		byte[] byteArray = buffer.toByteArray();
+		return new String(byteArray, StandardCharsets.UTF_8);
+
 	}
 
 	public String getIdentify() throws Exception {

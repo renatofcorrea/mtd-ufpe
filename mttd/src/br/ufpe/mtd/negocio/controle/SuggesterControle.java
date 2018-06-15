@@ -102,6 +102,7 @@ public class SuggesterControle{
 	 * @throws Exception
 	 */
 	public Collection<String> lookup(String texto) throws Exception{
+		boolean filtradascompletas = false;
 		if(dicionario.isEmpty()){
 			MTDException e = new MTDException(false,"Desculpe-nos. Esse tipo de sugestões ainda não está disponível. Tente novamente mais tarde.");
 			throw e;
@@ -111,10 +112,19 @@ public class SuggesterControle{
 			return new ArrayList<String>();
 		}
 		
+		if(texto.endsWith(" "))
+		filtradascompletas= true;
+		
 		String[] tokkens = tokkenize(texto);
 		
-		Collection<String> palavrasFiltrado = filtrarStopwords(tokkens);
+		ArrayList<String> palavrasFiltrado = filtrarStopwords(tokkens);
 		Collection<String> sugestoes = null;
+		
+		if(!filtradascompletas && !palavrasFiltrado.isEmpty())
+			if(texto.indexOf(" ",texto.indexOf(palavrasFiltrado.get(palavrasFiltrado.size()-1)))>0)//tem espaço após ultima palavra filtrada
+				filtradascompletas = true;
+		
+		//TODO: método de sugestão configurado aqui!!!
 		if(false){
 		//infere palavras para os termos digitados  afim de realizar busca
 		Collection<String> palavras = inferirPalavrasDicionario(palavrasFiltrado);
@@ -125,8 +135,9 @@ public class SuggesterControle{
 		//filtra sugestoes que contem todos os termos digitados
 		if(palavrasFiltrado.size()>1)
 		sugestoes = filtrarPorTermosDigitados(palavrasFiltrado, sugestoes);
+		
 		}else
-			sugestoes = gerarSugestao(palavrasFiltrado);
+			sugestoes = gerarSugestao(palavrasFiltrado, filtradascompletas);
 		
 		return formatarResposta(new ArrayList<String>(sugestoes));
 	}
@@ -137,7 +148,7 @@ public class SuggesterControle{
 			if(incluirTodosTermos){
 				boolean incluir = true;
 				for(String termo: palavrasDigitadas){
-					if(!sugestao.toLowerCase().contains(termo)){//.trim().toLowerCase()
+					if(!(sugestao.toLowerCase().contains(termo)|| sugestao.toLowerCase().contains(StringConverter.deleteAcentos(termo)))){//.trim().toLowerCase()
 						incluir = false;
 						break;
 					}
@@ -158,10 +169,11 @@ public class SuggesterControle{
 		return lista;
 	}
 	
-public Collection<String> gerarSugestao(Collection<String> palavras) throws Exception {
+public Collection<String> gerarSugestao(Collection<String> palavras, boolean palcompletas) throws Exception {
 		
 	StringBuffer sbu = new StringBuffer();
 	ArrayList<String> palavras1 = new ArrayList<String>(palavras);
+	ArrayList<String> palavrasnorm = new ArrayList<String>();
 	String ob = null;
 	String bo = null;
 	String auxn = null;
@@ -169,22 +181,24 @@ public Collection<String> gerarSugestao(Collection<String> palavras) throws Exce
 	if (!palavras1.isEmpty()) {
 		for (int i=0; i < palavras1.size();i++) {
 			auxn = StringConverter.deleteAcentos(palavras1.get(i));//termos sem acento e ç no índice
-			ob = (i<palavras1.size()-1)?"+":"";
-			bo = (i<palavras1.size()-1)?"^2 ":"* "; //^2 pode tornar sns não sugestíveis, mas sem ele a consulta perde contexto
+			palavrasnorm.add(auxn);
+			ob = (palcompletas || (i<palavras1.size()-1))?"+":"";
+			bo = (palcompletas || (i<palavras1.size()-1))?"^5 ":"* "; //^2 pode tornar sns não sugestíveis, mas sem ele a consulta perde contexto
 			sbu.append(ob+auxn+bo);
 			
 		}
 		System.out.println(sbu);
 		List<MTDDocument> docs = rep.consultar(sbu.toString(), tipo.getCampos(), tipo.getQtdDocsPesquisados());
-		
+		String sugest = null;
 		for (MTDDocument doc : docs) {
 			Collection<String> results = tipo.equals(SuggesterType.SINTAGMA_SUGGESTER) ? doc.getSintagmas() : doc.getKeywords();
 			for(String sugestao: results){
 				if(!sugestao.trim().isEmpty()){
+					sugest = StringConverter.deleteAcentos(sugestao.toLowerCase());
 					if(incluirTodosTermos){
 						boolean incluir = true;
-						for(String termo: palavras){
-							if(!sugestao.toLowerCase().contains(termo)){//.trim().toLowerCase()
+						for(String termo: palavrasnorm){
+							if(!(sugest.contains(termo))){//.trim().toLowerCase()
 								incluir = false;
 								break;
 							}
@@ -194,7 +208,7 @@ public Collection<String> gerarSugestao(Collection<String> palavras) throws Exce
 						}
 					}else
 					for(String termo: palavras){
-						if(sugestao.toLowerCase().contains(termo)){//.trim().toLowerCase()
+						if(sugest.contains(termo)){//.trim().toLowerCase()
 							pal.add(sugestao.toLowerCase().trim());
 							break;
 						}
@@ -218,7 +232,7 @@ public Collection<String> gerarSugestao(Collection<String> palavras) throws Exce
 			for (String aux : palavras) {
 				if(ib > 0){
 					ob = (ib%2==0)?"+":"";
-					sbu.append(ob+aux+"^2 ");//pode tornar sns não sugestíveis, mas sem ele a consulta perde contexto
+					sbu.append(ob+aux+"^5 ");//pode tornar sns não sugestíveis, mas sem ele a consulta perde contexto
 					ib--;
 				}else
 				sbu.append(aux+" ");

@@ -52,8 +52,8 @@ public class RedeNeuralControle {
 	public static final int MAPA_Y_SIZE = 10;
 	public static final double SIGMA = 9.0;
 	public static final double TAU = 1.0;
-	public static final double TAXA_APRENDIZADO = 0.7;
-	private final int NUM_CICLOS = 10;
+	public static final double TAXA_APRENDIZADO = 0.75;
+	private final int NUM_CICLOS = 20;
 	
 	private Log log;
 
@@ -93,7 +93,7 @@ public class RedeNeuralControle {
 			log.salvarDadosLog(" RedeNeuralControle.retreinarRedeNeural() ---- iniciando retreinamento da rede neural-----");
 			log.salvarDadosLog(" ---- Error: faltando implementar em RedeNeuralControle.retreinarRedeNeural() -----");
 			
-			//gerar arquivo retreino properties
+			//TODO: gerar arquivo retreino properties
 			//mapDescriptionFile
 			//weightVectorFile
 			
@@ -205,11 +205,11 @@ public class RedeNeuralControle {
 
 		String[] campos = new String[] { MTDDocument.TITULO, MTDDocument.RESUMO, MTDDocument.KEY_WORD, MTDDocument.PROGRAMA };// MTDDocument.AREA_CNPQ,
 		RepositorioIndiceLucene repLucene = (RepositorioIndiceLucene) rep;
-
+		int totaldocs = repLucene.getQuantidadeDocumentosNoIndice();
 		//TODO: colocar como parâmetros do sistema
-		int docFreqMax = (int) Math.round((repLucene.getQuantidadeDocumentosNoIndice() * 50.0) / 100.0); // 50%
-		int docFreqMin = 10;
-		int numMaxDoc = 5000;
+		int docFreqMax = (int) Math.round((totaldocs * 50.0) / 100.0); // 50% do total de documentos
+		int docFreqMin = 50;
+		int numMaxDoc = totaldocs/3;//um terço do total de documentos
 
 		//TODO: analisar radicalizador utilizado na função RepositorioIndiceLucene.getListaPalavrasFiltrado
 		List<EstatisticaPalavra> filtroPalavrasRelevantes = repLucene.getListaPalavrasFiltrado(campos, numMaxDoc, docFreqMin, docFreqMax);
@@ -399,7 +399,7 @@ public class RedeNeuralControle {
 					mapa.put(palavra, mapaDocFreq.get(docId) * mapaDocFreq.get(docId));
 
 				} else {
-					Integer freqAcum = mapa.get(docId) + mapaDocFreq.get(docId * mapaDocFreq.get(docId));
+					Integer freqAcum = mapa.get(docId) + mapaDocFreq.get(docId) * mapaDocFreq.get(docId);//bug concertado (
 					mapa.put(palavra, freqAcum);
 
 				}
@@ -656,7 +656,7 @@ public class RedeNeuralControle {
 
 		properties.setProperty("metricName", "at.tuwien.ifs.somtoolbox.layers.metrics.L2Metric");
 		properties.setProperty("growthQualityMeasureName", "");
-
+		properties.setProperty("usePCA", "true"); //usePCA = <whether to use PCA initialisation>
 		final String header = arquivoDestino.getName() + " prop file\n# somtoolbox " + Arrays.deepToString(cmdLine);
 		FileWriter writer = new FileWriter(arquivoDestino);
 		properties.store(writer, StringUtils.wrap(header, 80, "#   "));
@@ -675,11 +675,11 @@ public class RedeNeuralControle {
 			return false;
 		}
 		
-		if(mq.getTeMap() < 0.35d || mq.getErroQuantizacao() > 0.22d){
-			return false;
+		if(mq.getTeMap() <= 0.50d || mq.getErroQuantizacao() <= 0.01d){
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 
 	/**

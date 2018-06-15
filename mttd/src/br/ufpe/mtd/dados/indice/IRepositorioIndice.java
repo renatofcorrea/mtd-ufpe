@@ -34,5 +34,7 @@ public interface IRepositorioIndice {
 	public void fecharRepositorio();
 	
 	public MTDIterator<MTDDocument> iterator() throws Exception;
+
+	public int getQuantidadeDocumentosNoIndice() throws IOException;
 	
 }

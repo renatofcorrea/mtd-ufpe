@@ -68,7 +68,7 @@ public class SuggestServlet extends HttpServlet {
 				JSONObject j = new JSONObject(dados);
 				
 				String termo = j.getString("termo");
-				termo = new String(Base64.decode(termo)).trim();
+				termo = new String(Base64.decode(termo));//.trim()
 				String tipoSugestao = j.getString("tipo_sugestao");
 				if (tipoSugestao == null) {
 					tipoSugestao = MTDFacede.sugestaoPadrao();

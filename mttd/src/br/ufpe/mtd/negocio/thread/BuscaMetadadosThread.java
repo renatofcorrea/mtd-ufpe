@@ -83,6 +83,7 @@ public class BuscaMetadadosThread extends BaseThread{
 				ids+= aux.get(MTDDocument.ID)+",";
 			}
 			ids = ids.isEmpty() ? "" : ids.substring(0, ids.lastIndexOf(","));
+			if(docs.size() > 0)
 			log.salvarDadosLog("BuscaMetadadosThread.execucao() Inseridos no índice "+docs.size()+ " documentos: {"+ids+"}");
 		
 		} catch (Exception e) {
@@ -138,10 +139,10 @@ public class BuscaMetadadosThread extends BaseThread{
 			}
 			docs.removeAll(docsRemover);
 			
-			if(!docsRemover.isEmpty()){
-				String ids = recuperarComoString(docsRemover);
-				MTDFactory.getInstancia().getLog().salvarDadosLog("BuscaMetadadosThread.removerExistentes() Documentos ja indexados e não inseridos: "+ids);
-			}
+//			if(!docsRemover.isEmpty()){
+//				String ids = recuperarComoString(docsRemover);
+//				MTDFactory.getInstancia().getLog().salvarDadosLog("BuscaMetadadosThread.removerExistentes() Documentos ja indexados e não inseridos: "+ids);
+//			}
 		}
 		
 		return docs;

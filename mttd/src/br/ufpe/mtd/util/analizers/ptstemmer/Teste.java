@@ -41,8 +41,11 @@ public class Teste {
 //		System.out.println(st.getWordStem("ambientais"));
 //		System.out.println(st.getWordStem("animais"));
 		System.out.println(st.getWordStem("anéis"));
+		System.out.println(st.getWordStem("anos"));
+		System.out.println(st.getWordStem("aspectos"));
 		System.out.println(st.getWordStem("fiéis"));
 		System.out.println(st.getWordStem("barris"));
+		System.out.println(st.getWordStem("biológicas"));
 //		System.out.println(st.getWordStem("atividades"));
 //		System.out.println(st.getWordStem("bençãos"));
 //		System.out.println(st.getWordStem("canções"));
@@ -50,17 +53,29 @@ public class Teste {
 //		System.out.println(st.getWordStem("células"));
 //		System.out.println(st.getWordStem("cantora"));
 //		System.out.println(st.getWordStem("cantoras"));
+		System.out.println(st.getWordStem("características"));
 		System.out.println(st.getWordStem("carretéis"));
 		System.out.println(st.getWordStem("chapéus"));
+		System.out.println(st.getWordStem("ciências"));
+		System.out.println(st.getWordStem("condições"));
 //		System.out.println(st.getWordStem("crianças"));
+		System.out.println(st.getWordStem("dados"));
 //		System.out.println(st.getWordStem("direitos"));
+		System.out.println(st.getWordStem("efeitos"));
+		System.out.println(st.getWordStem("energéticas"));
 //		System.out.println(st.getWordStem("engenhos"));
 //		System.out.println(st.getWordStem("empresas"));
 //		System.out.println(st.getWordStem("espécies"));
+		System.out.println(st.getWordStem("estudos"));
+		System.out.println(st.getWordStem("fatores"));
+		System.out.println(st.getWordStem("farmaceuticas"));
 //		System.out.println(st.getWordStem("fungos"));
+		System.out.println(st.getWordStem("fuzis"));
 //		System.out.println(st.getWordStem("genes"));
+		System.out.println(st.getWordStem("grupos"));
 //		System.out.println(st.getWordStem("imagens"));
 //		System.out.println(st.getWordStem("lectinas"));
+		System.out.println(st.getWordStem("lilases"));
 //		System.out.println(st.getWordStem("mães"));
 //		System.out.println(st.getWordStem("mares"));
 //		System.out.println(st.getWordStem("marés"));
@@ -69,18 +84,26 @@ public class Teste {
 //		System.out.println(st.getWordStem("modelos"));
 //		System.out.println(st.getWordStem("mulheres"));
 //		System.out.println(st.getWordStem("nanopartículas"));
+		System.out.println(st.getWordStem("nucleares"));
 		System.out.println(st.getWordStem("pai"));
 		System.out.println(st.getWordStem("pais"));
 		System.out.println(st.getWordStem("país"));
 		System.out.println(st.getWordStem("países"));
 		System.out.println(st.getWordStem("pacientes"));
 		System.out.println(st.getWordStem("pastéis"));
+		System.out.println(st.getWordStem("pasteis"));//verbo pastar, pastel como cor não tem plural
+		System.out.println(st.getWordStem("práticas"));
+		System.out.println(st.getWordStem("políticas"));
+		System.out.println(st.getWordStem("principais"));
+		System.out.println(st.getWordStem("processos"));
 //		System.out.println(st.getWordStem("projetos"));
 //		System.out.println(st.getWordStem("propriedades"));
 //		System.out.println(st.getWordStem("ratos"));
 //		System.out.println(st.getWordStem("redes"));
+		System.out.println(st.getWordStem("relés"));
 		System.out.println(st.getWordStem("reptis"));
 		System.out.println(st.getWordStem("répteis"));
+		System.out.println(st.getWordStem("repteis"));
 		System.out.println(st.getWordStem("sistemas"));
 		System.out.println(st.getWordStem("sítios"));
 		System.out.println(st.getWordStem("sociais"));
@@ -89,6 +112,7 @@ public class Teste {
 		System.out.println(st.getWordStem("tecnologias"));
 		System.out.println(st.getWordStem("tecnologia"));
 		System.out.println(st.getWordStem("tecnológicos"));
+		System.out.println(st.getWordStem("valores"));
 		
 		
 		

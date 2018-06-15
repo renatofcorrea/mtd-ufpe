@@ -80,6 +80,7 @@ public class SNTokenizerWithAtributes extends SNTokenizer {
 	}
 	
 	/**
+	 * TODO:início da análise textual, melhore a partir deste método
 	 * tokenize the context, lower case all the words
 	 * Unigram will be extracted, which has POS tag: VB, JJ, NN, or their extentions.
 	 * 

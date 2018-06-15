@@ -23,6 +23,10 @@ public class Mapa implements Serializable{
 		palavras = new TreeMap<>();
 	}
 	
+	public int numDocumentos(){
+		return documentos.size();
+	}
+	
 	public List<Nodo> getNodos() {
 		return nodos;
 	}

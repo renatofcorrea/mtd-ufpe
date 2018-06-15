@@ -22,6 +22,16 @@ import br.ufpe.mtd.util.log.Log;
 
 public class MTDFacede {
 	
+	private static boolean resetarMapa= false;
+
+	public static boolean getResetarMapa() {
+		return resetarMapa;
+	}
+
+	public static void setResetarMapa(boolean resetarMapa) {
+		MTDFacede.resetarMapa = resetarMapa;
+	}
+
 	public static void indexar() throws Exception{
 		MTDFactory f = MTDFactory.getInstancia();
 		Log log = f.getLog();
@@ -78,14 +88,17 @@ public class MTDFacede {
 	public static void realizarTreinamento() throws Exception{
 		MTDFactory f = MTDFactory.getInstancia();
 		Log log = f.getLog();
-		if(!isSistemaTreinado()){
+		//setResetarMapa(true);
+		if(!isSistemaTreinado()|| getResetarMapa()){
 			MapaControle mControle = f.newMapaControle();
 			RedeNeuralControle rnControle = f.newRedeNeuralControle();
 			rnControle.treinarRedeNeural();
 			mControle.treinarMapa(); 
+			setResetarMapa(false);
 		}else{
 			RedeNeuralControle rnControle = new RedeNeuralControle(log);
-			rnControle.retreinarRedeNeural();
+			rnControle.retreinarRedeNeural(); //ainda não operacional o retreino
+			
 		}
 	}
 	
@@ -128,6 +141,7 @@ public class MTDFacede {
 	
 	public static Mapa recuperarMapa() throws Exception{
 		if(!isSistemaTreinado()){
+			//MTDFactory.getInstancia().agendarTarefas();
 			throw new MTDException(false,"Sistema em manutenção. Rede neural está sendo treinada. Mapa está sendo gerado.");
 		}
 		MTDFactory f = MTDFactory.getInstancia();
