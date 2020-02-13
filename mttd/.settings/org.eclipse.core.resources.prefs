@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/br/ufpe/mtd/util/StringConverter.java=UTF-8
 encoding//src/br/ufpe/mtd/util/analizers/JOgma.java=UTF-8
+encoding//src/br/ufpe/mtd/util/analizers/ptstemmer/implementations/OrengoStemmer.java=UTF-8
+encoding//src/br/ufpe/mtd/util/analizers/ptstemmer/implementations/OrengoStemmerRules.xml=ISO-8859-1
+encoding//src/br/ufpe/mtd/util/analizers/ptstemmer/implementations/PorterStemmer.java=UTF-8

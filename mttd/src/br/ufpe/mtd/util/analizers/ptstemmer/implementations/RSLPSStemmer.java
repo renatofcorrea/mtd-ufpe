@@ -20,6 +20,8 @@ package br.ufpe.mtd.util.analizers.ptstemmer.implementations;
 
 import br.ufpe.mtd.util.analizers.ptstemmer.Stemmer;
 import br.ufpe.mtd.util.analizers.ptstemmer.exceptions.PTStemmerException;
+import br.ufpe.mtd.util.analizers.ptstemmer.implementations.OrengoStemmer.Rule;
+import br.ufpe.mtd.util.analizers.ptstemmer.support.datastructures.SuffixTree;
 
 
 /**
@@ -34,12 +36,19 @@ public class RSLPSStemmer extends OrengoStemmer{
 
 	public RSLPSStemmer() throws PTStemmerException
 	{
-		loadRules();
+		super.femininereductionrules = null;
+		super.adverbreductionrules = null;
+		super.augmentativediminutivereductionrules= null;
+		super.nounreductionrules=null;
+		super.verbreductionrules=null;
+		super.vowelremovalrules=null;
+		super.pluralreductionrules=null;
+		this.loadRules();
 	}
 	
     @Override
 	protected void loadRules() throws PTStemmerException{
-		readRulesFromXML("RSLP-SStemmerRules.xml");
+		super.readRulesFromXML("RSLP-SStemmerRules.xml");
 	}
 	
 	@Override

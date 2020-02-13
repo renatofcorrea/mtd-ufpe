@@ -117,7 +117,7 @@ public class PorterStemmer extends Stemmer{
 				st = st.substring(0,st.length()-4);
 			else if(st.endsWith("avel") && r2.endsWith("avel"+suffix))
 				st = st.substring(0,st.length()-4);
-			else if(st.endsWith("ível") && r2.endsWith("ível"+suffix))
+			else if(st.endsWith("Ã­vel") && r2.endsWith("Ã­vel"+suffix))
 				st = st.substring(0,st.length()-4);
 			return st;
 		}
@@ -185,7 +185,7 @@ public class PorterStemmer extends Stemmer{
 			return st;
 		}
 
-		if(st.endsWith("ç"))
+		if(st.endsWith("Ã§"))
 			st = st.substring(0,st.length()-1)+"c";
 		return st;
 	}
@@ -224,32 +224,32 @@ public class PorterStemmer extends Stemmer{
 
 	private String processNasalidedVowels(String st)
 	{
-		st = st.replaceAll("ã", "a~");
-		st = st.replaceAll("õ", "o~");
+		st = st.replaceAll("Ã£", "a~");
+		st = st.replaceAll("Ãµ", "o~");
 		return st;
 	}
 
 	private String deprocessNasalidedVowels(String st)
 	{
-		st = st.replaceAll("a~", "ã");
-		st = st.replaceAll("o~", "õ");
+		st = st.replaceAll("a~", "Ã£");
+		st = st.replaceAll("o~", "Ãµ");
 		return st;
 	}
 
 	private String suffix;	//auxiliary variable
 
-	private final static HashSet<Character> vowels = new HashSet<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'â', 'ê', 'ô'));	
+	private final static HashSet<Character> vowels = new HashSet<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'Ã¡', 'Ã©', 'Ã­', 'Ã³', 'Ãº', 'Ã¢', 'Ãª', 'Ã´'));	
 
-	private final static SuffixTree<Boolean> suffix1 = new SuffixTree<Boolean>(true,"amentos", "imentos", "amento", "imento", "adoras", "adores", "aço~es", "ismos", "istas", "adora", "aça~o", "antes", "ância", "ezas", "icos", "icas", "ismo", "ável", "ível", "ista", "osos", "osas", "ador", "ante", "eza", "ico", "ica", "oso", "osa");
-	private final static SuffixTree<Boolean> suffix2 = new SuffixTree<Boolean>(true,"logías", "logía");
-	private final static SuffixTree<Boolean> suffix3 = new SuffixTree<Boolean>(true,"uciones", "ución");
-	private final static SuffixTree<Boolean> suffix4 = new SuffixTree<Boolean>(true,"ências", "ência");
+	private final static SuffixTree<Boolean> suffix1 = new SuffixTree<Boolean>(true,"amentos", "imentos", "amento", "imento", "adoras", "adores", "aÃ§o~es", "ismos", "istas", "adora", "aÃ§a~o", "antes", "Ã¢ncia", "ezas", "icos", "icas", "ismo", "Ã¡vel", "Ã­vel", "ista", "osos", "osas", "ador", "ante", "eza", "ico", "ica", "oso", "osa");
+	private final static SuffixTree<Boolean> suffix2 = new SuffixTree<Boolean>(true,"logÃ­as", "logÃ­a");
+	private final static SuffixTree<Boolean> suffix3 = new SuffixTree<Boolean>(true,"uciones", "uciÃ³n");
+	private final static SuffixTree<Boolean> suffix4 = new SuffixTree<Boolean>(true,"Ãªncias", "Ãªncia");
 	private final static SuffixTree<Boolean> suffix5 = new SuffixTree<Boolean>(true,"amente");
 	private final static SuffixTree<Boolean> suffix6 = new SuffixTree<Boolean>(true,"mente");
 	private final static SuffixTree<Boolean> suffix7 = new SuffixTree<Boolean>(true,"idades", "idade");
 	private final static SuffixTree<Boolean> suffix8 = new SuffixTree<Boolean>(true,"ivas", "ivos", "iva", "ivo");
 	private final static SuffixTree<Boolean> suffix9 = new SuffixTree<Boolean>(true,"iras", "ira");
-	private final static SuffixTree<Boolean> suffixv = new SuffixTree<Boolean>(true,"aríamos", "eríamos", "iríamos", "ássemos", "êssemos", "íssemos", "aríeis", "eríeis", "iríeis", "ásseis", "ésseis", "ísseis", "áramos", "éramos", "íramos", "ávamos", "aremos", "eremos", "iremos", "ariam", "eriam", "iriam", "assem", "essem", "issem", "ara~o", "era~o", "ira~o", "arias", "erias", "irias", "ardes", "erdes", "irdes", "asses", "esses", "isses", "astes", "estes", "istes", "áreis", "areis", "éreis", "ereis", "íreis", "ireis", "áveis", "íamos", "armos", "ermos", "irmos", "aria", "eria", "iria", "asse", "esse", "isse", "aste", "este", "iste", "arei", "erei", "irei", "aram", "eram", "iram", "avam", "arem", "erem", "irem", "ando", "endo", "indo", "adas", "idas", "arás", "aras", "erás", "eras", "irás", "avas", "ares", "eres", "ires", "íeis", "ados", "idos", "ámos", "amos", "emos", "imos", "iras", "ada", "ida", "ará", "ara", "erá", "era", "irá", "ava", "iam", "ado", "ido", "ias", "ais", "eis", "ira", "ia", "ei", "am", "em", "ar", "er", "ir", "as", "es", "is", "eu", "iu", "ou");
-	private final static SuffixTree<Boolean> suffixr = new SuffixTree<Boolean>(true,"os", "a", "i", "o", "á", "í", "ó");
-	private final static SuffixTree<Boolean> suffixf = new SuffixTree<Boolean>(true,"e", "é", "ê");
+	private final static SuffixTree<Boolean> suffixv = new SuffixTree<Boolean>(true,"arÃ­amos", "erÃ­amos", "irÃ­amos", "Ã¡ssemos", "Ãªssemos", "Ã­ssemos", "arÃ­eis", "erÃ­eis", "irÃ­eis", "Ã¡sseis", "Ã©sseis", "Ã­sseis", "Ã¡ramos", "Ã©ramos", "Ã­ramos", "Ã¡vamos", "aremos", "eremos", "iremos", "ariam", "eriam", "iriam", "assem", "essem", "issem", "ara~o", "era~o", "ira~o", "arias", "erias", "irias", "ardes", "erdes", "irdes", "asses", "esses", "isses", "astes", "estes", "istes", "Ã¡reis", "areis", "Ã©reis", "ereis", "Ã­reis", "ireis", "Ã¡veis", "Ã­amos", "armos", "ermos", "irmos", "aria", "eria", "iria", "asse", "esse", "isse", "aste", "este", "iste", "arei", "erei", "irei", "aram", "eram", "iram", "avam", "arem", "erem", "irem", "ando", "endo", "indo", "adas", "idas", "arÃ¡s", "aras", "erÃ¡s", "eras", "irÃ¡s", "avas", "ares", "eres", "ires", "Ã­eis", "ados", "idos", "Ã¡mos", "amos", "emos", "imos", "iras", "ada", "ida", "arÃ¡", "ara", "erÃ¡", "era", "irÃ¡", "ava", "iam", "ado", "ido", "ias", "ais", "eis", "ira", "ia", "ei", "am", "em", "ar", "er", "ir", "as", "es", "is", "eu", "iu", "ou");
+	private final static SuffixTree<Boolean> suffixr = new SuffixTree<Boolean>(true,"os", "a", "i", "o", "Ã¡", "Ã­", "Ã³");
+	private final static SuffixTree<Boolean> suffixf = new SuffixTree<Boolean>(true,"e", "Ã©", "Ãª");
 }

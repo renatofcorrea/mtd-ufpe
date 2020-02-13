@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
 <orengorules>
   <step name="pluralreduction" size="3" exceptions="1">
-    <rule replacement="ão" size="2" suffix="ões"/>
+	<rule replacement="ão" size="2" suffix="ões"/>
     <rule replacement="ão" size="1" suffix="ães">
       <exception>mães</exception>
     </rule>
-    <rule replacement="al" size="1" suffix="ais">
+    <rule replacement="al" size="3" suffix="ais">
       <exception>cais</exception>
       <exception>mais</exception>
       <exception>pais</exception>
     </rule>
-    <rule replacement="el" size="2" suffix="éis"/>
-    <rule replacement="el" size="2" suffix="eis">
+	<rule replacement="ol" size="1" suffix="ois">
+	  <exception>pois</exception>
+      <exception>depois</exception>
+      <exception>dois</exception>
+	 </rule>
+    <rule replacement="el" size="3" suffix="éis"/>
+    <rule replacement="el" size="3" suffix="eis">
     	<exception>répteis</exception>
+		<exception>têxteis</exception>
     </rule>
-    <rule replacement="ol" size="2" suffix="óis"/>
-    <rule replacement="ptil" size="2" suffix="pteis"/>
-    <rule replacement="il" size="2" suffix="is">
+    <rule replacement="til" size="1" suffix="teis"/>
+    <rule replacement="il" size="3" suffix="is">
+	<exception>álcoois</exception>
       <exception>anéis</exception>
       <exception>fiéis</exception>
       <exception>lápis</exception>

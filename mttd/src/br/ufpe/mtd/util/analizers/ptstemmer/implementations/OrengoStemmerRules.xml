@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
 <orengorules>
   <step name="pluralreduction" size="3" exceptions="1">
-    <rule replacement="Ã£o" size="3" suffix="Ãµes"/>
-    <rule replacement="Ã£o" size="1" suffix="Ã£es">
-      <exception>mÃ£es</exception>
+    <rule replacement="ão" size="3" suffix="ões"/>
+    <rule replacement="ão" size="1" suffix="ães">
+      <exception>mães</exception>
     </rule>
     <rule replacement="al" size="1" suffix="ais">
       <exception>cais</exception>
       <exception>mais</exception>
       <exception>pais</exception>
     </rule>
-    <rule replacement="el" size="2" suffix="Ã©is"/>
+    <rule replacement="el" size="2" suffix="éis"/>
     <rule replacement="il" size="2" suffix="eis"/>
-    <rule replacement="ol" size="2" suffix="Ã³is"/>
+    <rule replacement="ol" size="2" suffix="óis"/>
     <rule replacement="l" size="3" suffix="les"/>
     <rule replacement="r" size="3" suffix="res"/>
     <rule replacement="il" size="2" suffix="is">
-      <exception>lÃ¡pis</exception>
+      <exception>lápis</exception>
       <exception>cais</exception>
       <exception>mais</exception>
-      <exception>crÃºcis</exception>
-      <exception>biquÃ­nis</exception>
+      <exception>crúcis</exception>
+      <exception>biquínis</exception>
       <exception>pois</exception>
       <exception>depois</exception>
       <exception>dois</exception>
@@ -29,25 +29,25 @@
     </rule>
     <rule replacement="m" size="1" suffix="ns"/>
     <rule replacement="" size="2" suffix="s">
-      <exception>aliÃ¡s</exception>
+      <exception>aliás</exception>
       <exception>pires</exception>
-      <exception>lÃ¡pis</exception>
+      <exception>lápis</exception>
       <exception>cais</exception>
       <exception>mais</exception>
       <exception>mas</exception>
       <exception>menos</exception>
-      <exception>fÃ©rias</exception>
+      <exception>férias</exception>
       <exception>fezes</exception>
-      <exception>pÃªsames</exception>
-      <exception>crÃºcis</exception>
-      <exception>gÃ¡s</exception>
-      <exception>atrÃ¡s</exception>
-      <exception>moisÃ©s</exception>
-      <exception>atravÃ©s</exception>
-      <exception>convÃ©s</exception>
-      <exception>Ãªs</exception>
-      <exception>paÃ­s</exception>
-      <exception>apÃ³s</exception>
+      <exception>pêsames</exception>
+      <exception>crúcis</exception>
+      <exception>gás</exception>
+      <exception>atrás</exception>
+      <exception>moisés</exception>
+      <exception>através</exception>
+      <exception>convés</exception>
+      <exception>ês</exception>
+      <exception>país</exception>
+      <exception>após</exception>
       <exception>ambas</exception>
       <exception>ambos</exception>
       <exception>messias</exception>
@@ -66,7 +66,7 @@
       <exception>besteira</exception>
       <exception>poeira</exception>
     </rule>
-    <rule replacement="Ã­aco" size="3" suffix="Ã­aca"/>
+    <rule replacement="íaco" size="3" suffix="íaca"/>
     <rule replacement="inho" size="3" suffix="inha">
       <exception>rainha</exception>
       <exception>linha</exception>
@@ -85,31 +85,31 @@
     <rule replacement="ido" size="3" suffix="ida">
       <exception>vida</exception>
     </rule>
-    <rule replacement="ido" size="3" suffix="Ã­da">
-      <exception>recaÃ­da</exception>
-      <exception>saÃ­da</exception>
-      <exception>dÃºvida</exception>
+    <rule replacement="ido" size="3" suffix="ída">
+      <exception>recaída</exception>
+      <exception>saída</exception>
+      <exception>dúvida</exception>
     </rule>
     <rule replacement="imo" size="3" suffix="ima">
-      <exception>vÃ­tima</exception>
+      <exception>vítima</exception>
     </rule>
     <rule replacement="ivo" size="3" suffix="iva">
       <exception>saliva</exception>
       <exception>oliva</exception>
     </rule>
-    <rule replacement="Ã£o" size="3" suffix="ona">
+    <rule replacement="ão" size="3" suffix="ona">
       <exception>abandona</exception>
       <exception>lona</exception>
       <exception>iona</exception>
       <exception>cortisona</exception>
-      <exception>monÃ³tona</exception>
+      <exception>monótona</exception>
       <exception>maratona</exception>
       <exception>acetona</exception>
       <exception>detona</exception>
       <exception>carona</exception>
     </rule>
     <rule replacement="or" size="3" suffix="ora"/>
-    <rule replacement="Ãªs" size="3" suffix="esa">
+    <rule replacement="ês" size="3" suffix="esa">
       <exception>mesa</exception>
       <exception>obesa</exception>
       <exception>princesa</exception>
@@ -124,7 +124,7 @@
       <exception>lona</exception>
       <exception>iona</exception>
       <exception>cortisona</exception>
-      <exception>monÃ³tona</exception>
+      <exception>monótona</exception>
       <exception>maratona</exception>
       <exception>acetona</exception>
       <exception>detona</exception>
@@ -135,11 +135,11 @@
       <exception>banana</exception>
       <exception>paisana</exception>
     </rule>
-    <rule replacement="Ã£o" size="2" suffix="Ã£">
-      <exception>amanhÃ£</exception>
-      <exception>arapuÃ£</exception>
-      <exception>fÃ£</exception>
-      <exception>divÃ£</exception>
+    <rule replacement="ão" size="2" suffix="ã">
+      <exception>amanhã</exception>
+      <exception>arapuã</exception>
+      <exception>fã</exception>
+      <exception>divã</exception>
     </rule>
   </step>
   <step name="adverbreduction" size="0" exceptions="0">
@@ -148,81 +148,81 @@
     </rule>
   </step>
   <step name="augmentativediminutivereduction" size="0" exceptions="1">
-    <rule replacement="" size="5" suffix="abÃ­lÃ­ssimo"/>
-    <rule replacement="" size="5" suffix="dÃ­ssimo"/>
+    <rule replacement="" size="5" suffix="abílíssimo"/>
+    <rule replacement="" size="5" suffix="díssimo"/>
     <rule replacement="c" size="4" suffix="quinho"/>
-    <rule replacement="" size="3" suffix="Ã­ssimo"/>
-    <rule replacement="" size="4" suffix="Ã©rrimo"/>
+    <rule replacement="" size="3" suffix="íssimo"/>
+    <rule replacement="" size="4" suffix="érrimo"/>
     <rule replacement="" size="3" suffix="adinho"/>
-    <rule replacement="" size="3" suffix="zarrÃ£o"/>
+    <rule replacement="" size="3" suffix="zarrão"/>
     <rule replacement="" size="2" suffix="zinho"/>
-    <rule replacement="" size="3" suffix="Ã©simo"/>
+    <rule replacement="" size="3" suffix="ésimo"/>
     <rule replacement="" size="4" suffix="uinho"/>
-    <rule replacement="" size="4" suffix="alhÃ£o"/>
+    <rule replacement="" size="4" suffix="alhão"/>
     <rule replacement="" size="4" suffix="arraz"/>
-    <rule replacement="" size="4" suffix="arrÃ£o"/>
+    <rule replacement="" size="4" suffix="arrão"/>
     <rule replacement="" size="3" suffix="inho">
       <exception>caminho</exception>
       <exception>cominho</exception>
     </rule>
-    <rule replacement="" size="4" suffix="idÃ£o"/>
-    <rule replacement="" size="4" suffix="adÃ£o"/>
-    <rule replacement="" size="3" suffix="Ã¡zio">
-      <exception>topÃ¡zio</exception>
+    <rule replacement="" size="4" suffix="idão"/>
+    <rule replacement="" size="4" suffix="adão"/>
+    <rule replacement="" size="3" suffix="ázio">
+      <exception>topázio</exception>
     </rule>
     <rule replacement="" size="3" suffix="arra"/>
-    <rule replacement="" size="4" suffix="uÃ§a"/>
-    <rule replacement="" size="4" suffix="aÃ§o">
-      <exception>antebraÃ§o</exception>
+    <rule replacement="" size="4" suffix="uça"/>
+    <rule replacement="" size="4" suffix="aço">
+      <exception>antebraço</exception>
     </rule>
-    <rule replacement="" size="4" suffix="aÃ§a"/>
-    <rule replacement="" size="2" suffix="zÃ£o">
-      <exception>coalizÃ£o</exception>
+    <rule replacement="" size="4" suffix="aça"/>
+    <rule replacement="" size="2" suffix="zão">
+      <exception>coalizão</exception>
     </rule>
-    <rule replacement="" size="3" suffix="Ã£o">
-      <exception>camarÃ£o</exception>
-      <exception>chimarrÃ£o</exception>
-      <exception>canÃ§Ã£o</exception>
-      <exception>coraÃ§Ã£o</exception>
-      <exception>embriÃ£o</exception>
-      <exception>grotÃ£o</exception>
-      <exception>glutÃ£o</exception>
-      <exception>ficÃ§Ã£o</exception>
-      <exception>fogÃ£o</exception>
-      <exception>feiÃ§Ã£o</exception>
-      <exception>furacÃ£o</exception>
-      <exception>gamÃ£o</exception>
-      <exception>lampiÃ£o</exception>
-      <exception>leÃ£o</exception>
-      <exception>macacÃ£o</exception>
-      <exception>naÃ§Ã£o</exception>
-      <exception>Ã³rfÃ£o</exception>
-      <exception>orgÃ£o</exception>
-      <exception>patrÃ£o</exception>
-      <exception>portÃ£o</exception>
-      <exception>quinhÃ£o</exception>
-      <exception>rincÃ£o</exception>
-      <exception>traÃ§Ã£o</exception>
-      <exception>falcÃ£o</exception>
-      <exception>espiÃ£o</exception>
-      <exception>mamÃ£o</exception>
-      <exception>foliÃ£o</exception>
-      <exception>cordÃ£o</exception>
-      <exception>aptidÃ£o</exception>
-      <exception>campeÃ£o</exception>
-      <exception>colchÃ£o</exception>
-      <exception>limÃ£o</exception>
-      <exception>leilÃ£o</exception>
-      <exception>melÃ£o</exception>
-      <exception>barÃ£o</exception>
-      <exception>milhÃ£o</exception>
-      <exception>bilhÃ£o</exception>
-      <exception>fusÃ£o</exception>
-      <exception>cristÃ£o</exception>
-      <exception>ilusÃ£o</exception>
-      <exception>capitÃ£o</exception>
-      <exception>estaÃ§Ã£o</exception>
-      <exception>senÃ£o</exception>
+    <rule replacement="" size="3" suffix="ão">
+      <exception>camarão</exception>
+      <exception>chimarrão</exception>
+      <exception>canção</exception>
+      <exception>coração</exception>
+      <exception>embrião</exception>
+      <exception>grotão</exception>
+      <exception>glutão</exception>
+      <exception>ficção</exception>
+      <exception>fogão</exception>
+      <exception>feição</exception>
+      <exception>furacão</exception>
+      <exception>gamão</exception>
+      <exception>lampião</exception>
+      <exception>leão</exception>
+      <exception>macacão</exception>
+      <exception>nação</exception>
+      <exception>órfão</exception>
+      <exception>orgão</exception>
+      <exception>patrão</exception>
+      <exception>portão</exception>
+      <exception>quinhão</exception>
+      <exception>rincão</exception>
+      <exception>tração</exception>
+      <exception>falcão</exception>
+      <exception>espião</exception>
+      <exception>mamão</exception>
+      <exception>folião</exception>
+      <exception>cordão</exception>
+      <exception>aptidão</exception>
+      <exception>campeão</exception>
+      <exception>colchão</exception>
+      <exception>limão</exception>
+      <exception>leilão</exception>
+      <exception>melão</exception>
+      <exception>barão</exception>
+      <exception>milhão</exception>
+      <exception>bilhão</exception>
+      <exception>fusão</exception>
+      <exception>cristão</exception>
+      <exception>ilusão</exception>
+      <exception>capitão</exception>
+      <exception>estação</exception>
+      <exception>senão</exception>
     </rule>
   </step>
   <step name="nounreduction" size="0" exceptions="0">
@@ -230,7 +230,7 @@
     <rule replacement="" size="5" suffix="abilidade"/>
     <rule replacement="" size="4" suffix="icionista"/>
     <rule replacement="" size="5" suffix="cionista"/>
-    <rule replacement="" size="3" suffix="alÃ­stico"/>
+    <rule replacement="" size="3" suffix="alístico"/>
     <rule replacement="" size="5" suffix="ionista"/>
     <rule replacement="" size="5" suffix="ividade"/>
     <rule replacement="" size="4" suffix="iamento"/>
@@ -238,11 +238,11 @@
     <rule replacement="" size="4" suffix="atizado"/>
     <rule replacement="" size="4" suffix="ivismo"/>
     <rule replacement="" size="4" suffix="alismo"/>
-    <rule replacement="" size="4" suffix="Ã¡stico">
-      <exception>eclesiÃ¡stico</exception>
+    <rule replacement="" size="4" suffix="ástico">
+      <exception>eclesiástico</exception>
     </rule>
     <rule replacement="" size="5" suffix="encial"/>
-    <rule replacement="" size="5" suffix="atÃ³ria"/>
+    <rule replacement="" size="5" suffix="atória"/>
     <rule replacement="" size="5" suffix="atoria"/>
     <rule replacement="" size="5" suffix="alista"/>
     <rule replacement="" size="3" suffix="amento">
@@ -251,12 +251,12 @@
       <exception>departamento</exception>
     </rule>
     <rule replacement="" size="3" suffix="imento"/>
-    <rule replacement="" size="4" suffix="Ã¡utico"/>
-    <rule replacement="" size="4" suffix="Ãªutico"/>
+    <rule replacement="" size="4" suffix="áutico"/>
+    <rule replacement="" size="4" suffix="êutico"/>
     <rule replacement="" size="3" suffix="edouro"/>
     <rule replacement="" size="3" suffix="queiro"/>
-    <rule replacement="" size="5" suffix="alizaÃ§"/>
-    <rule replacement="" size="5" suffix="atizaÃ§"/>
+    <rule replacement="" size="5" suffix="alizaç"/>
+    <rule replacement="" size="5" suffix="atizaç"/>
     <rule replacement="" size="4" suffix="tizado">
       <exception>alfabetizado</exception>
     </rule>
@@ -264,9 +264,9 @@
       <exception>desfiladeiro</exception>
     </rule>
     <rule replacement="c" size="4" suffix="quice"/>
-    <rule replacement="" size="3" suffix="Ã¡tico"/>
+    <rule replacement="" size="3" suffix="ático"/>
     <rule replacement="" size="5" suffix="ionar"/>
-    <rule replacement="" size="5" suffix="tizaÃ§"/>
+    <rule replacement="" size="5" suffix="tizaç"/>
     <rule replacement="" size="5" suffix="idade">
       <exception>autoridade</exception>
       <exception>comunidade</exception>
@@ -287,24 +287,24 @@
       <exception>relativo</exception>
     </rule>
     <rule replacement="" size="4" suffix="ional"/>
-    <rule replacement="" size="3" suffix="Ãªncia"/>
-    <rule replacement="" size="4" suffix="Ã¢ncia">
-      <exception>ambulÃ¢ncia</exception>
+    <rule replacement="" size="3" suffix="ência"/>
+    <rule replacement="" size="4" suffix="ância">
+      <exception>ambulância</exception>
     </rule>
-    <rule replacement="" size="5" suffix="izaÃ§">
-      <exception>organizaÃ§</exception>
+    <rule replacement="" size="5" suffix="izaç">
+      <exception>organizaç</exception>
     </rule>
-    <rule replacement="" size="3" suffix="Ã¡rio">
-      <exception>voluntÃ¡rio</exception>
-      <exception>salÃ¡rio</exception>
-      <exception>aniversÃ¡rio</exception>
-      <exception>diÃ¡rio</exception>
-      <exception>lionÃ¡rio</exception>
-      <exception>armÃ¡rio</exception>
+    <rule replacement="" size="3" suffix="ário">
+      <exception>voluntário</exception>
+      <exception>salário</exception>
+      <exception>aniversário</exception>
+      <exception>diário</exception>
+      <exception>lionário</exception>
+      <exception>armário</exception>
     </rule>
-    <rule replacement="" size="6" suffix="Ã©rio"/>
+    <rule replacement="" size="6" suffix="ério"/>
     <rule replacement="" size="5" suffix="auta"/>
-    <rule replacement="" size="6" suffix="Ã©nse"/>
+    <rule replacement="" size="6" suffix="énse"/>
     <rule replacement="" size="4" suffix="esco"/>
     <rule replacement="" size="2" suffix="ante">
       <exception>gigante</exception>
@@ -318,18 +318,18 @@
       <exception>categoria</exception>
     </rule>
     <rule replacement="" size="4" suffix="ista"/>
-    <rule replacement="" size="3" suffix="Ã­aco"/>
-    <rule replacement="" size="2" suffix="Ã¡vel">
-      <exception>afÃ¡vel</exception>
-      <exception>razoÃ¡vel</exception>
-      <exception>potÃ¡vel</exception>
-      <exception>vulnerÃ¡vel</exception>
+    <rule replacement="" size="3" suffix="íaco"/>
+    <rule replacement="" size="2" suffix="ável">
+      <exception>afável</exception>
+      <exception>razoável</exception>
+      <exception>potável</exception>
+      <exception>vulnerável</exception>
     </rule>
-    <rule replacement="" size="5" suffix="Ã­vel">
-      <exception>possÃ­vel</exception>
+    <rule replacement="" size="5" suffix="ível">
+      <exception>possível</exception>
     </rule>
     <rule replacement="" size="4" suffix="ente">
-      <exception>freqÃ¼ente</exception>
+      <exception>freqüente</exception>
       <exception>alimente</exception>
       <exception>acrescente</exception>
       <exception>permanente</exception>
@@ -341,18 +341,18 @@
       <exception>relativo</exception>
     </rule>
     <rule replacement="" size="3" suffix="tico">
-      <exception>polÃ­tico</exception>
-      <exception>eclesiÃ¡stico</exception>
+      <exception>político</exception>
+      <exception>eclesiástico</exception>
       <exception>diagnostico</exception>
-      <exception>prÃ¡tico</exception>
-      <exception>domÃ©stico</exception>
-      <exception>diagnÃ³stico</exception>
-      <exception>idÃªntico</exception>
-      <exception>alopÃ¡tico</exception>
-      <exception>artÃ­stico</exception>
-      <exception>autÃªntico</exception>
-      <exception>eclÃ©tico</exception>
-      <exception>crÃ­tico</exception>
+      <exception>prático</exception>
+      <exception>doméstico</exception>
+      <exception>diagnóstico</exception>
+      <exception>idêntico</exception>
+      <exception>alopático</exception>
+      <exception>artístico</exception>
+      <exception>autêntico</exception>
+      <exception>eclético</exception>
+      <exception>crítico</exception>
       <exception>critico</exception>
     </rule>
     <rule replacement="" size="3" suffix="agem">
@@ -378,7 +378,7 @@
     <rule replacement="" size="3" suffix="eza"/>
     <rule replacement="" size="4" suffix="ico">
       <exception>tico</exception>
-      <exception>pÃºblico</exception>
+      <exception>público</exception>
       <exception>explico</exception>
     </rule>
     <rule replacement="" size="4" suffix="dor">
@@ -397,7 +397,7 @@
       <exception>consultor</exception>
     </rule>
     <rule replacement="" size="4" suffix="ice">
-      <exception>cÃºmplice</exception>
+      <exception>cúmplice</exception>
     </rule>
     <rule replacement="" size="4" suffix="ano"/>
     <rule replacement="" size="4" suffix="ura">
@@ -414,15 +414,15 @@
     <rule replacement="" size="3" suffix="ial"/>
     <rule replacement="vel" size="6" suffix="bil"/>
     <rule replacement="" size="5" suffix="rio">
-      <exception>voluntÃ¡rio</exception>
-      <exception>salÃ¡rio</exception>
-      <exception>aniversÃ¡rio</exception>
-      <exception>diÃ¡rio</exception>
-      <exception>compulsÃ³rio</exception>
-      <exception>lionÃ¡rio</exception>
-      <exception>prÃ³prio</exception>
-      <exception>stÃ©rio</exception>
-      <exception>armÃ¡rio</exception>
+      <exception>voluntário</exception>
+      <exception>salário</exception>
+      <exception>aniversário</exception>
+      <exception>diário</exception>
+      <exception>compulsório</exception>
+      <exception>lionário</exception>
+      <exception>próprio</exception>
+      <exception>stério</exception>
+      <exception>armário</exception>
     </rule>
     <rule replacement="" size="4" suffix="ivo">
       <exception>passivo</exception>
@@ -434,11 +434,11 @@
       <exception>grado</exception>
     </rule>
     <rule replacement="" size="3" suffix="ido">
-      <exception>cÃ¢ndido</exception>
+      <exception>cândido</exception>
       <exception>consolido</exception>
-      <exception>rÃ¡pido</exception>
+      <exception>rápido</exception>
       <exception>decido</exception>
-      <exception>tÃ­mido</exception>
+      <exception>tímido</exception>
       <exception>duvido</exception>
       <exception>marido</exception>
     </rule>
@@ -446,18 +446,18 @@
       <exception>precioso</exception>
     </rule>
     <rule replacement="" size="5" suffix="vel">
-      <exception>possÃ­vel</exception>
-      <exception>vulnerÃ¡vel</exception>
-      <exception>solÃºvel</exception>
+      <exception>possível</exception>
+      <exception>vulnerável</exception>
+      <exception>solúvel</exception>
     </rule>
-    <rule replacement="" size="3" suffix="aÃ§">
-      <exception>equaÃ§</exception>
-      <exception>relaÃ§</exception>
+    <rule replacement="" size="3" suffix="aç">
+      <exception>equaç</exception>
+      <exception>relaç</exception>
     </rule>
-    <rule replacement="" size="3" suffix="iÃ§">
-      <exception>eleiÃ§Ã£o</exception>
+    <rule replacement="" size="3" suffix="iç">
+      <exception>eleição</exception>
     </rule>
-    <rule replacement="" size="4" suffix="Ãªs"/>
+    <rule replacement="" size="4" suffix="ês"/>
     <rule replacement="" size="4" suffix="ez"/>
     <rule replacement="" size="4" suffix="al">
       <exception>afinal</exception>
@@ -493,30 +493,30 @@
     </rule>
   </step>
   <step name="verbreduction" size="0" exceptions="0">
-    <rule replacement="" size="2" suffix="arÃ­amo"/>
-    <rule replacement="" size="2" suffix="Ã¡ssemo"/>
-    <rule replacement="" size="2" suffix="erÃ­amo"/>
-    <rule replacement="" size="3" suffix="irÃ­amo"/>
-    <rule replacement="" size="3" suffix="Ã­ssemo"/>
-    <rule replacement="" size="3" suffix="Ãªssemo"/>
-    <rule replacement="" size="2" suffix="Ã¡ramo"/>
+    <rule replacement="" size="2" suffix="aríamo"/>
+    <rule replacement="" size="2" suffix="ássemo"/>
+    <rule replacement="" size="2" suffix="eríamo"/>
+    <rule replacement="" size="3" suffix="iríamo"/>
+    <rule replacement="" size="3" suffix="íssemo"/>
+    <rule replacement="" size="3" suffix="êssemo"/>
+    <rule replacement="" size="2" suffix="áramo"/>
     <rule replacement="" size="2" suffix="aremo"/>
     <rule replacement="" size="2" suffix="ariam"/>
-    <rule replacement="" size="3" suffix="arÃ­ei"/>
-    <rule replacement="" size="3" suffix="Ã¡ssei"/>
+    <rule replacement="" size="3" suffix="aríei"/>
+    <rule replacement="" size="3" suffix="ássei"/>
     <rule replacement="" size="3" suffix="assem"/>
-    <rule replacement="" size="2" suffix="Ã¡vamo"/>
-    <rule replacement="" size="3" suffix="Ãªramo"/>
+    <rule replacement="" size="2" suffix="ávamo"/>
+    <rule replacement="" size="3" suffix="êramo"/>
     <rule replacement="" size="3" suffix="eremo"/>
     <rule replacement="" size="3" suffix="eriam"/>
-    <rule replacement="" size="3" suffix="erÃ­ei"/>
-    <rule replacement="" size="3" suffix="Ãªssei"/>
+    <rule replacement="" size="3" suffix="eríei"/>
+    <rule replacement="" size="3" suffix="êssei"/>
     <rule replacement="" size="3" suffix="essem"/>
-    <rule replacement="" size="3" suffix="Ã­ramo"/>
+    <rule replacement="" size="3" suffix="íramo"/>
     <rule replacement="" size="3" suffix="iremo"/>
     <rule replacement="" size="3" suffix="iriam"/>
-    <rule replacement="" size="3" suffix="irÃ­ei"/>
-    <rule replacement="" size="3" suffix="Ã­ssei"/>
+    <rule replacement="" size="3" suffix="iríei"/>
+    <rule replacement="" size="3" suffix="íssei"/>
     <rule replacement="" size="3" suffix="issem"/>
     <rule replacement="" size="4" suffix="tizar">
       <exception>alfabetizar</exception>
@@ -527,11 +527,11 @@
     <rule replacement="" size="3" suffix="ondo"/>
     <rule replacement="" size="2" suffix="aram"/>
     <rule replacement="" size="2" suffix="arde"/>
-    <rule replacement="" size="2" suffix="Ã¡rei"/>
+    <rule replacement="" size="2" suffix="árei"/>
     <rule replacement="" size="2" suffix="arei"/>
-    <rule replacement="" size="2" suffix="arÃ£o"/>
-    <rule replacement="" size="2" suffix="erÃ£o"/>
-    <rule replacement="" size="2" suffix="irÃ£o"/>
+    <rule replacement="" size="2" suffix="arão"/>
+    <rule replacement="" size="2" suffix="erão"/>
+    <rule replacement="" size="2" suffix="irão"/>
     <rule replacement="" size="3" suffix="iona"/>
     <rule replacement="" size="2" suffix="arem"/>
     <rule replacement="" size="2" suffix="aria"/>
@@ -541,11 +541,11 @@
     <rule replacement="" size="2" suffix="avam">
       <exception>agravam</exception>
     </rule>
-    <rule replacement="" size="2" suffix="Ã¡vei"/>
+    <rule replacement="" size="2" suffix="ávei"/>
     <rule replacement="" size="3" suffix="eram"/>
     <rule replacement="" size="3" suffix="erde"/>
     <rule replacement="" size="3" suffix="erei"/>
-    <rule replacement="" size="3" suffix="Ãªrei"/>
+    <rule replacement="" size="3" suffix="êrei"/>
     <rule replacement="" size="3" suffix="erem"/>
     <rule replacement="" size="3" suffix="eria"/>
     <rule replacement="" size="3" suffix="ermo"/>
@@ -554,9 +554,9 @@
       <exception>faroeste</exception>
       <exception>agreste</exception>
     </rule>
-    <rule replacement="" size="3" suffix="Ã­amo"/>
+    <rule replacement="" size="3" suffix="íamo"/>
     <rule replacement="" size="3" suffix="iram"/>
-    <rule replacement="" size="3" suffix="Ã­ram"/>
+    <rule replacement="" size="3" suffix="íram"/>
     <rule replacement="" size="2" suffix="irde"/>
     <rule replacement="" size="3" suffix="irei">
       <exception>admirei</exception>
@@ -584,8 +584,8 @@
       <exception>arara</exception>
       <exception>prepara</exception>
     </rule>
-    <rule replacement="" size="2" suffix="arÃ¡">
-      <exception>alvarÃ¡</exception>
+    <rule replacement="" size="2" suffix="ará">
+      <exception>alvará</exception>
     </rule>
     <rule replacement="" size="2" suffix="are">
       <exception>prepare</exception>
@@ -599,7 +599,7 @@
       <exception>acelera</exception>
       <exception>espera</exception>
     </rule>
-    <rule replacement="" size="3" suffix="erÃ¡"/>
+    <rule replacement="" size="3" suffix="erá"/>
     <rule replacement="" size="3" suffix="ere">
       <exception>espere</exception>
     </rule>
@@ -609,31 +609,31 @@
       <exception>elogiam</exception>
       <exception>ensaiam</exception>
     </rule>
-    <rule replacement="" size="3" suffix="Ã­ei"/>
+    <rule replacement="" size="3" suffix="íei"/>
     <rule replacement="" size="3" suffix="imo">
       <exception>reprimo</exception>
       <exception>intimo</exception>
-      <exception>Ã­ntimo</exception>
+      <exception>íntimo</exception>
       <exception>nimo</exception>
       <exception>queimo</exception>
       <exception>ximo</exception>
     </rule>
     <rule replacement="" size="3" suffix="ira">
       <exception>fronteira</exception>
-      <exception>sÃ¡tira</exception>
+      <exception>sátira</exception>
     </rule>
-    <rule replacement="" size="3" suffix="irÃ¡"/>
+    <rule replacement="" size="3" suffix="irá"/>
     <rule replacement="" size="3" suffix="ire">
       <exception>adquire</exception>
     </rule>
-    <rule replacement="" size="3" suffix="Ã­do"/>
+    <rule replacement="" size="3" suffix="ído"/>
     <rule replacement="" size="3" suffix="omo"/>
     <rule replacement="" size="4" suffix="ear">
       <exception>alardear</exception>
       <exception>nuclear</exception>
     </rule>
     <rule replacement="" size="3" suffix="uei"/>
-    <rule replacement="u" size="5" suffix="uÃ­a"/>
+    <rule replacement="u" size="5" suffix="uía"/>
     <rule replacement="" size="2" suffix="ai"/>
     <rule replacement="" size="2" suffix="am"/>
     <rule replacement="" size="2" suffix="ar">
@@ -647,25 +647,25 @@
       <exception>virgem</exception>
     </rule>
     <rule replacement="" size="2" suffix="er">
-      <exception>Ã©ter</exception>
+      <exception>éter</exception>
       <exception>pier</exception>
     </rule>
     <rule replacement="" size="3" suffix="eu">
       <exception>chapeu</exception>
     </rule>
     <rule replacement="" size="3" suffix="ia">
-      <exception>estÃ³ria</exception>
+      <exception>estória</exception>
       <exception>fatia</exception>
       <exception>acia</exception>
       <exception>praia</exception>
       <exception>elogia</exception>
       <exception>mania</exception>
-      <exception>lÃ¡bia</exception>
+      <exception>lábia</exception>
       <exception>aprecia</exception>
-      <exception>polÃ­cia</exception>
+      <exception>polícia</exception>
       <exception>arredia</exception>
       <exception>cheia</exception>
-      <exception>Ã¡sia</exception>
+      <exception>ásia</exception>
     </rule>
     <rule replacement="" size="3" suffix="ir">
       <exception>freir</exception>
@@ -676,15 +676,15 @@
   </step>
   <step name="vowelremoval" size="0" exceptions="0">
     <rule replacement="" size="3" suffix="a">
-      <exception>Ã¡sia</exception>
+      <exception>ásia</exception>
     </rule>
-    <rule replacement="" size="3" suffix="Ã¡"/>
+    <rule replacement="" size="3" suffix="á"/>
     <rule replacement="" size="3" suffix="e"/>
-    <rule replacement="" size="3" suffix="Ãª">
-      <exception>bebÃª</exception>
+    <rule replacement="" size="3" suffix="ê">
+      <exception>bebê</exception>
     </rule>
     <rule replacement="" size="3" suffix="o">
-      <exception>Ã£o</exception>
+      <exception>ão</exception>
     </rule>
     <rule replacement="vel" size="2" suffix="bil"/>
     <rule replacement="g" size="3" suffix="gue">

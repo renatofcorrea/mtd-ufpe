@@ -88,7 +88,7 @@ public class OrengoStemmer extends Stemmer{
 		if(end == 's')
 			stem = applyRules(stem, pluralreductionrules);
 		end = stem.charAt(stem.length()-1);
-		if(end == 'a' || end == 'ã')
+		if(end == 'a' || end == 'Ã£')
 			stem = applyRules(stem, femininereductionrules);
 		stem = applyRules(stem, augmentativediminutivereductionrules);
 		stem = applyRules(stem, adverbreductionrules);
@@ -107,7 +107,7 @@ public class OrengoStemmer extends Stemmer{
 	protected String applyRules(String st, SuffixTree<Rule> rules) {
 		if(st.length() < rules.getProperty("size"))	//If the word is smaller than the minimum stemming size of this step, ignore it
 			return st;
-	
+		int w = 0;
 		List<Pair<String, Rule>> res = rules.getLongestSuffixesAndValues(st);
 	
 		for(int i=res.size()-1; i>=0; i--)
@@ -157,8 +157,8 @@ public class OrengoStemmer extends Stemmer{
 					throw new PTStemmerException("Problem while parsing Orengo's XML stemming rules file: Invalid rule in "+stepName+".");
 	
 	
-				//String suffix = new String(rule.getAttribute("suffix").getBytes(),Charset.forName("utf-8"));
 				String suffix = new String(rule.getAttribute("suffix").getBytes(),Charset.forName("ISO-8859-1"));
+				//String suffix = new String(rule.getAttribute("suffix").getBytes(),Charset.forName("ISO-8859-1"));
 	
 				List<String> exceptions = new ArrayList<String>();
 				for(Element exception: XMLUtils.getChilds(rule))
@@ -166,15 +166,15 @@ public class OrengoStemmer extends Stemmer{
 	
 					if(!exception.getTagName().equals("exception") || !exception.hasChildNodes())
 						throw new PTStemmerException("Problem while parsing Orengo's XML stemming rules file: Invalid exception in step "+stepName+", rule "+suffix+".");
-//					String exc = new String(exception.getChildNodes().item(0).getNodeValue().getBytes(),Charset.forName("utf-8"));
 					String exc = new String(exception.getChildNodes().item(0).getNodeValue().getBytes(),Charset.forName("ISO-8859-1"));
+					//String exc = new String(exception.getChildNodes().item(0).getNodeValue().getBytes(),Charset.forName("ISO-8859-1"));
 					exceptions.add(exc);
 				}
 				Rule r;
 				try
 				{
-					//String rep = new String(rule.getAttribute("replacement").getBytes(),Charset.forName("utf-8"));
 					String rep = new String(rule.getAttribute("replacement").getBytes(),Charset.forName("ISO-8859-1"));
+					//String rep = new String(rule.getAttribute("replacement").getBytes(),Charset.forName("ISO-8859-1"));
 					r = new Rule(Integer.parseInt(rule.getAttribute("size")), rep, exceptions.toArray(new String[exceptions.size()]));
 				}catch (NumberFormatException e) {
 					throw new PTStemmerException("Problem while parsing Orengo's XML stemming rules file: Missing or invalid rules properties on step "+stepName+".", e);
@@ -207,11 +207,11 @@ public class OrengoStemmer extends Stemmer{
 
 
 	protected SuffixTree<Rule> pluralreductionrules;
-	private SuffixTree<Rule> femininereductionrules;
-	private SuffixTree<Rule> adverbreductionrules;
-	private SuffixTree<Rule> augmentativediminutivereductionrules;
-	private SuffixTree<Rule> nounreductionrules;
-	private SuffixTree<Rule> verbreductionrules;
+	protected SuffixTree<Rule> femininereductionrules;
+	protected SuffixTree<Rule> adverbreductionrules;
+	protected SuffixTree<Rule> augmentativediminutivereductionrules;
+	protected SuffixTree<Rule> nounreductionrules;
+	protected SuffixTree<Rule> verbreductionrules;
 	protected SuffixTree<Rule> vowelremovalrules;
 
 }

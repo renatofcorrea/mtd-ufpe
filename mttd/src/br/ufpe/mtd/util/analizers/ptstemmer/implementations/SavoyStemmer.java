@@ -133,13 +133,13 @@ public class SavoyStemmer extends Stemmer {
 
 
 				//String suffix = rule.getAttribute("suffix");
-				//String suffix = new String(rule.getAttribute("suffix").getBytes(),Charset.forName("utf-8"));
 				String suffix = new String(rule.getAttribute("suffix").getBytes(),Charset.forName("ISO-8859-1"));
+				//String suffix = new String(rule.getAttribute("suffix").getBytes(),Charset.forName("ISO-8859-1"));
 				Rule r;
 				try
 				{
-					//String rep = new String(rule.getAttribute("replacement").getBytes(),Charset.forName("utf-8"));
 					String rep = new String(rule.getAttribute("replacement").getBytes(),Charset.forName("ISO-8859-1"));
+					//String rep = new String(rule.getAttribute("replacement").getBytes(),Charset.forName("ISO-8859-1"));
 					r = new Rule(Integer.parseInt(rule.getAttribute("size")), rep);
 				}catch (NumberFormatException e) {
 					throw new PTStemmerException("Problem while parsing Savoy's XML stemming rules file: Missing or invalid rules properties on step "+stepName+".", e);

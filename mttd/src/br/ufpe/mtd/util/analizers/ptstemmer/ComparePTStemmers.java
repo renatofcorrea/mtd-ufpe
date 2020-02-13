@@ -24,7 +24,7 @@ public class ComparePTStemmers {
 	
 	public static void example2() throws PTStemmerException {
 		/*Melhores stemmers para RI: Savoy, TRUNC5, Porter, RSLP-S, RSLP
-		 * Aparentemente ORENGO e RSLP são o mesmo
+		 * ORENGO e RSLP são o mesmo
 		 * Orengo Stemmer as defined in:
 V. Orengo and C. Huyck, "A stemming algorithm for the portuguese language," String Processing and Information Retrieval, 2001. SPIRE 2001. Proceedings.Eighth International Symposium on, 2001, pp. 186-193.
 Added extra stemming rules and exceptions found in:
@@ -57,7 +57,7 @@ http://members.unine.ch/jacques.savoy/clef/index.html
 		System.out.println(stemmer.getWordStem("natural"));
 		System.out.println(stemmer.getWordStem("natureza"));
 		System.out.println(stemmer.getWordStem("papel"));
-		System.out.println(stemmer.getWordStem("papeis"));//ERRADO pap
+		System.out.println(stemmer.getWordStem("papéis"));//ERRADO pap
 		System.out.println(stemmer.getWordStem("mãe"));
 		System.out.println(stemmer.getWordStem("mães"));//ERRADO mao
 		System.out.println(stemmer.getWordStem("paizinhos"));
@@ -79,7 +79,7 @@ http://members.unine.ch/jacques.savoy/clef/index.html
 	
 	public static void example3() throws PTStemmerException{
 		//Complete
-		System.out.println("savoy");
+		System.out.println("===============savoy=====================");
 		//Stemmer stemmer = Stemmer.StemmerFactory(StemmerType.ORENGO);
 		Stemmer stemmer = Stemmer.StemmerFactory(StemmerType.SAVOY);
 		//Stemmer stemmer2 = Stemmer.StemmerFactory(StemmerType.PORTER);
@@ -99,7 +99,7 @@ http://members.unine.ch/jacques.savoy/clef/index.html
 		System.out.println(stemmer.getWordStem("natural"));
 		System.out.println(stemmer.getWordStem("natureza"));
 		System.out.println(stemmer.getWordStem("papel"));
-		System.out.println(stemmer.getWordStem("papeis"));
+		System.out.println(stemmer.getWordStem("papéis"));
 		System.out.println(stemmer.getWordStem("mãe"));
 		System.out.println(stemmer.getWordStem("mães"));//ERRADO mao
 		System.out.println(stemmer.getWordStem("paizinhos"));
@@ -141,8 +141,8 @@ http://members.unine.ch/jacques.savoy/clef/index.html
 	}
     
     public static int teststemmer(Stemmer stemmer){
-    	String[] singular = {"canção","país","ciência","da","natural","natureza","papel","mãe","paizinho","pai","quartil","filho","filhinho","engenharia","engenho","engenheiro"};
-    	String[] plural = {"canções","países","ciências","das","naturais","naturezas","papeis","mães","paizinhos","pais","quartis","filhos","filhinhos","engenharias","engenhos","engenheiros"};
+    	String[] singular = {"álcool","aprendiz","biblioteca","bibliotecário","canção","cão","campus","cartel","ciência","cientista","cupom","da","informação","gestor","natural","natureza","mãe","mão","oficial","país","papel","pesquisa","pesquisador","paizinho","pai","publicação","público","quartil","filho","filhinho","engenharia","engenho","engenheiro","réptil","réptil","social","têxtil","troféu","vilão","vilão"};
+    	String[] plural = {"álcoois","aprendizes","bibliotecas","bibliotecários","canções","cães","campi","cartéis","ciências","cientistas","cupons","das","informações","gestores","naturais","naturezas","mães","mãos","oficiais","países","papéis","pesquisas","pesquisadores","paizinhos","pais","publicações","públicos","quartis","filhos","filhinhos","engenharias","engenhos","engenheiros","répteis","réptis","sociais","têxteis","troféus","vilãos","vilões"};
 
     	return matchstemerrors(stemmer,singular,plural);
     	
@@ -152,15 +152,19 @@ http://members.unine.ch/jacques.savoy/clef/index.html
     	System.out.println("=========RSLP-S==========");
 		stemmer = new RSLPSStemmer();
 		System.out.println("Erros: "+teststemmer(stemmer));
+		System.out.println("=========orengo ou RSLP==========");
+		stemmer = new OrengoStemmer();
+		System.out.println("Erros: "+teststemmer(stemmer));
 		System.out.println("=========Savoy==========");
 		stemmer = new SavoyStemmer();
 		System.out.println("Erros: "+teststemmer(stemmer));
-		System.out.println("=========orengo==========");
-		stemmer = new OrengoStemmer();
+		System.out.println("=========TRUNC 5==========");
+		stemmer = new TruncStemmer(5);
 		System.out.println("Erros: "+teststemmer(stemmer));
 		System.out.println("=========Porter==========");
 		stemmer = new PorterStemmer();
 		System.out.println("Erros: "+teststemmer(stemmer));
+		
 		
     }
 	
@@ -189,7 +193,7 @@ http://members.unine.ch/jacques.savoy/clef/index.html
 			System.out.println(stemmer.getWordStem("natural"));
 			System.out.println(stemmer.getWordStem("natureza"));
 			System.out.println(stemmer.getWordStem("papel"));
-			System.out.println(stemmer.getWordStem("papeis"));
+			System.out.println(stemmer.getWordStem("papéis"));
 			System.out.println(stemmer.getWordStem("mãe"));
 			System.out.println(stemmer.getWordStem("mães"));
 			System.out.println(stemmer.getWordStem("paizinhos"));
